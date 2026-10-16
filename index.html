@@ -46,6 +46,8 @@ body{background:var(--void);color:var(--ink);font-family:var(--body);font-size:2
 .mod.chem{border-style:dashed}
 #dock{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;flex-direction:column;gap:7px;align-items:stretch}
 .slot.noen em{color:#5a6a7a}
+.slot.hk{width:62px}.slot.hk em{font-size:14px}
+.slot.lock em{color:#3a3448}
 .slot.noen b{color:var(--red)}
 #xpf{background:linear-gradient(#e0b0ff,var(--violet))}
 #lvl{font-family:var(--display);font-size:10px;letter-spacing:.1em;color:var(--dim);text-shadow:1px 1px 0 #000}
@@ -169,6 +171,7 @@ button kbd{font-family:var(--display);font-size:10px;color:var(--yellow);margin-
 .og input[type=text]{letter-spacing:.06em;text-transform:none;color:var(--ink);font-size:13px;width:160px}
 .joinrow input:focus-visible,.og input:focus-visible{outline:2px solid var(--pink)}
 .mpstatus{min-height:1.2em;color:var(--cyan)}
+@media (max-width:900px){.slot.hk{width:50px}.slot{width:60px}.slot em{font-size:13px}}
 @media (max-width:640px){#slots{gap:3px}.slot{width:58px;height:46px}.slot em{font-size:13px}.doll{grid-template-columns:1fr}.doll .fig{min-height:120px}.doll .fig img{height:110px}#minimap{width:84px}.dlg{flex-direction:column}.dlg .por{height:70px}}
 
 /* ===== unified netrunner menu ===== */
@@ -232,6 +235,7 @@ button kbd{font-family:var(--display);font-size:10px;color:var(--yellow);margin-
 .renown .pr i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--pink),var(--yellow))}
 .skg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
 .skg .skill{border-color:rgba(64,224,255,.2);background:rgba(0,0,0,.35)}
+.tier{margin-top:6px}.tierh{font-family:var(--display);font-size:11px;letter-spacing:.16em;margin:6px 0}.tierl{width:2px;height:14px;margin:4px auto;opacity:.6;box-shadow:0 0 8px currentColor}
 .gb{color:var(--green);font-family:var(--display);font-size:8px;letter-spacing:.08em}
 .runl{display:flex;flex-wrap:wrap;gap:6px}
 @media (max-width:980px){.gear{grid-template-columns:1fr}.doll2{grid-template-columns:repeat(3,80px)}.bag2{grid-template-columns:repeat(4,minmax(0,1fr))}}
@@ -253,8 +257,12 @@ button kbd{font-family:var(--display);font-size:10px;color:var(--yellow);margin-
     <div class="slot" id="s0"><b>LMB</b><em id="s0n"></em></div>
     <div class="slot" id="s1"><b>RMB</b><em id="s1n"></em></div>
     <div class="slot" id="s2"><b>Q</b><em id="s2n"></em></div>
+    <div class="slot hk" id="h1"><b>1</b><em id="h1n"></em></div>
+    <div class="slot hk" id="h2"><b>2</b><em id="h2n"></em></div>
+    <div class="slot hk" id="h3"><b>3</b><em>Grenade</em></div>
+    <div class="slot hk" id="s3"><b>4 · F</b><em id="s3n">Stim</em></div>
+    <div class="slot hk" id="h5"><b>5</b><em>Overdrive</em></div>
     <div class="slot" id="s4"><b>SPACE</b><em>Dash</em></div>
-    <div class="slot" id="s3"><b>F</b><em id="s3n">Stim</em></div>
   </div><div class="bar" id="xpbar"><i id="xpf"></i><span id="xpt"></span></div></div>
 </div>
 <div id="prompt" class="ui" hidden></div>
@@ -265,7 +273,7 @@ button kbd{font-family:var(--display);font-size:10px;color:var(--yellow);margin-
 <div id="veil" hidden><canvas id="netbg"></canvas><div id="panel"></div></div>
 <div id="fade"></div>
 <script>
-const SDEF={"samurai":[["......hh........",".....hhh........","....hhhhh.......","....hhhhhh......","...mmmmmmm......","...mvvvvvm......","...mmmssmm......","....mssmm.......","..AAaccccccc....",".AAaaCccccCc....",".AaaaCcbbcCcs...",".aaa.CccccCcsw..",".aa..CccccCc.w..",".aa..CcbbbCc..w.",".rr..CccccCc..w.",".rr.cCccccCcc..W","...cCcppppcCc...","..cCc.pp.pp.Cc..","..cc..pp.pp..c..","......pp.pp.....","......kk.kk.....",".....kkk.kkk...."],{"h":"#141018","s":"#9c7458","m":"#3a3a44","v":"#ff2a6a","c":"#8a1830","C":"#460a18","a":"#5c6270","A":"#9aa2ae","b":"#40e0ff","p":"#221e2a","k":"#0e0b12","w":"#cfe8ff","W":"#ffffff","r":"#b8a47a"}],"chemdog":[["......e..e......","......ee.ee.....",".tt...fffff.....","tTt..ffgGfff....","tTt..fffffmmm...","tTt...ffffmMmm..","tTt....fmmmn....","tTtvvvvvvvn.....",".tvvVvvyvVvv....","..vvVvyvyVvvf...",".fvvVyvvvyVvvfb.",".fvvvvvvvvvv.bBb",".f.vvVvvvVvv..b.","...vvvvvvvv.....","....llllll......","...ll....ll.....","...ll.....ll....","....ll....ll....",".....ll..ll.....","....kkk..kkk...."],{"e":"#4a3a2c","f":"#6a5440","g":"#7aff5a","G":"#e8ffb0","t":"#ffcc20","T":"#7a5a10","m":"#4a4e52","M":"#2a2e32","n":"#7aff5a","v":"#3a4432","V":"#55663f","y":"#b8f040","l":"#2e2a26","k":"#0e0b12","b":"#2a4a20","B":"#9cff5a"}],"rat":[[".......rr..","..rrrrrrrre","trrrrrrrrrn","t.rRRRRrr..","..k.k.k.k.."],{"r":"#5a4a44","R":"#3a2e2a","e":"#ff3a3a","n":"#ff8aa0","t":"#8a6a6a","k":"#2a2020"}],"junkie":[["....hhhh....","...hhhhhh...","...hSsSeh...","...hsssh....","..jjjjjjj...",".jJjjjjjJj..",".jJjjjjjJjp.","s.jjjjjjj.sp","..jjJjjjj..p","..PPPPPPP...","..PP...PP...","..PP...PP...",".kkk...kkk.."],{"h":"#3a3a30","S":"#6a5a4a","s":"#8a7060","e":"#7aff5a","j":"#4a5040","J":"#2e3228","p":"#8a8a90","P":"#2a2630","k":"#121014"}],"crawler":[["....gggg......","..ggGGGGgg....",".gGGyyyyGGg...","gGGyYYYYyGGge.","gGGGyyyyGGGgem",".gGGGGGGGGgg..","..l.l..l..l...",".l..l..l...l.."],{"g":"#3a5a40","G":"#2a4030","y":"#9aff3a","Y":"#eaffa0","e":"#ffea3a","m":"#ff5a5a","l":"#2a3a2a"}],"ganger":[[".....nn.....","....nnn.....","...sssss....","...seses....","....sss.....","..LLLLLLL...",".LlLLLLLlL..",".LlLttLLlLw.","s.LLLLLLL.sw","..LLLLLLL...","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"n":"#ff2a9a","s":"#b07a5a","e":"#1a0a10","L":"#2a2228","l":"#4a3e46","t":"#ff2a9a","w":"#e0e8f0","p":"#3a3060","k":"#100c12"}],"gunner":[["....bbbb....","...bbbbbb...","...sssss....","...mmmmm....","....sss.....","..VVVVVVV...",".VvVVVVVvV..",".VvVVVVVvVgg","s.VVVVVVV.s.","..VVVVVVV...","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"b":"#2a2a30","s":"#8a5a40","m":"#c02a2a","V":"#3a4a2a","v":"#5a6a40","g":"#8a90a0","p":"#2a2430","k":"#100c12"}],"bruiser":[[".....mmmmmm.....","....mmmmmmmm....","....mRmmmmRm....","....mmmFFmmm....","..AAbbbbbbbbAA..",".AAAbbbbbbbbAAA.","AAAAbbBBBBbbAAAA","AaaAbbbbbbbbAaaA","AaaAbbbbbbbbAaaA",".AA.bbbbbbbb.AA.",".hh..bbbbbb..hh.","......pppp......",".....pp..pp.....",".....pp..pp.....","....kkk..kkk...."],{"m":"#3a3e44","R":"#ff3a2a","F":"#1a1a1e","A":"#6a6e78","a":"#9aa0aa","b":"#4a2a2a","B":"#ff9a2a","h":"#c8c8d0","p":"#22202a","k":"#0e0c10"}],"drone":[["rr........rr",".r..mmmm..r.","..rmMMMMmr..","..mMeEEeMm..","..mMMMMMMm..","...mmmmmm...","....g..g...."],{"r":"#8a90a0","m":"#c8ccd4","M":"#8a90a0","e":"#ff2a4a","E":"#ffd0d8","g":"#40e0ff"}],"trooper":[["...aaaaa....","..aAAAAAa...","..avvvvva...","..aAAAAAa...","..wwwwwww...",".wWwwwwwWw..",".wWwccwwWwgg",".wWwwwwwWgg.","..wwwwwww...","..pppppp....","..pp..pp....","..pp..pp....",".kkk..kkk..."],{"a":"#d8dce4","A":"#9aa0ac","v":"#40e0ff","w":"#c8ccd4","W":"#8a909c","c":"#40e0ff","g":"#3a3e48","p":"#4a4e5a","k":"#1a1c22"}],"warden":[["........mmmmmmmm........",".......mMMMMMMMMm.......",".......mMrrrrrrMm.......",".......mMMMMMMMMm.......","..cc...mmmmmmmmmm...cc..",".cCCc.aaaaaaaaaaaa.cCCc.",".cCCcaAAAAAAAAAAAAacCCc.",".cCCcaAAyyAAAAyyAAacCCc.","..cc.aAAAAAAAAAAAAa.cc..","..a..aAAAAoooAAAAAa..a..",".aa..aAAAAoOoAAAAAa..aa.",".aa..aAAAAoooAAAAAa..aa.",".aa..aaaaaaaaaaaaaa..aa.",".gg...aAAAAAAAAAAa...gg.","......aaaaaaaaaaaa......","......ll........ll......",".....lLl........lLl.....",".....lLl........lLl.....",".....lLl........lLl.....","....kkkkk......kkkkk...."],{"m":"#4a4e58","M":"#2a2e36","r":"#ff2a3a","c":"#3a3e48","C":"#ff6a2a","a":"#5a5e6a","A":"#8a909c","y":"#ffcc20","o":"#40e0ff","O":"#ffffff","g":"#ff2a3a","l":"#3a3e48","L":"#6a707c","k":"#1a1c22"}],"amaru":[["....hhhhh.......","...hHHHHHh......","..hHssssHh......","..hHsesesHh.....","..hHssssHh......","..hhyssyhh......","..ttttttttt.....",".tTttyttyTtt....",".tTtttttttTt....","stTttyyyttTts...","..tTtttttTt.....","..tTtttttTt.....","...tTtttTt......","...tTtttTt......","...TTTTTTT......","...TT...TT......","...kk...kk......"],{"h":"#2a2028","H":"#463a46","s":"#a07a5e","e":"#1a1010","y":"#ff2a9a","t":"#2a3a50","T":"#162030","k":"#0e0b12"}],"ugandi":[["....gggggg....","...gggggggg...","...ggeggegg...","...gggggggg...","....gggggg....",".jjjjjjjjjjjj.","jjjJjjjjjjJjjj","ggjJjjjjjjJjgg","ggjjjjjjjjjjgg","gg.jjbbbbjj.gg","gg.jjjjjjjj.gg","...pppppppp...","...ppp..ppp...","...ppp..ppp...","...ppp..ppp...","..kkkk..kkkk.."],{"g":"#6a6e78","e":"#40e0ff","j":"#2a2430","J":"#1a1620","b":"#ffcc20","p":"#221e28","k":"#0e0b12"}],"doc":[["....hhhh....","...hhhhhh...","...hGsGsh...","...hmmmmh...","....ssss....","..wwwwwwwA..",".wWwwrwwwAA.",".wWwwwwrwwAa","s.wwrwwwww.a","..wwwwwwww..","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"h":"#c8c8c0","G":"#40e0ff","s":"#a07a5e","m":"#8ad0c0","w":"#d8dcd0","W":"#9aa090","r":"#8a1a1a","A":"#8a909c","a":"#c8ccd4","p":"#2a2a30","k":"#0e0b12"}],"mags":[["...rrrrr....","..rgGgGgr...","...sssss....","...seses....","....sss.....","..sTTTTTs...",".ssTTTTTss..",".s.TTTTT.sW.","s..TTTTT..sW","...bbbbb....","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"r":"#ff6a1a","g":"#2a2a30","G":"#ffcc20","s":"#8a5a3a","e":"#1a0a00","T":"#3a3a40","W":"#9aa0aa","b":"#5a3a20","p":"#2a2830","k":"#0e0b12"}],"local":[["....hhhh....","...hhhhhh...","...hssssh...","...hseseh...","..cccccccc..",".cCccccccCc.",".cCccccccCc.","..cccccccc..","..cc....cc..",".kkk....kkk."],{"h":"#3a3036","s":"#8a6a5a","e":"#1a1010","c":"#4a3a4a","C":"#2a2030","k":"#100c12"}],"gunslinger":[["................",".....tttttt.....",".....tTTTTt.....","..tttttttttttt..",".....soossos....",".....mmmmmm.....","......mFFm......","....dddddddd....","...dDdxddxdDd...","...dDddxxddDd...","..dDdddxxdddDd..","..dDddxddxddDd..",".sdDddbbbbddDds.",".gdDddddddddDdg.",".g.dDddddddDd.g.","...dDdd..ddDd...","..dDdd.pp.ddDd..","..dDd..pp..dDd..","..dd...pp...dd..","......pp.pp.....","......kk.kk.....",".....kkr.kkr...."],{"t":"#2a1e18","T":"#4a3424","s":"#8a6a52","o":"#ffb02e","m":"#3c3e42","F":"#ff2a9a","d":"#3a2c2a","D":"#20161a","x":"#ffd23a","b":"#6a4a2a","g":"#c8d0dc","p":"#1e1a22","k":"#0e0b12","r":"#ffd23a"}],"adept":[[".......o........","......oOo.......",".....oOOOo......","....oOOOOOo.....","....oOeOeOo..f..","....oOOOOOo.fFf.","..i..oOOOo...f..",".iIi.rrrrr......","..i.rRrnrRr.....","...rRrrnrrRr....","..rRrrnnnrrRr...","..rRrrrnrrrRr.q.",".hrRrrrnrrrRrhqQ",".h.rRrrnrrRr..q.","...rRrrnrrRr....","...rRrrnrrRr....","..rRrrrnrrrRr...","..rRrrrrrrrRr...",".rRrrrrrrrrrRr..",".rRRrRRrRRrRRr..",".R.R.R.R.R.R.R.."],{"o":"#2c3040","O":"#14161e","e":"#40e0ff","r":"#2a2e4a","R":"#161828","n":"#c05aff","h":"#7a8aa0","f":"#ff6a1a","F":"#ffe08a","i":"#7ab8ff","I":"#e0f4ff","q":"#40e0ff","Q":"#ffffff"}]};
+const SDEF={"samurai":[["......hh........",".....hhh........","....hhhhh.......","....hhhhhh......","...mmmmmmm......","...mvvvvvm......","...mmmssmm......","....mssmm.......","..AAaccccccc....",".AAaaCccccCc....",".AaaaCcbbcCcs...",".aaa.CccccCcsw..",".aa..CccccCc.w..",".aa..CcbbbCc..w.",".rr..CccccCc..w.",".rr.cCccccCcc..W","...cCcppppcCc...","..cCc.pp.pp.Cc..","..cc..pp.pp..c..","......pp.pp.....","......kk.kk.....",".....kkk.kkk...."],{"h":"#141018","s":"#9c7458","m":"#3a3a44","v":"#ff2a6a","c":"#8a1830","C":"#460a18","a":"#5c6270","A":"#9aa2ae","b":"#40e0ff","p":"#221e2a","k":"#0e0b12","w":"#cfe8ff","W":"#ffffff","r":"#b8a47a"}],"chemdog":[["......e..e......","......ee.ee.....",".tt...fffff.....","tTt..ffgGfff....","tTt..fffffmmm...","tTt...ffffmMmm..","tTt....fmmmn....","tTtvvvvvvvn.....",".tvvVvvyvVvv....","..vvVvyvyVvvf...",".fvvVyvvvyVvvfb.",".fvvvvvvvvvv.bBb",".f.vvVvvvVvv..b.","...vvvvvvvv.....","....llllll......","...ll....ll.....","...ll.....ll....","....ll....ll....",".....ll..ll.....","....kkk..kkk...."],{"e":"#4a3a2c","f":"#6a5440","g":"#7aff5a","G":"#e8ffb0","t":"#ffcc20","T":"#7a5a10","m":"#4a4e52","M":"#2a2e32","n":"#7aff5a","v":"#3a4432","V":"#55663f","y":"#b8f040","l":"#2e2a26","k":"#0e0b12","b":"#2a4a20","B":"#9cff5a"}],"rat":[[".......rr..","..rrrrrrrre","trrrrrrrrrn","t.rRRRRrr..","..k.k.k.k.."],{"r":"#5a4a44","R":"#3a2e2a","e":"#ff3a3a","n":"#ff8aa0","t":"#8a6a6a","k":"#2a2020"}],"junkie":[["....hhhh....","...hhhhhh...","...hSsSeh...","...hsssh....","..jjjjjjj...",".jJjjjjjJj..",".jJjjjjjJjp.","s.jjjjjjj.sp","..jjJjjjj..p","..PPPPPPP...","..PP...PP...","..PP...PP...",".kkk...kkk.."],{"h":"#3a3a30","S":"#6a5a4a","s":"#8a7060","e":"#7aff5a","j":"#4a5040","J":"#2e3228","p":"#8a8a90","P":"#2a2630","k":"#121014"}],"crawler":[["....gggg......","..ggGGGGgg....",".gGGyyyyGGg...","gGGyYYYYyGGge.","gGGGyyyyGGGgem",".gGGGGGGGGgg..","..l.l..l..l...",".l..l..l...l.."],{"g":"#3a5a40","G":"#2a4030","y":"#9aff3a","Y":"#eaffa0","e":"#ffea3a","m":"#ff5a5a","l":"#2a3a2a"}],"ganger":[[".....nn.....","....nnn.....","...sssss....","...seses....","....sss.....","..LLLLLLL...",".LlLLLLLlL..",".LlLttLLlLw.","s.LLLLLLL.sw","..LLLLLLL...","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"n":"#ff2a9a","s":"#b07a5a","e":"#1a0a10","L":"#2a2228","l":"#4a3e46","t":"#ff2a9a","w":"#e0e8f0","p":"#3a3060","k":"#100c12"}],"gunner":[["....bbbb....","...bbbbbb...","...sssss....","...mmmmm....","....sss.....","..VVVVVVV...",".VvVVVVVvV..",".VvVVVVVvVgg","s.VVVVVVV.s.","..VVVVVVV...","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"b":"#2a2a30","s":"#8a5a40","m":"#c02a2a","V":"#3a4a2a","v":"#5a6a40","g":"#8a90a0","p":"#2a2430","k":"#100c12"}],"bruiser":[[".....mmmmmm.....","....mmmmmmmm....","....mRmmmmRm....","....mmmFFmmm....","..AAbbbbbbbbAA..",".AAAbbbbbbbbAAA.","AAAAbbBBBBbbAAAA","AaaAbbbbbbbbAaaA","AaaAbbbbbbbbAaaA",".AA.bbbbbbbb.AA.",".hh..bbbbbb..hh.","......pppp......",".....pp..pp.....",".....pp..pp.....","....kkk..kkk...."],{"m":"#3a3e44","R":"#ff3a2a","F":"#1a1a1e","A":"#6a6e78","a":"#9aa0aa","b":"#4a2a2a","B":"#ff9a2a","h":"#c8c8d0","p":"#22202a","k":"#0e0c10"}],"drone":[["rr........rr",".r..mmmm..r.","..rmMMMMmr..","..mMeEEeMm..","..mMMMMMMm..","...mmmmmm...","....g..g...."],{"r":"#8a90a0","m":"#c8ccd4","M":"#8a90a0","e":"#ff2a4a","E":"#ffd0d8","g":"#40e0ff"}],"trooper":[["...aaaaa....","..aAAAAAa...","..avvvvva...","..aAAAAAa...","..wwwwwww...",".wWwwwwwWw..",".wWwccwwWwgg",".wWwwwwwWgg.","..wwwwwww...","..pppppp....","..pp..pp....","..pp..pp....",".kkk..kkk..."],{"a":"#d8dce4","A":"#9aa0ac","v":"#40e0ff","w":"#c8ccd4","W":"#8a909c","c":"#40e0ff","g":"#3a3e48","p":"#4a4e5a","k":"#1a1c22"}],"warden":[["........mmmmmmmm........",".......mMMMMMMMMm.......",".......mMrrrrrrMm.......",".......mMMMMMMMMm.......","..cc...mmmmmmmmmm...cc..",".cCCc.aaaaaaaaaaaa.cCCc.",".cCCcaAAAAAAAAAAAAacCCc.",".cCCcaAAyyAAAAyyAAacCCc.","..cc.aAAAAAAAAAAAAa.cc..","..a..aAAAAoooAAAAAa..a..",".aa..aAAAAoOoAAAAAa..aa.",".aa..aAAAAoooAAAAAa..aa.",".aa..aaaaaaaaaaaaaa..aa.",".gg...aAAAAAAAAAAa...gg.","......aaaaaaaaaaaa......","......ll........ll......",".....lLl........lLl.....",".....lLl........lLl.....",".....lLl........lLl.....","....kkkkk......kkkkk...."],{"m":"#4a4e58","M":"#2a2e36","r":"#ff2a3a","c":"#3a3e48","C":"#ff6a2a","a":"#5a5e6a","A":"#8a909c","y":"#ffcc20","o":"#40e0ff","O":"#ffffff","g":"#ff2a3a","l":"#3a3e48","L":"#6a707c","k":"#1a1c22"}],"amaru":[["....hhhhh.......","...hHHHHHh......","..hHssssHh......","..hHsesesHh.....","..hHssssHh......","..hhyssyhh......","..ttttttttt.....",".tTttyttyTtt....",".tTtttttttTt....","stTttyyyttTts...","..tTtttttTt.....","..tTtttttTt.....","...tTtttTt......","...tTtttTt......","...TTTTTTT......","...TT...TT......","...kk...kk......"],{"h":"#2a2028","H":"#463a46","s":"#a07a5e","e":"#1a1010","y":"#ff2a9a","t":"#2a3a50","T":"#162030","k":"#0e0b12"}],"ugandi":[["....gggggg....","...gggggggg...","...ggeggegg...","...gggggggg...","....gggggg....",".jjjjjjjjjjjj.","jjjJjjjjjjJjjj","ggjJjjjjjjJjgg","ggjjjjjjjjjjgg","gg.jjbbbbjj.gg","gg.jjjjjjjj.gg","...pppppppp...","...ppp..ppp...","...ppp..ppp...","...ppp..ppp...","..kkkk..kkkk.."],{"g":"#6a6e78","e":"#40e0ff","j":"#2a2430","J":"#1a1620","b":"#ffcc20","p":"#221e28","k":"#0e0b12"}],"doc":[["....hhhh....","...hhhhhh...","...hGsGsh...","...hmmmmh...","....ssss....","..wwwwwwwA..",".wWwwrwwwAA.",".wWwwwwrwwAa","s.wwrwwwww.a","..wwwwwwww..","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"h":"#c8c8c0","G":"#40e0ff","s":"#a07a5e","m":"#8ad0c0","w":"#d8dcd0","W":"#9aa090","r":"#8a1a1a","A":"#8a909c","a":"#c8ccd4","p":"#2a2a30","k":"#0e0b12"}],"mags":[["...rrrrr....","..rgGgGgr...","...sssss....","...seses....","....sss.....","..sTTTTTs...",".ssTTTTTss..",".s.TTTTT.sW.","s..TTTTT..sW","...bbbbb....","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"r":"#ff6a1a","g":"#2a2a30","G":"#ffcc20","s":"#8a5a3a","e":"#1a0a00","T":"#3a3a40","W":"#9aa0aa","b":"#5a3a20","p":"#2a2830","k":"#0e0b12"}],"local":[["....hhhh....","...hhhhhh...","...hssssh...","...hseseh...","..cccccccc..",".cCccccccCc.",".cCccccccCc.","..cccccccc..","..cc....cc..",".kkk....kkk."],{"h":"#3a3036","s":"#8a6a5a","e":"#1a1010","c":"#4a3a4a","C":"#2a2030","k":"#100c12"}],"gunslinger":[["................",".....tttttt.....",".....tTTTTt.....","..tttttttttttt..",".....soossos....",".....mmmmmm.....","......mFFm......","....dddddddd....","...dDdxddxdDd...","...dDddxxddDd...","..dDdddxxdddDd..","..dDddxddxddDd..",".sdDddbbbbddDds.",".gdDddddddddDdg.",".g.dDddddddDd.g.","...dDdd..ddDd...","..dDdd.pp.ddDd..","..dDd..pp..dDd..","..dd...pp...dd..","......pp.pp.....","......kk.kk.....",".....kkr.kkr...."],{"t":"#2a1e18","T":"#4a3424","s":"#8a6a52","o":"#ffb02e","m":"#3c3e42","F":"#ff2a9a","d":"#3a2c2a","D":"#20161a","x":"#ffd23a","b":"#6a4a2a","g":"#c8d0dc","p":"#1e1a22","k":"#0e0b12","r":"#ffd23a"}],"adept":[[".......o........","......oOo.......",".....oOOOo......","....oOOOOOo.....","....oOeOeOo..f..","....oOOOOOo.fFf.","..i..oOOOo...f..",".iIi.rrrrr......","..i.rRrnrRr.....","...rRrrnrrRr....","..rRrrnnnrrRr...","..rRrrrnrrrRr.q.",".hrRrrrnrrrRrhqQ",".h.rRrrnrrRr..q.","...rRrrnrrRr....","...rRrrnrrRr....","..rRrrrnrrrRr...","..rRrrrrrrrRr...",".rRrrrrrrrrrRr..",".rRRrRRrRRrRRr..",".R.R.R.R.R.R.R.."],{"o":"#2c3040","O":"#14161e","e":"#40e0ff","r":"#2a2e4a","R":"#161828","n":"#c05aff","h":"#7a8aa0","f":"#ff6a1a","F":"#ffe08a","i":"#7ab8ff","I":"#e0f4ff","q":"#40e0ff","Q":"#ffffff"}],"spectre":[["......hhhh......",".....hHHHHh.....",".....hvvvvh.....",".....hvrvvh.....",".....hHHHHh.....","......hhhh......","....ssbbbbss....","...sSbBbbBbSs...","...sSbbbbbbSs..w","...sSbbxxbbSsww.","...sSbbbbbbSw...","....SbbbbbbSW...","....bblllllbb...","....bbbbbbbbb...","....bbb..bbbb...","....bbb...bbb...","....bbb...bbb...","....bbx...xbb...","....bbb...bbb...","....kkk...kkk...","...kkkk...kkkk.."],{"h":"#1a1a24","H":"#2a2a38","v":"#0a0a12","r":"#ff2a3a","s":"#2a2a38","S":"#14141c","b":"#1e1e2a","B":"#3a3a4c","x":"#40e0ff","l":"#4a8cff","w":"#a0e4ff","W":"#4a8cff","k":"#0c0b10"}],"bulwark":[["......rrrr......",".....rRRRRr.....",".....RvvvvR.....",".....RvVVvR.....",".....rRRRRr.....","..ttttrrrrtttt..",".tTTTtrrrrtTTTt.","SSSSSrrDDrrrrt..","SsssSrYrrYrrrrs.","SsxsSrrYYrrrrrs.","SsssSrrDDrrrrrs.","SsssSrrrrrrrrr..","SsssSlllllllll..","SSSSSrrrrrrrrr..","....ppp...ppp...","....pRp...pRp...","....ppp...ppp...","....ppp...ppp...","....ttt...ttt...","...kkkk...kkkk..","...kkkk...kkkk.."],{"r":"#2a2a32","R":"#40404a","v":"#5a0a12","V":"#ff2a3a","t":"#b01a2a","T":"#d83a48","D":"#b01a2a","S":"#5a5e6a","s":"#3a3e48","x":"#ffd23a","l":"#4a4a54","p":"#24242c","k":"#0e0b12","Y":"#ff8a1a"}],"rigger":[["..dd....hhhh....",".dDDd..hHHHHh...","..dd..hHssssH...","..||..hseseshh..","......hsssssh...",".......sssss....","...EE.vvvvvv....","..EeEEvvvvvvv...","..EeEvvVVVVvvs..","..EEEvvvvvvvvs..","..EeE.vvvvvv.s..","..EEE.vvvvvv.s..","...EE.lllllll...","......ccccccc...","......cCccCcc...","......ccc.ccc...","......ccc.ccc...","......cCc.cCc...","......ccc.ccc...","......kkk.kkk...",".....kkkk.kkkk.."],{"d":"#4a4e58","D":"#40e0ff","|":"#ffb02e","h":"#2a2a30","H":"#40404a","s":"#c89070","e":"#2a1a10","E":"#8a909c","e2":"#000","v":"#3a3028","V":"#ffb02e","l":"#6a4a2a","c":"#2e2a26","C":"#4a4238","k":"#0e0b12"}],"hexrunner":[[".....hhhhhh.....","....hhhhhhhh....","...whhvvvvhhw...","...whvVVVVvhw...","..w.hhssssh.w...","..w..hssssh..w..","....ccccccccc...","...cCcbccbcCc...","...cCccbbcccCc..","..BcCcccccccCcB.","..BcCcbccbccCcB.","...cCcccccccCc..","...cCcllllllCc..","...cCccbbcccCc..","...cCcpp.ppcCc..","...cCcpp.ppcCc..","...cC.pp.pp.Cc..","...c..pp.pp..c..","......pp.pp.....","......kk.kk.....",".....kkk.kkk...."],{"h":"#1e2030","w":"#4a8cff","v":"#0a1a2a","V":"#40e0ff","s":"#c0a090","c":"#1e2030","C":"#10121c","b":"#40a0ff","B":"#a0e4ff","l":"#2a3a5a","p":"#1a1a24","k":"#0c0b10"}],"flarecaster":[[".....oooooo.....","....o......o....",".....wwwwww.....","....wwssssww....","....wsesessw....","....wsssssswg...","...ww.ssss.ww...","Y..wGGGGGGGGw..Y","Y..GgGGggGGgG..Y","Ys.GGgGGGGgGG.sY","YS.GGGGggGGGG.SY","Y...GwwwwwwG...Y","Y...wwwwwwww...Y","y...wwwwwwwww..y","....wwGw.wGww...","....wwg..gww....","....wGg..gGw....",".....Gg..gG.....",".....Gg..gG.....","....GGg..gGG....","....GGG..GGG...."],{"o":"#ffd23a","w":"#f0ece4","s":"#8a5a40","e":"#ffd23a","g":"#a07a2a","G":"#d8b048","Y":"#ffe680","y":"#fff6c0","S":"#ffd23a"}],"riftwitch":[["..q...hhhh....q.",".....hhhhhh.....","....hhsssshh..Q.","....hseseshh....","....hhssssshh...","...hhh.ss.hhh...","..Qhhvvvvvvhh...","...hhvVvvVvhh.q.","...hhvvvvvvhh...","..s.hvvVVvvh.s..","..s..vvvvvv..s..","..q..vlllllv..Q.","....vvvVvvvvv...","...vvVvvvvVvvv..","..vvvvvVvvvvvvv.","..v.vvvvvvvvv.v.",".....vv.v.vv....","......s...s.....","......s...s.....",".....kk...kk....","................"],{"h":"#0e0a14","s":"#c8b8c8","e":"#c05aff","v":"#2a1636","V":"#4a2a5a","l":"#c05aff","q":"#c05aff","Q":"#6a3a8a","k":"#0c0b10"}]};
 
 'use strict';
 // ============ core: canvas, utils, save, audio, input, sprites, pixel font ============
@@ -352,7 +360,13 @@ const CLASSES={
   samurai:{name:'Street Samurai',col:'#ff2a6a',hp:120,spd:72,blurb:'Chrome arm, oni mask, monofilament blade. Gets in close, cuts everything, spins when surrounded.'},
   chemdog:{name:'Chem Dog',col:'#7aff5a',hp:105,spd:68,blurb:'Mutant hound in a gas mask with a chem tank and a habit. Lobs acid bombs, hits the pipe, goes feral.'},
   gunslinger:{name:'Gunslinger',col:'#ffb02e',hp:95,spd:74,blurb:'Rebreather, duster, two decades of bad decisions. Fast revolver from range, fans the hammer into crowds, flashbangs anything too close.'},
-  adept:{name:'Elemental Adept',col:'#40e0ff',hp:88,spd:70,blurb:'Hooded channeler wired into the grid, orbited by fire and frost. Chain lightning, frost novas that freeze, and meteors from nowhere.'}
+  adept:{name:'Elemental Adept',col:'#40e0ff',hp:88,spd:70,blurb:'Hooded channeler wired into the grid, orbited by fire and frost. Chain lightning, frost novas that freeze, and meteors from nowhere.'},
+  spectre:{name:'Spectre',col:'#4a8cff',hp:88,spd:78,blurb:'Infiltrator in a stealth suit with a mono-wire spool. Precise shots, cloaking, and blinks straight through a fight.'},
+  bulwark:{name:'Bulwark',col:'#ff3a3a',hp:150,spd:64,blurb:'Riot-armored enforcer with a shotgun and a ballistic shield. Bashes, suppresses, and refuses to fall over.'},
+  rigger:{name:'Rigger',col:'#ffb02e',hp:100,spd:70,blurb:'Hooded mechanic with a hydraulic arm and a drone that never shuts up. Turrets, mines and machines do the fighting.'},
+  hexrunner:{name:'Hexrunner',col:'#40a0ff',hp:90,spd:70,blurb:'Netrunner jacked in through cable dreads. Hacks enemies wide open, chains lightning, and crashes whole rooms.'},
+  flarecaster:{name:'Flarecaster',col:'#ffd23a',hp:125,spd:76,blurb:'Halo-crowned warrior burning with unstable star-fire. Twin light blades, gravity wells, and stored power that detonates.'},
+  riftwitch:{name:'Riftwitch',col:'#c05aff',hp:92,spd:68,blurb:'Something came back from the void wearing her face. Rift zones, warps, curses, and black holes.'}
 };
 const CLS_KEYS=Object.keys(CLASSES);
 // skills: ranks start at `start`; `max` ranks; values scale by rank
@@ -363,7 +377,9 @@ const SKILLS={
     {id:'overclock',slot:'Q',name:'Overclock',start:0,max:5,d:r=>`Redline your chrome arm for ${4+r}s: +40% attack speed and ${4+2*r}% life steal. 14s cooldown.`},
     {id:'chromeskin',slot:'PASSIVE',name:'Chrome Skin',start:0,max:3,d:r=>`Take ${6*r}% less damage.`},
     {id:'bleed',slot:'PASSIVE',name:'Bloodletter',start:0,max:3,d:r=>`Cuts make enemies bleed for ${4*r} damage over 2s.`},
-    {id:'momentum',slot:'PASSIVE',name:'Momentum',start:0,max:3,d:r=>`Kills shave ${(.25*r).toFixed(2)}s off Cyclone and Dash.`}
+    {id:'momentum',slot:'PASSIVE',name:'Momentum',start:0,max:3,d:r=>`Kills shave ${(.25*r).toFixed(2)}s off Cyclone and Dash.`},
+    {id:'iai',slot:'1',name:'Iai Dash',start:0,max:5,d:r=>`Blink-slash to the cursor, cutting everything on the way for ${20+8*r}. 6s cooldown.`},
+    {id:'cuts',slot:'2',name:'Thousand Cuts',start:0,max:5,d:r=>`2s storm of blades around you: 8 hits of ${8+3*r}. 16s cooldown.`}
   ],
   chemdog:[
     {id:'bomb',slot:'LMB',name:'Acid Bomb',start:1,max:5,d:r=>`Lob a bomb for ${Math.round(7+3.5*r)} splash damage. Leaves an acid pool that burns for ${(2+1.4*r).toFixed(1)} per second. Pools don't stack on the same enemy.`},
@@ -371,7 +387,9 @@ const SKILLS={
     {id:'junk',slot:'Q',name:'Junk Grenade',start:0,max:5,d:r=>`Cluster bomb: ${22+9*r} damage, then 4 bomblets. ${(7-.4*r).toFixed(1)}s cooldown.`},
     {id:'fur',slot:'PASSIVE',name:'Thick Fur',start:0,max:3,d:r=>`+${12*r} max HP.`},
     {id:'corrosive',slot:'PASSIVE',name:'Corrosive',start:0,max:3,d:r=>`Acid pools burn ${20*r}% harder and spread ${10*r}% wider.`},
-    {id:'chain',slot:'PASSIVE',name:'Chain Reaction',start:0,max:3,d:r=>`Enemies that die in your acid explode for ${8+5*r}.`}
+    {id:'chain',slot:'PASSIVE',name:'Chain Reaction',start:0,max:3,d:r=>`Enemies that die in your acid explode for ${8+5*r}.`},
+    {id:'trail',slot:'1',name:'Toxic Trail',start:0,max:5,d:r=>`For ${3+.5*r}s you leave burning acid wherever you run. 12s cooldown.`},
+    {id:'mutagen',slot:'2',name:'Mutagen',start:0,max:5,d:r=>`Chug something awful: heal ${15+5*r}% and regenerate for 5s. 20s cooldown.`}
   ],
   gunslinger:[
     {id:'revolver',slot:'LMB',name:'Revolver',start:1,max:5,d:r=>`Fast, long-range shots for ${5+3*r} damage each.`},
@@ -379,7 +397,9 @@ const SKILLS={
     {id:'flash',slot:'Q',name:'Flashbang Roll',start:0,max:5,d:r=>`Roll backward and drop a flashbang that stuns everything nearby for ${(1.2+.3*r).toFixed(1)}s and deals ${10+6*r}. 9s cooldown.`},
     {id:'hollow',slot:'PASSIVE',name:'Hollow Points',start:0,max:3,d:r=>`Bullets hit ${12*r}% harder.`},
     {id:'ricochet',slot:'PASSIVE',name:'Ricochet',start:0,max:3,d:r=>`Bullets bounce to ${r} more enem${r===1?'y':'ies'}.`},
-    {id:'quickdraw',slot:'PASSIVE',name:'Quickdraw',start:0,max:3,d:r=>`+${10*r}% attack speed.`}
+    {id:'quickdraw',slot:'PASSIVE',name:'Quickdraw',start:0,max:3,d:r=>`+${10*r}% attack speed.`},
+    {id:'deadeye',slot:'1',name:'Deadeye',start:0,max:5,d:r=>`A single piercing round for ${50+20*r} that goes through everything. 8s cooldown.`},
+    {id:'dynamite',slot:'2',name:'Dynamite',start:0,max:5,d:r=>`Toss a bundle of dynamite: ${45+15*r} damage in a big blast. 10s cooldown.`}
   ],
   adept:[
     {id:'arc',slot:'LMB',name:'Arc Bolt',start:1,max:5,d:r=>`A lightning bolt for ${7+3*r} that chains to ${1+Math.floor(r/2)} more enem${1+Math.floor(r/2)===1?'y':'ies'}.`},
@@ -387,9 +407,75 @@ const SKILLS={
     {id:'meteor',slot:'Q',name:'Meteor',start:0,max:5,d:r=>`Call a meteor on the cursor: ${40+15*r} damage after a short delay, then burning ground. ${(9-.4*r).toFixed(1)}s cooldown.`},
     {id:'static',slot:'PASSIVE',name:'Static Field',start:0,max:3,d:r=>`An aura zaps a nearby enemy every 0.6s for ${3+3*r}.`},
     {id:'overload',slot:'PASSIVE',name:'Overload',start:0,max:3,d:r=>`+${5*r}% crit chance.`},
-    {id:'attune',slot:'PASSIVE',name:'Attunement',start:0,max:3,d:r=>`Skills recharge ${8*r}% faster.`}
+    {id:'attune',slot:'PASSIVE',name:'Attunement',start:0,max:3,d:r=>`Skills recharge ${8*r}% faster.`},
+    {id:'lance',slot:'1',name:'Ice Lance',start:0,max:5,d:r=>`A piercing lance of ice: ${30+12*r} damage and freezes for 1s. 6s cooldown.`},
+    {id:'storm',slot:'2',name:'Thunderstorm',start:0,max:5,d:r=>`For 4s lightning strikes enemies around you for ${25+10*r}. 18s cooldown.`}
+  ],
+  spectre:[
+    {id:'pistol',slot:'LMB',name:'Silenced Pistol',start:1,max:5,d:r=>`Quiet, accurate shots for ${6+3*r}. +15% crit chance on this weapon.`},
+    {id:'wire',slot:'RMB',name:'Mono-Wire',start:1,max:5,d:r=>`Whip a glowing wire through a line of enemies: ${14+7*r} damage and they bleed. 3.5s cooldown.`},
+    {id:'cloak',slot:'Q',name:'Cloak',start:0,max:5,d:r=>`Vanish for ${(3+.5*r).toFixed(1)}s. Enemies lose you, and every hit while cloaked is a crit. 12s cooldown.`},
+    {id:'weak',slot:'PASSIVE',name:'Weak Points',start:0,max:3,d:r=>`+${6*r}% crit chance.`},
+    {id:'exec',slot:'PASSIVE',name:'Executioner',start:0,max:3,d:r=>`Deal ${15*r}% more damage to enemies below 40% health.`},
+    {id:'ghostp',slot:'PASSIVE',name:'Ghost Protocol',start:0,max:3,d:r=>`Kills take ${r}s off Cloak's cooldown.`},
+    {id:'step',slot:'1',name:'Shadow Step',start:0,max:5,d:r=>`Blink to the cursor and cut everything around you for ${20+8*r}. 6s cooldown.`},
+    {id:'snipe',slot:'2',name:'Long Shot',start:0,max:5,d:r=>`A piercing sniper round for ${60+25*r}. 8s cooldown.`}
+  ],
+  bulwark:[
+    {id:'shotgun',slot:'LMB',name:'Combat Shotgun',start:1,max:5,d:r=>`5 pellets of ${(3+1.5*r).toFixed(1)} each that shove enemies back.`},
+    {id:'bash',slot:'RMB',name:'Shield Bash',start:1,max:5,d:r=>`Charge behind your shield: ${16+6*r} damage, knockback, and a 0.8s stun. 5s cooldown.`},
+    {id:'supp',slot:'Q',name:'Suppressive Fire',start:0,max:5,d:r=>`Hose the room with a belt-fed gun for 2.5s: ${4+2*r} per bullet. You move slower. 12s cooldown.`},
+    {id:'plate',slot:'PASSIVE',name:'Riot Plating',start:0,max:3,d:r=>`Take ${5*r}% less damage.`},
+    {id:'bigiron',slot:'PASSIVE',name:'Big Iron',start:0,max:3,d:r=>`Shotgun pellets hit ${12*r}% harder.`},
+    {id:'wind',slot:'PASSIVE',name:'Second Wind',start:0,max:3,d:r=>`Every kill heals ${r}% of your max health.`},
+    {id:'gl',slot:'1',name:'Grenade Launcher',start:0,max:5,d:r=>`Lob a frag round: ${30+12*r} damage in a wide blast. 6s cooldown.`},
+    {id:'fort',slot:'2',name:'Fortify',start:0,max:5,d:r=>`Lock your shield for ${3+.5*r}s: take 50% less damage and reflect some back. 15s cooldown.`}
+  ],
+  rigger:[
+    {id:'rivet',slot:'LMB',name:'Rivet Gun',start:1,max:5,d:r=>`Nail enemies with rivets for ${(5+2.5*r).toFixed(1)}.`},
+    {id:'turret',slot:'RMB',name:'Deploy Turret',start:1,max:5,d:r=>`Drop an auto-turret for 12s that shoots for ${5+3*r}. Up to 2 at once. 6s cooldown.`},
+    {id:'mines',slot:'Q',name:'Proximity Mines',start:0,max:5,d:r=>`Scatter 3 mines that blow up on contact for ${25+10*r}. 8s cooldown.`},
+    {id:'parts',slot:'PASSIVE',name:'Better Parts',start:0,max:3,d:r=>`Turrets, drones and mines deal ${15*r}% more damage.`},
+    {id:'scrapper',slot:'PASSIVE',name:'Scrapper',start:0,max:3,d:r=>`+${10*r}% creds and scrap found.`},
+    {id:'reinf',slot:'PASSIVE',name:'Reinforced',start:0,max:3,d:r=>`Turrets last ${4*r}s longer.`},
+    {id:'drone',slot:'1',name:'Combat Drone',start:0,max:5,d:r=>`Launch a drone that orbits you for 15s and zaps enemies for ${6+3*r}. 18s cooldown.`},
+    {id:'ovc',slot:'2',name:'Overcharge',start:0,max:5,d:r=>`For ${4+.5*r}s your machines fire twice as fast and you get +30% attack speed. 14s cooldown.`}
+  ],
+  hexrunner:[
+    {id:'spike',slot:'LMB',name:'Data Spike',start:1,max:5,d:r=>`Fire hostile code for ${6+3*r}. Hit enemies are hacked: they take 10% more damage for 3s.`},
+    {id:'short',slot:'RMB',name:'Short Circuit',start:1,max:5,d:r=>`Lightning jumps between ${4+r} enemies near the cursor for ${12+5*r} each. 4s cooldown.`},
+    {id:'crash',slot:'Q',name:'System Crash',start:0,max:5,d:r=>`Crash everything near the cursor: ${15+6*r} damage and a ${(1.5+.2*r).toFixed(1)}s stun. Machines take double. 10s cooldown.`},
+    {id:'malware',slot:'PASSIVE',name:'Malware',start:0,max:3,d:r=>`Hacked enemies take an extra ${5*r}% damage.`},
+    {id:'feedback',slot:'PASSIVE',name:'Feedback Loop',start:0,max:3,d:r=>`Short Circuit jumps ${r} more time${r>1?'s':''}.`},
+    {id:'capac',slot:'PASSIVE',name:'Capacitor',start:0,max:3,d:r=>`+${15*r} max energy.`},
+    {id:'ovw',slot:'1',name:'Overclock Weapon',start:0,max:5,d:r=>`Push your gear past its limits for 5s: +40% attack speed and +${15+5*r}% damage. 14s cooldown.`},
+    {id:'firewall',slot:'2',name:'Firewall',start:0,max:5,d:r=>`Raise a wall of crackling current at the cursor for 4s: ${14+6*r} damage per second to anything inside. 12s cooldown.`}
+  ],
+  flarecaster:[
+    {id:'blades',slot:'LMB',name:'Solar Blades',start:1,max:5,d:r=>`Fast twin slashes for ${(8+3.5*r).toFixed(1)}. Each hit stores Flare (up to 10).`},
+    {id:'grav',slot:'RMB',name:'Gravity Well',start:1,max:5,d:r=>`Rip enemies toward the cursor for 1.5s and crush them for ${10+4*r}. 6s cooldown.`},
+    {id:'corona',slot:'Q',name:'Corona Burst',start:0,max:5,d:r=>`Release all stored Flare: ${20+8*r} damage around you, +15% per Flare. 7s cooldown.`},
+    {id:'radiance',slot:'PASSIVE',name:'Radiance',start:0,max:3,d:r=>`Blades deal ${10*r}% more damage.`},
+    {id:'shell',slot:'PASSIVE',name:'Stellar Shell',start:0,max:3,d:r=>`Take ${6*r}% less damage.`},
+    {id:'photon',slot:'PASSIVE',name:'Photon Drive',start:0,max:3,d:r=>`+${5*r}% move speed and blades store Flare faster.`},
+    {id:'lunge',slot:'1',name:'Solar Lunge',start:0,max:5,d:r=>`Streak to the cursor, burning everything on the way for ${18+7*r}. 5s cooldown.`},
+    {id:'eclipse',slot:'2',name:'Eclipse',start:0,max:5,d:r=>`For ${4+.5*r}s your blades reach 50% farther and drain 6% of the damage as health. 16s cooldown.`}
+  ],
+  riftwitch:[
+    {id:'shard',slot:'LMB',name:'Void Shard',start:1,max:5,d:r=>`A shard of nothing that pierces one enemy: ${7+3*r} damage.`},
+    {id:'rift',slot:'RMB',name:'Rift Zone',start:1,max:5,d:r=>`Tear open a rift at the cursor for 3s: enemies inside are slowed and take ${8+4*r} per second. 5s cooldown.`},
+    {id:'warp',slot:'Q',name:'Warp Swap',start:0,max:5,d:r=>`Teleport to the cursor. Where you stood, space collapses for ${25+10*r}. 8s cooldown.`},
+    {id:'entropy',slot:'PASSIVE',name:'Entropy',start:0,max:3,d:r=>`Rift zones and singularities deal ${20*r}% more damage.`},
+    {id:'unstable',slot:'PASSIVE',name:'Unstable Space',start:0,max:3,d:r=>`Your hits have a ${5*r}% chance to stun for 0.5s.`},
+    {id:'horizon',slot:'PASSIVE',name:'Event Horizon',start:0,max:3,d:r=>`Skills recharge ${8*r}% faster.`},
+    {id:'hex',slot:'1',name:'Hex of Frailty',start:0,max:5,d:r=>`Curse everything near the cursor for 5s: they take ${20+5*r}% more damage. 10s cooldown.`},
+    {id:'sing',slot:'2',name:'Singularity',start:0,max:5,d:r=>`Open a black hole at the cursor for 3s that drags enemies in for ${15+6*r}/s, then detonates for ${40+15*r}. 20s cooldown.`}
   ]
 };
+// skill tree: each node unlocks at a runner level
+for(const k in SKILLS){let pi=0;for(const sk of SKILLS[k]){sk.req=sk.slot==='LMB'||sk.slot==='RMB'?1:sk.slot==='Q'?3:sk.slot==='1'?5:sk.slot==='2'?8:[2,6,10][pi++]||10;}}
+const TIERS=[[1,'TIER I · the basics'],[5,'TIER II · level 3 to 6'],[8,'TIER III · level 8 to 10']];
+const HOT={grenade:{name:'Frag Grenade',cost:15,cd:9},over:{name:'Overdrive',cost:50,cd:40,req:6}};
 // enemies
 const ED={
   rat:{name:'Sewer Rat',spr:'rat',hp:10,spd:78,r:4,dmg:4,xp:2,ai:'melee',pack:[3,6]},
@@ -452,7 +538,7 @@ const CHEMS=[
   {id:'rage',name:'Red Mist',good:'+50% energy regen',bad:'-10% crit chance',col:'#ff6a1a',fx:{enR:50,crit:-10}}
 ];
 const CHEM=Object.fromEntries(CHEMS.map(c=>[c.id,c]));
-const ECOST={R:22,Q:34};
+const ECOST={R:22,Q:34,K1:28,K2:40};
 // items
 const SLOTS=['weapon','helm','armor','implant','charm'];
 const SLOTN={weapon:'Weapon',helm:'Head',armor:'Body',implant:'Implant',charm:'Charm'};
@@ -461,7 +547,10 @@ const AFF={sk:['',1,1],dmg:['% damage',4,10],as:['% attack speed',3,8],crit:['% 
 const SLOTAFF={weapon:['dmg','as','crit','ls'],helm:['crit','hp','cdr','arm'],armor:['hp','arm','ms'],implant:['as','ms','cdr','dmg'],charm:['find','crit','ls','hp']};
 const INAMES={
   weapon:{samurai:['Rebar Katana','Vibro-Machete','Mono-Edge Tachi','Plasma Cleaver','Chainsaw Wakizashi'],chemdog:['Bomb Bandolier','Pressure Cooker','Rusted Atomizer','Mutagen Satchel','Jury-Rigged Launcher'],
-    gunslinger:['Six-Shot Peacekeeper','Heavy Pistol','Snub-Nose .38','Long Barrel .44','Smartlink Revolver'],adept:['Copper Ankh Focus','Wire-Wrapped Wand','Storm Fetish','Tesla Rod','Ember Censer']},
+    gunslinger:['Six-Shot Peacekeeper','Heavy Pistol','Snub-Nose .38','Long Barrel .44','Smartlink Revolver'],adept:['Copper Ankh Focus','Wire-Wrapped Wand','Storm Fetish','Tesla Rod','Ember Censer'],
+    spectre:['Whisper Pistol','Mono-Wire Spool','Hush-9 Sidearm','Garrote Reel','Ghostlink SMG'],bulwark:['Breacher Shotgun','Riot Twelve-Gauge','Door Kicker','Slug Thrower','Auto-Shotgun "Mercy"'],
+    rigger:['Rivet Driver','Nail Cannon','Hydraulic Fist','Jury-Rigged Launcher','Arc Welder'],hexrunner:['Cyberdeck','Spike Rig','ICE Breaker','Jack Bundle','Ghost Deck'],
+    flarecaster:['Twin Light Blades','Photon Edges','Sunsteel Pair','Prism Sabers','Corona Knives'],riftwitch:['Void Focus','Shard Rosary','Hollow Mirror','Null Lantern','Rift Fetish']},
   helm:['Gas Mask','Cracked Visor','Smart Goggles','Riot Helm','Hood of Wires'],
   armor:['Riot Vest','Scrap-Plate Coat','Kevlar Duster','Hazmat Rig','Exo Harness'],
   implant:['Wired Reflexes','Bootleg Spine','Pain Editor','Cortex Leech','Synth Lungs'],
@@ -472,9 +561,15 @@ const CITEM={
   samurai:{helm:['Oni Half-Mask','Kabuto Visor'],armor:['Ronin Plate','Lacquered Riot Coat'],implant:['Kensei Reflex Chip','Iaido Servo'],charm:['Bloodied Omamori','Broken Tsuba']},
   chemdog:{helm:['Snout Filter','Triple-Canister Mask'],armor:['Hazmat Harness','Leaking Tank Rig'],implant:['Adrenal Gland Pump','Feral Cortex'],charm:['Chewed Tennis Ball','Spiked Collar']},
   gunslinger:{helm:['Wide-Brim Rebreather','Deadeye Monocle'],armor:['Bulletproof Duster','Bandolier Vest'],implant:['Trigger-Finger Servo','Gunsmoke Lungs'],charm:['Lucky Spent Casing','Bent Sheriff Star']},
-  adept:{helm:['Circuit Crown','Static Hood'],armor:['Grounded Robe','Copper-Thread Mantle'],implant:['Capacitor Heart','Ley-Line Spine'],charm:['Storm Glass','Frozen Ember']}
+  adept:{helm:['Circuit Crown','Static Hood'],armor:['Grounded Robe','Copper-Thread Mantle'],implant:['Capacitor Heart','Ley-Line Spine'],charm:['Storm Glass','Frozen Ember']},
+  spectre:{helm:['Red-Eye Visor','Stealth Cowl'],armor:['Optic Camo Suit','Shadow Weave'],implant:['Reflex Booster','Silent Heart'],charm:['Unmarked Coin','Ghost Tag']},
+  bulwark:{helm:['Red-Visor Helm','Breacher Lid'],armor:['Riot Plate','Juggernaut Rig'],implant:['Subdermal Kevlar','Adrenal Dam'],charm:['Bent Badge','Lucky Slug']},
+  rigger:{helm:['Welding Hood','Drone Uplink'],armor:['Tool Harness','Grease-Stained Coveralls'],implant:['Servo Shoulder','Diagnostic Eye'],charm:['Spare Drone Prop','Torque Wrench Charm']},
+  hexrunner:{helm:['Data Visor','Cable-Dread Crown'],armor:['Faraday Coat','Circuit Duster'],implant:['Neural Jack','Overclocked Cortex'],charm:['Root Password','Corrupted Chip']},
+  flarecaster:{helm:['Sun Halo','Gilded Circlet'],armor:['Star-Forged Plate','White Mantle'],implant:['Fusion Core','Photon Heart'],charm:['Solar Shard','Ember Relic']},
+  riftwitch:{helm:['Shard Crown','Void-Touched Veil'],armor:['Tattered Gown','Rift-Sewn Robe'],implant:['Null Gland','Hollow Spine'],charm:['Black Mirror Shard','Eye of Elsewhere']}
 };
-const LEGEND={weapon:{samurai:"Ugandi's Toothpick",chemdog:'The Good Boy',gunslinger:"Dead Man's Six",adept:"Amaru's Spare Spark"},helm:'Crown of Static',armor:'Amaru\'s Old Coat',implant:'The Grief Engine',charm:'Block Captain\'s Badge'};
+const LEGEND={weapon:{samurai:"Ugandi's Toothpick",chemdog:'The Good Boy',gunslinger:"Dead Man's Six",adept:"Amaru's Spare Spark",spectre:'Silence Itself',bulwark:"The Last Door",rigger:"Mags' Masterpiece",hexrunner:'Zero Day',flarecaster:'Dying Star',riftwitch:'The Other Side'},helm:'Crown of Static',armor:'Amaru\'s Old Coat',implant:'The Grief Engine',charm:'Block Captain\'s Badge'};
 // town buildings
 const BLD={
   doc:{name:'Ripperdoc',npc:'Doc Sutura',lv:['Back-alley table','Clean needles','Real surgery','Chrome clinic'],eff:['','+15 max HP','+30 max HP, +1 stim','+50 max HP, +1 stim, stims heal 60%']},
@@ -937,7 +1032,8 @@ function S(){
   s.dmg+=hasMod('hollow')?20:0;
   s.as+=(hasMod('twitch')?18:0)+(pl.over>0?40:0)+(pl.frenzy>0?40:0);
   s.crit+=(hasMod('eyes')?10:0)+rk('overload')*5;s.as+=rk('quickdraw')*10;s.cdr+=rk('attune')*8;
-  s.arm+=rk('chromeskin')*6;s.arm=clamp(s.arm,-50,60);
+  s.arm+=rk('chromeskin')*6+rk('plate')*5+rk('shell')*6;s.crit+=rk('weak')*6;s.ms+=rk('photon')*5;s.en+=rk('capac')*15;s.cdr+=rk('horizon')*8;s.find+=rk('scrapper')*10;
+  if(pl.ovwT>0){s.as+=40;s.dmg+=15+5*rk('ovw');}if(pl.odT>0){s.as+=30;s.dmg+=30;}if(pl.ovcT>0)s.as+=30;if(pl.eclT>0)s.ls+=6;s.arm=clamp(s.arm,-50,60);
   s.ms+=pl.frenzy>0?25:0;
   s.ls+=(hasMod('leech')?4:0)+(pl.over>0?4+2*rk('overclock'):0);
   s.cdr=Math.min(s.cdr,50);
@@ -1066,7 +1162,9 @@ function addShake(v){if(CFG.shake)shake=Math.max(shake,v);}
 function heal(v){if(!pl||pl.dead)return;pl.hp=Math.min(pl.maxHp,pl.hp+v);}
 function hurt(e,amt,o){
   if(e.dead)return;o=o||{};
-  const crit=o.crit||Math.random()*100<st.crit;
+  if((e.hackT||0)>time)amt*=1.1+.05*rk('malware');if((e.hexT||0)>time)amt*=1+(e.hexV||.2);if(rk('exec')&&e.hp<e.max*.4)amt*=1+.15*rk('exec');
+  if(rk('unstable')&&Math.random()<.05*rk('unstable')&&!e.d.boss)o.stun=Math.max(o.stun||0,.5);
+  const crit=o.crit||pl.cloak>0||Math.random()*100<st.crit+(o.critB||0);
   const d=Math.max(1,Math.round(amt*(1+st.dmg/100)*(crit?1.8+st.critD/100:1)));
   txt(e.x,e.y-e.r,d,crit?'#ffd23a':'#e8f0ff',crit);
   if(st.ls>0)heal(d*st.ls/100);
@@ -1098,7 +1196,8 @@ function boom(x,y,r,dmg,opts){
 function hitPlayer(d,src){
   if(pl.ifr>0||pl.dead)return;
   if(hasMod('ghost')&&Math.random()<.15){txt(pl.x,pl.y,'MISS','#b0b8ff',false,true);pl.ifr=.2;return;}
-  d=Math.max(1,Math.round(d*(1-st.arm/100)));
+  d=Math.max(1,Math.round(d*(1-st.arm/100)*(pl.fortT>0?.5:1)));
+  if(pl.fortT>0){const r=nearestEnemy(pl.x,pl.y,60);if(r)hurt(r,d*2,{noProc:true});}
   pl.hp-=d;pl.ifr=.5;addShake(4);hurtFlash=.35;sfx('hurt');txt(pl.x,pl.y-8,d,'#ff3a4a',false,true);
   burst(pl.x,pl.y,6,['#ff2a3a','#5a0a12'],60);
   addDecal(g=>{g.fillStyle='rgba(120,10,20,.4)';g.fillRect(pl.x+R(-4,4),pl.y+R(0,4),2,2);});
@@ -1131,6 +1230,7 @@ function killFx(e){
   burst(e.x,e.y,e.type==='rat'?6:14,cols,90);
   const mech=e.type==='drone'||e.type==='trooper'||e.type==='warden';
   addDecal(g=>{g.fillStyle=mech?'rgba(20,20,24,.55)':'rgba(90,8,16,.45)';g.beginPath();g.ellipse(e.x,e.y+2,e.r+R(1,4),e.r*.6,0,0,7);g.fill();});
+  if(rk('ghostp'))pl.cdQ=Math.max(0,pl.cdQ-rk('ghostp'));if(rk('wind'))heal(pl.maxHp*.01*rk('wind'));
   if(rk('momentum')){pl.cdR=Math.max(0,pl.cdR-.25*rk('momentum'));pl.cdD=Math.max(0,pl.cdD-.25*rk('momentum'));}
   if(rk('chain')&&pools.some(p=>p.mine&&Math.hypot(p.x-e.x,p.y-e.y)<p.r+e.r))setTimeout(()=>boom(e.x,e.y,20,8+5*rk('chain'),{col:'#7aff5a',cols:['#7aff5a','#b8f040','#2a4a20'],small:true}),60);
   if(hasMod('volatile'))setTimeout(()=>boom(e.x,e.y,20,12,{small:true}),80);
@@ -1179,13 +1279,15 @@ function atkSpeed(){return 1+st.as/100;}
 function cdMult(){return 1-st.cdr/100;}
 const BULLET_COL='#ffd27a';
 function shoot(x,y,a,o){pproj.push(Object.assign({x,y,vx:Math.cos(a)*o.spd,vy:Math.sin(a)*o.spd,r:3,life:.8,hit:new Set()},o));}
-function slashAt(cx,cy,a,w,rng,dmg,kbk,bleed){
+function slashAt(cx,cy,a,w,rng,dmg,kbk,bleed){let n=0;
   for(const e of en){if(e.dead)continue;const dx=e.x-cx,dy=e.y-cy,d=Math.hypot(dx,dy)||1;if(d>rng+e.r)continue;let da=Math.atan2(dy,dx)-a;da=Math.atan2(Math.sin(da),Math.cos(da));if(Math.abs(da)>w/2&&d>e.r+6)continue;
-    hurt(e,dmg,{kb:{x:dx/d*kbk,y:dy/d*kbk}});if(bleed&&!e.dead)e.dot={t:2,tick:.5,dps:bleed,col:'#ff2a3a'};}
+    n++;hurt(e,dmg,{kb:{x:dx/d*kbk,y:dy/d*kbk}});if(bleed&&!e.dead)e.dot={t:2,tick:.5,dps:bleed,col:'#ff2a3a'};}
   for(const p of props){if(p.dead||p.hp==null)continue;if(Math.hypot(p.x-cx,p.y-cy)<rng+(p.type==='turret'?10:6))hurtProp(p,dmg);}
+  return n;
 }
 function primary(){
   const a=Math.atan2(pl.aim.y,pl.aim.x),c=pl.cls;
+  if(KIT[c]&&KIT[c].P){KIT[c].P(a);return;}
   if(c==='samurai'){
     pl.combo=pl.comboT>0?(pl.combo+1)%3:0;pl.comboT=.6;
     const third=pl.combo===2,w=third?2.6:1.8,rng=third?30:24,dmg=(10+4*rk('slash'))*(third?1.6:1);
@@ -1208,6 +1310,7 @@ function primary(){
 }
 function skillR(){
   const c=pl.cls,a=Math.atan2(pl.aim.y,pl.aim.x);
+  if(KIT[c]&&KIT[c].R){if(KIT[c].R(a)===false)pl.en+=ECOST.R;return;}
   if(c==='samurai'){
     const rad=38,dmg=26+10*rk('cyclone');
     fx.push({k:'spin',follow:true,r:rad,t:0,life:.32,col:'#ff2a6a'});fx.push({k:'ring',x:pl.x,y:pl.y,r:rad,t:0,life:.3,col:'#ff2a6a'});
@@ -1230,7 +1333,8 @@ function skillR(){
 }
 function skillQ(){
   const c=pl.cls,a=Math.atan2(pl.aim.y,pl.aim.x);
-  const lock=s=>toastOnce(`${s} is locked. Put a skill point into it (K).`);
+  const lock=s=>toastOnce(`${s} is locked. Put a skill point into it (C).`);
+  if(KIT[c]&&KIT[c].Q){if(!rk(SKILLS[c][2].id))return lock(SKILLS[c][2].name);if(KIT[c].Q(a)===false)pl.en+=ECOST.Q;return;}
   if(c==='samurai'){
     if(!rk('overclock'))return lock('Overclock');
     pl.over=4+rk('overclock');burst(pl.x,pl.y,20,['#40e0ff','#ffffff'],80);sfx('zap');pl.mxQ=pl.cdQ=14*cdMult();netAtk('over',a);
@@ -1286,12 +1390,19 @@ function remoteAtk(p,k,a,tx,ty){
   else if(k==='nova'){fx.push({k:'ring',x,y,r:46,t:0,life:.35,col:'#9ad8ff'});burst(x,y-4,24,['#9ad8ff','#ffffff'],120);}
   else if(k==='meteor')lobs.push({sx:tx,sy:ty,tx,ty,t:0,dur:.8,kind:'meteor',rad:38,cos:true});
   else if(k==='over')burst(x,y,16,['#40e0ff','#ffffff'],80);
+  else if(k==='wire')fx.push({k:'zap',a:{x,y},b:{x:tx,y:ty},t:0,life:.18,col:'#a0e4ff'});
+  else if(k==='tp'){burst(tx,ty-6,14,[col,'#ffffff'],80);}
+  else if(k==='ring'){fx.push({k:'ring',x:tx,y:ty,r:46,t:0,life:.35,col});burst(tx,ty,16,[col,'#ffffff'],90);}
+  else if(k==='pool')pools.push({x:tx,y:ty,r:26,t:0,life:2.5,dps:0,tick:0,kind:'void',mine:true,cos:true,col,cols:[col,'#ffffff']});
+  else if(k==='ally')allies.push({k:'turret',x:tx,y:ty,t:0,life:12,fireT:0,ang:0,cos:true});
+  else if(k==='drone')allies.push({k:'drone',x:tx,y:ty,t:0,life:15,fireT:0,ang:0,cos:true,owner:p});
+  else if(k==='mines')burst(tx,ty,10,['#ffb02e'],60);
 }
 
 // ---- enemy AI ----
 function efire(x,y,a,spd,dmg,col,r){eproj.push({x,y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,r:r||3,dmg,life:3,col:col||'#ff3a4a'});netEv(['p',Math.round(x),Math.round(y),Math.round(Math.cos(a)*spd),Math.round(Math.sin(a)*spd),dmg,col||'#ff3a4a',r||3]);}
 function addMark(m){marks.push(m);netEv(['mk',m.k,Math.round(m.x),Math.round(m.y),m.r||0,+(m.a||0).toFixed(3),m.len||0,m.w||0,m.warn,m.dmg||0,+(m.t||0).toFixed(2)]);}
-function targets(){const a=[];if(!pl.dead)a.push(pl);for(const p of partyHere())if(!p.dead)a.push(p);return a;}
+function targets(){const a=[];if(!pl.dead&&!(pl.cloak>0))a.push(pl);for(const p of partyHere())if(!p.dead)a.push(p);return a;}
 function nearestTarget(x,y){let b=null,bd=1e9;for(const t of targets()){const d=Math.hypot(t.x-x,t.y-y);if(d<bd){bd=d;b=t;}}return b;}
 function enemyUpdate(e,dt){
   e.hitT-=dt;e.atkCd-=dt;e.myCd=(e.myCd||0)-dt;if(e.stun>0)e.stun-=dt;if(e.frozen>0)e.frozen-=dt;
@@ -1313,7 +1424,8 @@ function enemyUpdate(e,dt){
   }
   e.face=dx>=0?1:-1;
   if(e.stun>0)return;
-  const ai=e.d.ai,slow=tileAt(Math.floor(e.x/T),Math.floor(e.y/T))===WATER&&!e.d.fly?.65:1;
+  if(e.pull&&e.pull.t>0){e.pull.t-=dt;const px=e.pull.x-e.x,py=e.pull.y-e.y,pd2=Math.hypot(px,py);if(pd2>4&&!e.d.boss)moveEnt(e,px/pd2*Math.min(pd2,(e.pull.s||110)*dt),py/pd2*Math.min(pd2,(e.pull.s||110)*dt));}
+  const ai=e.d.ai,slow=(tileAt(Math.floor(e.x/T),Math.floor(e.y/T))===WATER&&!e.d.fly?.65:1)*((e.slowT||0)>time?.5:1);
   let mx=0,my=0,sp=e.spd*slow;
   const toward=()=>{if(see){if(d<e.r+(tg.r||5)+1&&ai!=='spit'&&ai!=='gun'&&ai!=='rifle'&&ai!=='drone')return;mx=dx/d;my=dy/d;}else{const f=flowDir(e);if(f){mx=f.x;my=f.y;}}};
   if(ai==='melee'){toward();if(e.type==='rat'){e.wob+=dt*8;const w=Math.sin(e.wob)*.5;const tx=mx-my*w,ty=my+mx*w;mx=tx;my=ty;}}
@@ -1375,7 +1487,7 @@ function propUpdate(p,dt){
   if(p.hitT>0)p.hitT-=dt;
   if(p.type==='plate'){p.phase+=dt;const c=p.phase%3.6;p.state=c<2.2?'off':c<2.8?'warn':'on';
     if(p.state==='on'){p.tick=(p.tick||0)-dt;if(p.tick<=0){p.tick=.35;if(!pl.dead&&Math.abs(pl.x-p.x)<9&&Math.abs(pl.y-p.y)<9)hitPlayer(8+4*run.floor);for(const e of en)if(!e.dead&&Math.abs(e.x-p.x)<9&&Math.abs(e.y-p.y)<9)hurt(e,10,{noProc:true});}}}
-  else if(p.type==='turret'&&!p.dead){const d=dist(p,pl);p.shotT-=dt;if(d<170&&!pl.dead&&los(p.x,p.y+8,pl.x,pl.y)){p.aim=Math.atan2(pl.y-p.y,pl.x-p.x);if(p.shotT<=0){p.shotT=1.6;p.burst=3;p.bT=0;}}
+  else if(p.type==='turret'&&!p.dead){const d=dist(p,pl);p.shotT-=dt;if(d<170&&!pl.dead&&!(pl.cloak>0)&&los(p.x,p.y+8,pl.x,pl.y)){p.aim=Math.atan2(pl.y-p.y,pl.x-p.x);if(p.shotT<=0){p.shotT=1.6;p.burst=3;p.bT=0;}}
     if(p.burst>0){p.bT-=dt;if(p.bT<=0){p.burst--;p.bT=.12;eproj.push({x:p.x,y:p.y+4,vx:Math.cos(p.aim+R(-.08,.08))*150,vy:Math.sin(p.aim+R(-.08,.08))*150,r:2,dmg:6+3*run.floor,life:3,col:'#ff2a3a'});sfx('laser');}}}
 }
 
@@ -1401,8 +1513,10 @@ function update(dt,inputOn){
   else{pl.staT-=dt;if(pl.staT<=0)pl.sta=Math.min(pl.maxSta,pl.sta+38*(1+st.stR/100)*dt);}
   if(pl.winded&&pl.sta>=pl.maxSta*.35)pl.winded=false;pl.maxSta=100+(st.sta||0);
   pl.en=Math.min(pl.maxEn,pl.en+9*(1+st.enR/100)*(1+st.cdr/200)*dt);
-  const sp=CLASSES[pl.cls].spd*(1+st.ms/100)*(water?.75:1)*(pl.sprint?1.55:1);
-  if(pl.dash){const d=pl.dash;d.t-=dt;moveEnt(pl,d.vx*260*dt,d.vy*260*dt);parts.push({x:pl.x,y:pl.y,z:8,vx:0,vy:0,vz:0,t:0,life:.22,col:CLASSES[pl.cls].col,s:2});if(d.t<=0)pl.dash=null;}
+  const sp=CLASSES[pl.cls].spd*(1+st.ms/100)*(water?.75:1)*(pl.sprint?1.55:1)*(pl.suppT>0?.55:1);
+  if(pl.dash){const d=pl.dash;d.t-=dt;moveEnt(pl,d.vx*(d.spd||260)*dt,d.vy*(d.spd||260)*dt);parts.push({x:pl.x,y:pl.y,z:8,vx:0,vy:0,vz:0,t:0,life:.22,col:d.col||CLASSES[pl.cls].col,s:2});
+    if(d.hit){for(const e of en){if(e.dead||d.hit.has(e)||Math.hypot(e.x-pl.x,e.y-pl.y)>e.r+pl.r+8)continue;d.hit.add(e);hurt(e,d.dmg,{kb:{x:d.vx*(d.kb||80),y:d.vy*(d.kb||80)},stun:d.stun||0});burst(e.x,e.y-6,6,[d.col||'#fff','#ffffff'],60);}for(const p of props)if(!p.dead&&p.hp!=null&&Math.hypot(p.x-pl.x,p.y-pl.y)<14)hurtProp(p,d.dmg);}
+    if(d.t<=0)pl.dash=null;}
   else if(ok)moveEnt(pl,mvx*sp*dt,mvy*sp*dt);
   if(pl.vx||pl.vy){moveEnt(pl,(pl.vx||0)*dt,(pl.vy||0)*dt);const k=Math.max(0,1-dt*10);pl.vx*=k;pl.vy*=k;if(Math.abs(pl.vx)<1)pl.vx=0;if(Math.abs(pl.vy)<1)pl.vy=0;}
   if(pl.moving){pl.walkT+=dt;if(water&&Math.random()<.2)parts.push({x:pl.x+R(-3,3),y:pl.y+2,z:0,vx:R(-15,15),vy:0,vz:R(15,30),t:0,life:.3,col:'#5aa0b0',s:1});}
@@ -1419,7 +1533,9 @@ function update(dt,inputOn){
     if(pressed.Space&&pl.sta<DASH_STA&&!pl.dash)toastOnce('Not enough stamina to dash');
     if((pressed.Space||key.Space)&&pl.cdD<=0&&!pl.dash&&pl.sta>=DASH_STA)doDash();
     if(pressed.KeyF)useStim();
+    for(let n=1;n<=5;n++)if(pressed['Digit'+n]&&!pl.dash)hotSkill(n);
   }else if(ok&&scene==='town'){if((pressed.Space||key.Space)&&pl.cdD<=0&&!pl.dash&&pl.sta>=DASH_STA)doDash();}
+  if(scene==='dungeon')kitUpdate(dt);
   // adept passive
   if(scene==='dungeon'&&!pl.dead&&rk('static')){pl.auraT=(pl.auraT||0)-dt;if(pl.auraT<=0){pl.auraT=.6;let b=null,bd=60;for(const e of en){if(e.dead)continue;const d=dist(e,pl);if(d<bd){bd=d;b=e;}}if(b){fx.push({k:'zap',a:{x:pl.x,y:pl.y},b:{x:b.x,y:b.y},t:0,life:.12,col:'#40e0ff'});hurt(b,3+3*rk('static'),{noProc:true});}}}
   // world
@@ -1441,9 +1557,10 @@ function update(dt,inputOn){
       if(Math.hypot(e.x-p.x,e.y-6-p.y)<e.r+p.r+2){
         p.hit.add(e);
         if(p.cos){p.life=0;break;}
-        hurt(e,p.dmg,{kb:{x:p.vx*.12,y:p.vy*.12}});
+        hurt(e,p.dmg,{kb:{x:p.vx*.12*(p.kbm||1),y:p.vy*.12*(p.kbm||1)},critB:p.critB});if(p.hack&&!e.dead)e.hackT=time+p.hack;if(p.freeze&&!e.dead){e.frozen=1;e.stun=Math.max(e.stun,1);}
+        if(p.pierce>0&&p.kind!=='bolt'){p.pierce--;burst(e.x,e.y-6,4,[p.col||'#fff1a8'],50);continue;}
         if(p.kind==='bolt'){let cur=e;for(let c=0;c<p.chain;c++){let nb=null,nd=60;for(const o of en){if(o.dead||p.hit.has(o))continue;const dd=Math.hypot(o.x-cur.x,o.y-cur.y);if(dd<nd){nd=dd;nb=o;}}if(!nb)break;p.hit.add(nb);fx.push({k:'zap',a:{x:cur.x,y:cur.y},b:{x:nb.x,y:nb.y},t:0,life:.14,col:'#40e0ff'});hurt(nb,p.dmg*.7,{noProc:true});cur=nb;}burst(e.x,e.y-6,6,['#40e0ff','#ffffff'],60);p.life=0;}
-        else if(p.kind==='bullet'){burst(e.x,e.y-6,3,['#fff1a8'],40);
+        else if(p.kind==='bullet'){burst(e.x,e.y-6,3,[p.col||'#fff1a8'],40);
           if(p.ric>0){let nb=null,nd=80;for(const o of en){if(o.dead||p.hit.has(o))continue;const dd=Math.hypot(o.x-e.x,o.y-e.y);if(dd<nd){nd=dd;nb=o;}}if(nb){p.ric--;const s=Math.hypot(p.vx,p.vy),a=Math.atan2(nb.y-e.y,nb.x-e.x);p.vx=Math.cos(a)*s;p.vy=Math.sin(a)*s;p.life=.4;continue;}}
           p.life=0;}
         else p.life=0;
@@ -1454,9 +1571,10 @@ function update(dt,inputOn){
   pproj=pproj.filter(p=>p.life>0);
   for(const g of lobs){g.t+=dt;if(g.t>=g.dur&&!g.done){g.done=true;landed(g);}}lobs=lobs.filter(g=>!g.done);
   for(const p of pools){p.t+=dt;p.tick-=dt;
-    if(p.tick<=0){p.tick=.25;if(p.mine&&!p.cos){for(const e of en)if(!e.dead&&Math.hypot(e.x-p.x,e.y-p.y)<p.r+e.r&&time-(e.pT||-9)>=.22){e.pT=time;hurt(e,p.dps*.25,{noProc:true});}}else if(!p.mine&&!pl.dead&&Math.hypot(pl.x-p.x,pl.y-p.y)<p.r)hitPlayer(p.dps*.25|0||1);}
+    if(p.tick<=0){p.tick=.25;if(p.mine&&!p.cos){for(const e of en){if(e.dead)continue;const dd=Math.hypot(e.x-p.x,e.y-p.y);if(p.pull&&dd<p.r+40){e.pull={x:p.x,y:p.y,t:.3,s:p.pull>1?150:110};}if(dd>=p.r+e.r)continue;if(p.slow)e.slowT=time+.35;if(p.dps>0&&time-(e.pT||-9)>=.22){e.pT=time;hurt(e,p.dps*.25,{noProc:true});}}}else if(!p.mine&&!pl.dead&&Math.hypot(pl.x-p.x,pl.y-p.y)<p.r)hitPlayer(p.dps*.25|0||1);}
     const fire=p.kind==='fire';
-    if(Math.random()<(p.kind==='cloud'||fire?.7:.25))parts.push({x:p.x+R(-p.r,p.r)*.7,y:p.y+R(-p.r,p.r)*.5,z:1,vx:0,vy:0,vz:R(8,22),t:0,life:.6,col:pick(fire?['#ff6a1a','#ffd23a','#ff2a3a']:p.mine?['#7aff5a','#b8f040','#2a4a20']:['#9aff3a','#3a5a40']),s:p.kind==='cloud'?2:1});}
+    if(Math.random()<(p.kind==='cloud'||fire||p.cols?.7:.25))parts.push({x:p.x+R(-p.r,p.r)*.7,y:p.y+R(-p.r,p.r)*.5,z:1,vx:0,vy:0,vz:R(8,22),t:0,life:.6,col:pick(p.cols||(fire?['#ff6a1a','#ffd23a','#ff2a3a']:p.mine?['#7aff5a','#b8f040','#2a4a20']:['#9aff3a','#3a5a40'])),s:p.kind==='cloud'?2:1});
+    if(p.endBoom&&p.t>=p.life&&!p.boomed){p.boomed=true;if(!p.cos)boom(p.x,p.y,48,p.endBoom,{col:'#c05aff',cols:['#c05aff','#05030a','#ffffff']});}}
   pools=pools.filter(p=>p.t<p.life);
   for(const p of eproj){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(solidAt(p.x,p.y)){p.life=0;burst(p.x,p.y,3,[p.col],40);continue;}
     if(!pl.dead&&Math.hypot(pl.x-p.x,pl.y-6-p.y)<pl.r+p.r+2&&pl.ifr<=0){hitPlayer(p.dmg);p.life=0;}}
@@ -1519,6 +1637,114 @@ function ambient(dt){
   shake=Math.max(0,shake-dt*30);hurtFlash=Math.max(0,hurtFlash-dt);
   shX=shake?Math.round(R(-shake,shake)/2):0;shY=shake?Math.round(R(-shake,shake)/2):0;
   for(const p of NET.players.values()){const k=Math.min(1,dt*12);p.x+=(p.tx-p.x)*k;p.y+=(p.ty-p.y)*k;}
+}
+
+// ============ class kits for the newer runners + hotbar skills (1·2 class, 3 grenade, 4 stim, 5 overdrive) ============
+let allies=[];
+const BLUE='#4a8cff';
+function lineHits(x,y,a,len,w,f){const ex=Math.cos(a),ey=Math.sin(a);for(const e of en){if(e.dead)continue;const dx=e.x-x,dy=e.y-6-y,t=dx*ex+dy*ey;if(t<0||t>len)continue;const px=dx-ex*t,py=dy-ey*t;if(Math.hypot(px,py)<w+e.r)f(e);}}
+function inRad(x,y,r,f){for(const e of en)if(!e.dead&&Math.hypot(e.x-x,e.y-y)<r+e.r)f(e);}
+function blinkTo(t){if(circleHitsWall(t.x,t.y,pl.r))return false;burst(pl.x,pl.y-6,14,[CLASSES[pl.cls].col,'#ffffff'],80);pl.x=t.x;pl.y=t.y;burst(pl.x,pl.y-6,14,[CLASSES[pl.cls].col,'#ffffff'],80);pl.ifr=Math.max(pl.ifr,.25);return true;}
+function dashHit(dur,spd,dmg,col){pl.dash={vx:pl.aim.x,vy:pl.aim.y,t:dur,spd,hit:new Set(),dmg,col};pl.ifr=Math.max(pl.ifr,dur+.05);}
+const parts_=()=>1+.15*rk('parts');
+function addAlly(o){allies.push(Object.assign({t:0,fireT:0,ang:0},o));}
+const KIT={
+  spectre:{
+    P(a){shoot(pl.x+Math.cos(a)*6,pl.y-6+Math.sin(a)*6,a+R(-.02,.02),{spd:340,kind:'bullet',dmg:6+3*rk('pistol'),critB:15,life:.8,col:'#a0e4ff'});sfx('shot');pl.mxP=pl.cdP=.28/atkSpeed();netAtk('shot',a);},
+    R(a){const len=84;lineHits(pl.x,pl.y-6,a,len,6,e=>{hurt(e,14+7*rk('wire'),{kb:{x:Math.cos(a)*60,y:Math.sin(a)*60}});if(!e.dead)e.dot={t:2,tick:.5,dps:6+2*rk('wire'),col:'#ff2a3a'};});
+      fx.push({k:'zap',a:{x:pl.x,y:pl.y},b:{x:pl.x+Math.cos(a)*len,y:pl.y+Math.sin(a)*len},t:0,life:.18,col:'#a0e4ff'});sfx('laser');pl.mxR=pl.cdR=3.5*cdMult();netAtk('wire',a,pl.x+Math.cos(a)*len,pl.y+Math.sin(a)*len);},
+    Q(a){pl.cloak=3+.5*rk('cloak');burst(pl.x,pl.y-6,24,['#4a8cff','#1a1a24','#ffffff'],80);sfx('dash');pl.mxQ=pl.cdQ=12*cdMult();netAtk('tp',a,pl.x,pl.y);},
+    K1(a){const t=aimClamp(130);if(!blinkTo(t))return false;slashAt(pl.x,pl.y-4,0,7,30,20+8*rk('step'),120);fx.push({k:'spin',x:pl.x,y:pl.y-4,r:30,t:0,life:.25,col:BLUE});sfx('slash3');netAtk('tp',a,pl.x,pl.y);return 6;},
+    K2(a){shoot(pl.x,pl.y-6,a,{spd:620,kind:'bullet',dmg:60+25*rk('snipe'),pierce:99,life:.9,r:3,critB:15,col:'#ffffff'});addShake(4);sfx('boom');sfx('shot');netAtk('shot',a);return 8;}
+  },
+  bulwark:{
+    P(a){const m=1+.12*rk('bigiron');for(let i=0;i<5;i++)shoot(pl.x+Math.cos(a)*6,pl.y-6+Math.sin(a)*6,a-.25+.125*i+R(-.04,.04),{spd:R(250,290),kind:'bullet',dmg:(3+1.5*rk('shotgun'))*m,life:.32,kbm:2.2});addShake(2);sfx('shot');sfx('hit');pl.mxP=pl.cdP=.55/atkSpeed();netAtk('fan',a);},
+    R(a){dashHit(.22,280,16+6*rk('bash'),'#ff3a3a');pl.dash.stun=.8;pl.dash.kb=240;sfx('dash');pl.mxR=pl.cdR=5*cdMult();netAtk('tp',a,pl.x,pl.y);},
+    Q(a){pl.suppT=2.5;pl.suppF=0;pl.mxQ=pl.cdQ=12*cdMult();},
+    K1(a){const t=aimClamp(150),d=Math.hypot(t.x-pl.x,t.y-pl.y);lob(t.x,t.y,{dur:.3+d/400,kind:'frag',dmg:30+12*rk('gl'),rad:36});sfx('flask');netAtk('junk',a,t.x,t.y);return 6;},
+    K2(a){pl.fortT=3+.5*rk('fort');fx.push({k:'ring',x:pl.x,y:pl.y,r:26,t:0,life:.4,col:'#ff8a1a'});sfx('door');return 15;}
+  },
+  rigger:{
+    P(a){shoot(pl.x+Math.cos(a)*6,pl.y-6+Math.sin(a)*6,a+R(-.04,.04),{spd:290,kind:'bullet',dmg:5+2.5*rk('rivet'),life:.7,col:'#ffb02e'});sfx('hit');pl.mxP=pl.cdP=.3/atkSpeed();netAtk('shot',a);},
+    R(a){const ts=allies.filter(o=>o.k==='turret'&&!o.cos);if(ts.length>=2)ts[0].dead=true;const t=aimClamp(60);addAlly({k:'turret',x:t.x,y:t.y,life:12+4*rk('reinf'),dmg:(5+3*rk('turret'))*parts_()});burst(t.x,t.y,12,['#ffb02e','#ffffff'],60);sfx('chest');pl.mxR=pl.cdR=6*cdMult();netAtk('ally',a,t.x,t.y);},
+    Q(a){for(let i=0;i<3;i++){const b=a-.6+.6*i,d=R(28,44);let x=pl.x+Math.cos(b)*d,y=pl.y+Math.sin(b)*d;if(solidAt(x,y)){x=pl.x;y=pl.y;}addAlly({k:'mine',x,y,life:30,dmg:(25+10*rk('mines'))*parts_()});}sfx('flask');pl.mxQ=pl.cdQ=8*cdMult();netAtk('mines',a,pl.x,pl.y);},
+    K1(a){for(const o of allies)if(o.k==='drone'&&!o.cos)o.dead=true;addAlly({k:'drone',x:pl.x,y:pl.y-10,life:15,dmg:(6+3*rk('drone'))*parts_()});sfx('zap');netAtk('drone',a,pl.x,pl.y);return 18;},
+    K2(a){pl.ovcT=4+.5*rk('ovc');burst(pl.x,pl.y-6,20,['#ffb02e','#40e0ff'],80);for(const o of allies)if(o.k==='turret')o.life=Math.max(o.life,o.t+4);sfx('lvl');return 14;}
+  },
+  hexrunner:{
+    P(a){shoot(pl.x+Math.cos(a)*6,pl.y-8+Math.sin(a)*6,a,{spd:250,kind:'spike',dmg:6+3*rk('spike'),life:.85,r:3,hack:3});sfx('zap');pl.mxP=pl.cdP=.34/atkSpeed();netAtk('bolt',a);},
+    R(a){const c=pl.aimPt;let cur=null,bd=90;for(const e of en){if(e.dead)continue;const d=Math.hypot(e.x-c.x,e.y-c.y);if(d<bd&&Math.hypot(e.x-pl.x,e.y-pl.y)<220&&los(pl.x,pl.y,e.x,e.y)){bd=d;cur=e;}}
+      if(!cur){toastOnce('No target near the cursor.');return false;}const hit=new Set([cur]);let from={x:pl.x,y:pl.y};const n=4+rk('short')+rk('feedback'),dmg=12+5*rk('short');
+      for(let i=0;i<n&&cur;i++){fx.push({k:'zap',a:{x:from.x,y:from.y},b:{x:cur.x,y:cur.y},t:0,life:.18,col:'#40a0ff'});hurt(cur,dmg,{noProc:true});cur.hackT=time+3;from=cur;let nb=null,nd=75;for(const o of en){if(o.dead||hit.has(o))continue;const d=Math.hypot(o.x-from.x,o.y-from.y);if(d<nd){nd=d;nb=o;}}if(nb)hit.add(nb);cur=nb;}
+      sfx('laser');pl.mxR=pl.cdR=4*cdMult();netAtk('ring',a,from.x,from.y);},
+    Q(a){const t=aimClamp(170),dmg=15+6*rk('crash'),stun=1.5+.2*rk('crash');fx.push({k:'ring',x:t.x,y:t.y,r:52,t:0,life:.35,col:'#40a0ff'});burst(t.x,t.y,26,['#40a0ff','#ffffff','#0a1a2a'],110);
+      inRad(t.x,t.y,52,e=>hurt(e,dmg*(['drone','trooper','warden'].includes(e.type)?2:1),{stun}));for(const p of props)if(!p.dead&&p.type==='turret'&&Math.hypot(p.x-t.x,p.y-t.y)<56)hurtProp(p,dmg*2);
+      addShake(3);sfx('zap');pl.mxQ=pl.cdQ=10*cdMult();netAtk('ring',a,t.x,t.y);},
+    K1(a){pl.ovwT=5;burst(pl.x,pl.y-6,18,['#40a0ff','#ffffff'],70);sfx('lvl');return 14;},
+    K2(a){const t=aimClamp(150),nx=-Math.sin(a),ny=Math.cos(a);for(let i=-2;i<=2;i++){const x=t.x+nx*i*13,y=t.y+ny*i*13;if(solidAt(x,y))continue;pools.push({x,y,r:11,t:0,life:4,dps:14+6*rk('firewall'),tick:0,kind:'zap',mine:true,col:'#40a0ff',cols:['#40a0ff','#ffffff','#a0e4ff']});}sfx('laser');netAtk('pool',a,t.x,t.y);return 12;}
+  },
+  flarecaster:{
+    P(a){pl.combo=pl.comboT>0?(pl.combo+1)%2:0;pl.comboT=.5;const ecl=pl.eclT>0?1.5:1,rng=26*ecl,dmg=(8+3.5*rk('blades'))*(1+.1*rk('radiance'));
+      fx.push({k:'slash',follow:true,a,w:2,r:rng,t:0,life:.12,col:'#ffd23a',flip:pl.combo===1});const n=slashAt(pl.x,pl.y-4,a,2,rng,dmg,50);
+      if(n)pl.flare=Math.min(10,(pl.flare||0)+Math.min(2,n)*(1+.3*rk('photon')));sfx('slash');pl.mxP=pl.cdP=.24/atkSpeed();pl.vx=(pl.vx||0)+pl.aim.x*30;pl.vy=(pl.vy||0)+pl.aim.y*30;netAtk('slash',a);},
+    R(a){const t=aimClamp(140);pools.push({x:t.x,y:t.y,r:42,t:0,life:1.5,dps:0,tick:0,kind:'grav',mine:true,col:'#ffd23a',cols:['#ffd23a','#fff6c0'],pull:1});inRad(t.x,t.y,60,e=>{hurt(e,10+4*rk('grav'),{noProc:true});e.pull={x:t.x,y:t.y,t:1.5};});
+      fx.push({k:'ring',x:t.x,y:t.y,r:50,t:0,life:.4,col:'#ffd23a'});sfx('huff');pl.mxR=pl.cdR=6*cdMult();netAtk('pool',a,t.x,t.y);},
+    Q(a){const f=pl.flare||0,dmg=(20+8*rk('corona'))*(1+.15*f);fx.push({k:'ring',x:pl.x,y:pl.y,r:56,t:0,life:.4,col:'#ffd23a'});fx.push({k:'ring',x:pl.x,y:pl.y,r:34,t:0,life:.3,col:'#ffffff'});burst(pl.x,pl.y-6,30+f*4,['#ffd23a','#fff6c0','#ff8a1a'],150);
+      inRad(pl.x,pl.y,56,e=>{const dx=e.x-pl.x,dy=e.y-pl.y,d=Math.hypot(dx,dy)||1;hurt(e,dmg,{kb:{x:dx/d*150,y:dy/d*150}});});pl.flare=0;addShake(4+f/2);sfx('boom');pl.mxQ=pl.cdQ=7*cdMult();netAtk('ring',a,pl.x,pl.y);},
+    K1(a){const t=aimClamp(150),d=Math.hypot(t.x-pl.x,t.y-pl.y);if(d<10)return false;dashHit(d/380,380,18+7*rk('lunge'),'#ffd23a');sfx('dash');netAtk('tp',a,t.x,t.y);return 5;},
+    K2(a){pl.eclT=4+.5*rk('eclipse');burst(pl.x,pl.y-6,24,['#1a1a24','#ffd23a'],90);sfx('door');return 16;}
+  },
+  riftwitch:{
+    P(a){shoot(pl.x+Math.cos(a)*6,pl.y-8+Math.sin(a)*6,a,{spd:175,kind:'shard',dmg:7+3*rk('shard'),pierce:1,life:1.1,r:3});sfx('zap');pl.mxP=pl.cdP=.38/atkSpeed();netAtk('bolt',a);},
+    R(a){const t=aimClamp(160);pools.push({x:t.x,y:t.y,r:30,t:0,life:3,dps:(8+4*rk('rift'))*(1+.2*rk('entropy')),tick:0,kind:'void',mine:true,col:'#5a2a7a',cols:['#c05aff','#1e1028','#6a3a8a'],slow:1});sfx('huff');pl.mxR=pl.cdR=5*cdMult();netAtk('pool',a,t.x,t.y);},
+    Q(a){const ox=pl.x,oy=pl.y,t=aimClamp(150);if(!blinkTo(t))return toastOnce("Can't warp there.");const dmg=25+10*rk('warp');fx.push({k:'ring',x:ox,y:oy,r:46,t:0,life:.4,col:'#c05aff'});burst(ox,oy-6,24,['#c05aff','#1e1028'],-60);
+      inRad(ox,oy,46,e=>{const dx=ox-e.x,dy=oy-e.y,d=Math.hypot(dx,dy)||1;hurt(e,dmg,{kb:{x:dx/d*140,y:dy/d*140}});});sfx('boom');pl.mxQ=pl.cdQ=8*cdMult();netAtk('tp',a,pl.x,pl.y);},
+    K1(a){const t=aimClamp(160),v=.2+.05*rk('hex');fx.push({k:'ring',x:t.x,y:t.y,r:60,t:0,life:.5,col:'#c05aff'});inRad(t.x,t.y,60,e=>{e.hexT=time+5;e.hexV=v;burst(e.x,e.y-8,5,['#c05aff'],30);});sfx('laser');netAtk('ring',a,t.x,t.y);return 10;},
+    K2(a){const t=aimClamp(150),ent=1+.2*rk('entropy');pools.push({x:t.x,y:t.y,r:24,t:0,life:3,dps:(15+6*rk('sing'))*ent,tick:0,kind:'sing',mine:true,col:'#05030a',cols:['#c05aff','#05030a','#ffffff'],pull:2,endBoom:(40+15*rk('sing'))*ent});sfx('huff');netAtk('pool',a,t.x,t.y);return 20;}
+  },
+  // hotbar skills for the original four
+  samurai:{K1(a){const t=aimClamp(140),d=Math.hypot(t.x-pl.x,t.y-pl.y);if(d<10)return false;dashHit(d/380,380,20+8*rk('iai'),'#ff2a6a');sfx('slash3');netAtk('tp',a,t.x,t.y);return 6;},
+    K2(a){pl.cutsT=2;pl.cutsF=0;sfx('spin');return 16;}},
+  chemdog:{K1(a){pl.trailT=3+.5*rk('trail');pl.trailF=0;sfx('huff');return 12;},
+    K2(a){heal(pl.maxHp*(.15+.05*rk('mutagen')));pl.regenT=5;burst(pl.x,pl.y-6,24,['#7aff5a','#c8ffd8'],80);txt(pl.x,pl.y-14,'MUTAGEN','#7aff5a',true,true);sfx('flask');return 20;}},
+  gunslinger:{K1(a){shoot(pl.x,pl.y-6,a,{spd:600,kind:'bullet',dmg:(50+20*rk('deadeye'))*(1+.12*rk('hollow')),pierce:99,life:.9,col:'#ffffff'});addShake(4);sfx('boom');netAtk('shot',a);return 8;},
+    K2(a){const t=aimClamp(150),d=Math.hypot(t.x-pl.x,t.y-pl.y);lob(t.x,t.y,{dur:.35+d/380,kind:'frag',dmg:45+15*rk('dynamite'),rad:42});sfx('flask');netAtk('junk',a,t.x,t.y);return 10;}},
+  adept:{K1(a){shoot(pl.x,pl.y-8,a,{spd:360,kind:'lance',dmg:30+12*rk('lance'),pierce:99,life:.7,r:3,freeze:1});sfx('zap');netAtk('bolt',a);return 6;},
+    K2(a){pl.stormT=4;pl.stormF=0;sfx('laser');return 18;}}
+};
+// returns true if the class handles this slot
+function kitDo(slot,a){const k=KIT[pl.cls];if(!k||!k[slot])return false;k[slot](a);return true;}
+function hotSkill(n){
+  const sk=SKILLS[pl.cls].find(s=>s.slot===String(n)),a=Math.atan2(pl.aim.y,pl.aim.x);pl.cds=pl.cds||{};pl.mxs=pl.mxs||{};
+  if((pl.cds[n]||0)>0)return;
+  if(n===1||n===2){if(!sk)return;if(!rk(sk.id))return toastOnce(`${sk.name} is locked. Put a skill point into it (C).`);const cost=n===1?ECOST.K1:ECOST.K2;if(pl.en<cost)return toastOnce('Not enough energy. It refills over time.');
+    const k=KIT[pl.cls];if(!k||!k['K'+n])return;const cd=k['K'+n](a);if(cd===false||cd==null)return;pl.en-=cost;pl.cds[n]=pl.mxs[n]=cd*cdMult();return;}
+  if(n===3){const h=HOT.grenade;if(pl.en<h.cost)return toastOnce('Not enough energy.');const t=aimClamp(140),d=Math.hypot(t.x-pl.x,t.y-pl.y);lob(t.x,t.y,{dur:.3+d/400,kind:'frag',dmg:20+4*pl.cd.lvl,rad:32});pl.en-=h.cost;pl.cds[3]=pl.mxs[3]=h.cd*cdMult();sfx('flask');netAtk('junk',a,t.x,t.y);return;}
+  if(n===4){useStim();return;}
+  if(n===5){const h=HOT.over;if(pl.cd.lvl<h.req)return toastOnce(`Overdrive unlocks at level ${h.req}.`);if(pl.en<h.cost)return toastOnce('Not enough energy.');pl.en-=h.cost;pl.odT=6;pl.cds[5]=pl.mxs[5]=h.cd;burst(pl.x,pl.y-6,30,[CLASSES[pl.cls].col,'#ffffff'],120);banner('OVERDRIVE','',900);sfx('lvl');addShake(3);}
+}
+// per-frame timers for kit effects
+function kitUpdate(dt){
+  for(const k of ['cloak','suppT','fortT','ovcT','ovwT','eclT','odT','trailT','regenT','stormT','cutsT'])if(pl[k]>0)pl[k]-=dt;
+  pl.cds=pl.cds||{};for(const n in pl.cds)pl.cds[n]-=dt;
+  const a=Math.atan2(pl.aim.y,pl.aim.x);
+  if(pl.suppT>0&&!pl.dead){pl.suppF-=dt;if(pl.suppF<=0){pl.suppF=.065;shoot(pl.x+Math.cos(a)*7,pl.y-6+Math.sin(a)*7,a+R(-.13,.13),{spd:300,kind:'bullet',dmg:4+2*rk('supp'),life:.6});sfx('shot');if(Math.random()<.3)netAtk('shot',a);}}
+  if(pl.trailT>0&&!pl.dead){pl.trailF-=dt;if(pl.trailF<=0&&pl.moving){pl.trailF=.22;pools.push({x:pl.x,y:pl.y,r:12,t:0,life:2.2,dps:(2+1.4*rk('bomb'))*(1+.3*rk('trail')),tick:0,kind:'acid',mine:true});}}
+  if(pl.regenT>0&&!pl.dead)heal(pl.maxHp*.02*dt);
+  if(pl.stormT>0&&!pl.dead){pl.stormF-=dt;if(pl.stormF<=0){pl.stormF=.4;const c=en.filter(e=>!e.dead&&dist(e,pl)<120);if(c.length){const e=pick(c);fx.push({k:'zap',a:{x:e.x+R(-6,6),y:e.y-90},b:{x:e.x,y:e.y},t:0,life:.18,col:'#40e0ff'});burst(e.x,e.y,8,['#40e0ff','#ffffff'],70);hurt(e,25+10*rk('storm'),{noProc:true});sfx('zap');}}}
+  if(pl.cutsT>0&&!pl.dead){pl.cutsF-=dt;if(pl.cutsF<=0){pl.cutsF=.25;slashAt(pl.x,pl.y-4,0,7,34,8+3*rk('cuts'),40);fx.push({k:'spin',follow:true,r:34,t:0,life:.2,col:'#ff2a6a'});sfx('slash');}}
+  // allies (turrets, drones, mines)
+  const rate=pl.ovcT>0?2:1;
+  for(const o of allies){o.t+=dt;if(o.t>=o.life){o.dead=true;continue;}
+    if(o.k==='drone'){o.ang+=dt*2.4;const ow=o.owner||pl,tx=ow.x+Math.cos(o.ang)*20,ty=ow.y-4+Math.sin(o.ang)*12;o.x+=(tx-o.x)*Math.min(1,dt*8);o.y+=(ty-o.y)*Math.min(1,dt*8);}
+    if(o.k==='mine'){if(o.t<.5||o.cos)continue;let hit=false;for(const e of en)if(!e.dead&&Math.hypot(e.x-o.x,e.y-o.y)<12+e.r){hit=true;break;}if(hit){o.dead=true;boom(o.x,o.y,30,o.dmg,{small:true,col:'#ffb02e'});}continue;}
+    o.fireT-=dt*rate;if(o.fireT>0)continue;
+    let b=null,bd=o.k==='drone'?80:160;for(const e of en){if(e.dead)continue;const d=Math.hypot(e.x-o.x,e.y-o.y);if(d<bd&&los(o.x,o.y,e.x,e.y)){bd=d;b=e;}}
+    if(!b)continue;const aa=Math.atan2(b.y-6-(o.y-6),b.x-o.x);o.aim=aa;
+    if(o.k==='turret'){o.fireT=.5;shoot(o.x,o.y-6,aa,{spd:300,kind:'bullet',dmg:o.dmg,life:.6,cos:o.cos,col:'#ffb02e'});sfx('shot');}
+    else{o.fireT=.7;fx.push({k:'zap',a:{x:o.x,y:o.y},b:{x:b.x,y:b.y},t:0,life:.12,col:'#40e0ff'});if(!o.cos)hurt(b,o.dmg,{noProc:true});}
+  }
+  allies=allies.filter(o=>!o.dead);
 }
 
 // ============ render ============
@@ -1596,7 +1822,7 @@ function render(){
   // static lights
   for(const l of M.lights){const sx=l.x-ox,sy=l.y-oy;if(sx<-l.r||sy<-l.r||sx>W+l.r||sy>H+l.r)continue;let a=l.a;if(l.flick&&Math.sin(time*13+l.x)>.93)a*=.2;L(sx,sy,l.r,l.col,a);}
   // ground layers
-  for(const p of pools){const sx=SX(p.x),sy=SY(p.y),k=Math.min(1,(1-p.t/p.life)*2);ctx.globalAlpha=k*(p.kind==='cloud'?.3:.5);const fire=p.kind==='fire';ctx.fillStyle=fire?'#ff6a1a':p.kind==='cloud'?'#5fd46b':p.mine?'#9bff4a':'#7ac02a';ctx.beginPath();ctx.ellipse(sx,sy,p.r,p.r*.55,0,0,7);ctx.fill();ctx.globalAlpha=1;L(sx,sy-3,p.r*1.6,fire?'#ff7a2a':'#7aff5a',.5*k);}
+  for(const p of pools){const sx=SX(p.x),sy=SY(p.y),k=Math.min(1,(1-p.t/p.life)*2);ctx.globalAlpha=k*(p.kind==='cloud'?.3:.5);const fire=p.kind==='fire';ctx.fillStyle=p.col||(fire?'#ff6a1a':p.kind==='cloud'?'#5fd46b':p.mine?'#9bff4a':'#7ac02a');if(p.kind==='sing'||p.kind==='void')ctx.globalAlpha=Math.min(.85,ctx.globalAlpha*1.6);ctx.beginPath();ctx.ellipse(sx,sy,p.r,p.r*.55,0,0,7);ctx.fill();ctx.globalAlpha=1;L(sx,sy-3,p.r*1.6,fire?'#ff7a2a':'#7aff5a',.5*k);}
   for(const mk of marks){
     if(mk.k==='circle'){const k=clamp(mk.t/mk.warn,0,1),sx=SX(mk.x),sy=SY(mk.y);if(mk.t<0)continue;ctx.strokeStyle='#ff2a3a';ctx.globalAlpha=.5+.5*Math.sin(time*30);ctx.beginPath();ctx.ellipse(sx,sy,mk.r,mk.r*.55,0,0,7);ctx.stroke();ctx.fillStyle='rgba(255,40,60,.25)';ctx.beginPath();ctx.ellipse(sx,sy,mk.r*k,mk.r*.55*k,0,0,7);ctx.fill();ctx.globalAlpha=1;}
     else if(mk.k==='line'){const ex=Math.cos(mk.a),ey=Math.sin(mk.a),nx=-ey*mk.w/2,ny=ex*mk.w/2;ctx.fillStyle=`rgba(255,40,60,${.15+.15*Math.sin(time*30)})`;ctx.beginPath();ctx.moveTo(SX(mk.x+nx),SY(mk.y+ny));ctx.lineTo(SX(mk.x+ex*mk.len+nx),SY(mk.y+ey*mk.len+ny));ctx.lineTo(SX(mk.x+ex*mk.len-nx),SY(mk.y+ey*mk.len-ny));ctx.lineTo(SX(mk.x-nx),SY(mk.y-ny));ctx.fill();}
@@ -1606,6 +1832,7 @@ function render(){
   const D=[];
   for(const p of props)if(!p.dead&&p.type!=='plate'&&p.type!=='arrive')D.push([p.y,()=>drawProp(p)]);
   for(const c of pickups)D.push([c.y,()=>drawPickup(c)]);
+  for(const o of allies)D.push([o.y,()=>drawAlly(o)]);
   for(const e of en)D.push([e.y,()=>{
     const fly=e.d.fly?Math.round(6+Math.sin(time*5+e.wob)*2):0,bob=e.type==='rat'?Math.round(Math.abs(Math.sin(time*16+e.wob))):0;
     if(e.d.fly)shadow(e.x,e.y+1,4);
@@ -1632,7 +1859,10 @@ function render(){
     if(pl.dead)return;
     if(pl.ifr>0&&!pl.dash&&Math.floor(time*20)%2)return;
     const z=pl.moving?Math.round(Math.abs(Math.sin(pl.walkT*14))):0;
-    drawChar(pl.cls,pl.x,pl.y,pl.face<0,CLASSES[pl.cls].col,{z});
+    drawChar(pl.cls,pl.x,pl.y,pl.face<0,CLASSES[pl.cls].col,{z,alpha:pl.cloak>0?.3:0});
+    if(pl.fortT>0){ctx.strokeStyle='#ff8a1a';ctx.globalAlpha=.5+.3*Math.sin(time*12);ctx.beginPath();ctx.ellipse(SX(pl.x),SY(pl.y)-8,12,14,0,0,7);ctx.stroke();ctx.globalAlpha=1;}
+    if((pl.flare||0)>=1){const f=pl.flare;L(SX(pl.x),SY(pl.y)-20,16+f*3,'#ffd23a',.3+f*.05);for(let i=0;i<Math.floor(f);i++){const aa=time*3+i*.628;ctx.fillStyle='#ffd23a';ctx.fillRect(SX(pl.x)+Math.round(Math.cos(aa)*10),SY(pl.y)-22+Math.round(Math.sin(aa)*3),1,1);}}
+    if(pl.odT>0||pl.ovwT>0)L(SX(pl.x),SY(pl.y)-8,40,CLASSES[pl.cls].col,.6);
     const sx=SX(pl.x),sy=SY(pl.y);L(sx,sy-10,scene==='town'?110:95,'#ffe8d8',1);L(sx,sy,30,CLASSES[pl.cls].col,.5);
     if(pl.frenzy>0)L(sx,sy-8,50,'#7aff5a',.9);if(pl.over>0)L(sx,sy-8,50,'#40e0ff',.9);
   }]);
@@ -1647,7 +1877,8 @@ function render(){
     else{ctx.fillStyle='#000';ctx.fillRect(sx-2,sy-z-3,4,5);ctx.fillStyle='#7aff5a';ctx.fillRect(sx-1,sy-z-1,2,2);ctx.fillStyle='#9aa0aa';ctx.fillRect(sx-1,sy-z-2,2,1);L(sx,sy-z,18,'#7aff5a',.7);}}
   // player projectiles
   for(const p of pproj){const sx=SX(p.x),sy=SY(p.y);
-    if(p.kind==='bullet'){ctx.strokeStyle=BULLET_COL;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx-p.vx*.02,sy-p.vy*.02);ctx.stroke();ctx.lineWidth=1;ctx.fillStyle='#fff';ctx.fillRect(sx,sy,1,1);L(sx,sy,14,'#ffb02e',.5);}
+    if(p.kind==='bullet'){ctx.strokeStyle=p.col||BULLET_COL;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx-p.vx*.02,sy-p.vy*.02);ctx.stroke();ctx.lineWidth=1;ctx.fillStyle='#fff';ctx.fillRect(sx,sy,1,1);L(sx,sy,14,'#ffb02e',.5);}
+    else if(p.kind==='spike'||p.kind==='shard'||p.kind==='lance'){const col=p.kind==='spike'?'#40a0ff':p.kind==='shard'?'#c05aff':'#bff4ff';ctx.strokeStyle=col;ctx.lineWidth=p.kind==='lance'?3:2;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx-p.vx*.035,sy-p.vy*.035);ctx.stroke();ctx.lineWidth=1;ctx.fillStyle='#fff';ctx.fillRect(sx-1,sy-1,2,2);L(sx,sy,22,col,.8);}
     else if(p.kind==='bolt'){for(const [col,w] of [['#40e0ff',3],['#ffffff',1]]){ctx.strokeStyle=col;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx-p.vx*.03+R(-2,2),sy-p.vy*.03+R(-2,2));ctx.lineTo(sx-p.vx*.06,sy-p.vy*.06);ctx.stroke();}ctx.lineWidth=1;L(sx,sy,36,'#40e0ff',.9);}
   }
   // enemy projectiles
@@ -1687,6 +1918,13 @@ function render(){
   if(hurtFlash>0){ctx.fillStyle=`rgba(255,20,50,${hurtFlash*.45})`;ctx.fillRect(0,0,W,H);}
   if(pl.frenzy>0){ctx.fillStyle=`rgba(80,255,60,${.05+.04*Math.sin(time*9)})`;ctx.fillRect(0,0,W,H);}
   if(scene==='dungeon'&&!modal){const mx=Math.round(mouse.x),my=Math.round(mouse.y);ctx.fillStyle=CFG.auto?'#ffd23a':'#ff2a9a';ctx.fillRect(mx-4,my,3,1);ctx.fillRect(mx+2,my,3,1);ctx.fillRect(mx,my-4,1,3);ctx.fillRect(mx,my+2,1,3);}
+}
+function drawAlly(o){
+  const sx=SX(o.x),sy=SY(o.y),fade=o.life-o.t<2&&Math.floor(time*8)%2?.4:1;ctx.globalAlpha=fade;
+  if(o.k==='turret'){shadow(o.x,o.y+3,6);ctx.fillStyle='#2a2830';ctx.fillRect(sx-5,sy-4,10,6);ctx.fillStyle='#4a4652';ctx.fillRect(sx-4,sy-9,8,5);const a=o.aim||0;ctx.fillStyle='#ffb02e';ctx.fillRect(sx+Math.round(Math.cos(a)*6)-1,sy-7+Math.round(Math.sin(a)*3),3,2);ctx.fillStyle='#40e0ff';ctx.fillRect(sx-1,sy-8,2,1);L(sx,sy-6,22,'#ffb02e',.5);}
+  else if(o.k==='drone'){ctx.fillStyle='#000';ctx.fillRect(sx-4,sy-15,9,4);ctx.fillStyle='#8a909c';ctx.fillRect(sx-3,sy-14,7,2);ctx.fillStyle='#40e0ff';ctx.fillRect(sx,sy-14,1,1);ctx.fillStyle='rgba(200,220,255,.5)';ctx.fillRect(sx-5+(Math.floor(time*30)%2),sy-16,3,1);ctx.fillRect(sx+3-(Math.floor(time*30)%2),sy-16,3,1);L(sx,sy-13,18,'#40e0ff',.6);}
+  else if(o.k==='mine'){ctx.fillStyle='#000';ctx.fillRect(sx-3,sy-2,6,3);ctx.fillStyle='#3a3e46';ctx.fillRect(sx-2,sy-2,4,2);ctx.fillStyle=o.t>.5&&Math.floor(time*4)%2?'#ff2a3a':'#5a0a12';ctx.fillRect(sx,sy-2,1,1);}
+  ctx.globalAlpha=1;
 }
 function drawPickup(c){
   const sx=SX(c.x),sy=SY(c.y)-c.z-2;
@@ -1886,7 +2124,7 @@ function showSummary(s){
   <div class="row"><button class="primary" data-i="0"><kbd>1</kbd>Back to the Block</button></div>`);
   bindOpts();
 }
-const CONTROLS=`<div class="ctrl"><kbd>WASD</kbd><span>Move</span><kbd>MOUSE</kbd><span>Aim. Hold left button to attack</span><kbd>T</kbd><span>Toggle autofire</span><kbd>RIGHT CLICK</kbd><span>Skill 2 (uses energy)</span><kbd>Q</kbd><span>Skill 3 (uses energy)</span><kbd>SHIFT</kbd><span>Hold to sprint (uses stamina)</span><kbd>SPACE</kbd><span>Dash, you can't be hit mid-dash (uses stamina)</span><kbd>F</kbd><span>Stim, heals 40%</span><kbd>E</kbd><span>Talk, open, use</span><kbd>I · C · J · U</kbd><span>Runner menu: gear · skills · jobs · upgrades (Tab toggles it)</span><kbd>M</kbd><span>Map</span><kbd>ESC</kbd><span>Options</span></div>`;
+const CONTROLS=`<div class="ctrl"><kbd>WASD</kbd><span>Move</span><kbd>MOUSE</kbd><span>Aim. Hold left button to attack</span><kbd>T</kbd><span>Toggle autofire</span><kbd>RIGHT CLICK</kbd><span>Skill 2 (uses energy)</span><kbd>Q</kbd><span>Skill 3 (uses energy)</span><kbd>SHIFT</kbd><span>Hold to sprint (uses stamina)</span><kbd>SPACE</kbd><span>Dash, you can't be hit mid-dash (uses stamina)</span><kbd>1 · 2</kbd><span>Class hotbar skills (unlock at levels 5 and 8)</span><kbd>3</kbd><span>Frag grenade</span><kbd>4 · F</kbd><span>Stim, heals 40%</span><kbd>5</kbd><span>Overdrive (level 6+)</span><kbd>E</kbd><span>Talk, open, use</span><kbd>I · C · J · U</kbd><span>Runner menu: gear · skills · jobs · upgrades (Tab toggles it)</span><kbd>M</kbd><span>Map</span><kbd>ESC</kbd><span>Options</span></div>`;
 function showTitle(){modal='title';$('veil').hidden=true;$('title').hidden=false;$('hud').hidden=true;setHint('');}
 function showMenu(){
   modal='menu';$('title').hidden=true;
@@ -1960,6 +2198,9 @@ function hud(dt){
     const cd=(el,v,m,locked)=>{const p=locked?1:Math.max(0,Math.min(1,v/m));$(el).style.setProperty('--cd',`${p*100}%`);$(el).classList.toggle('ready',p<=0);};
     $('s0n').textContent=sk[0].name;$('s1n').textContent=sk[1].name;$('s2n').textContent=sk[2].name;
     cd('s0',pl.cdP,pl.mxP||.4);cd('s1',pl.cdR,pl.mxR);cd('s2',pl.cdQ,pl.mxQ,!rk(sk[2].id));cd('s4',pl.cdD,pl.mxD);
+    const k1=sk.find(s=>s.slot==='1'),k2=sk.find(s=>s.slot==='2');pl.cds=pl.cds||{};pl.mxs=pl.mxs||{};
+    $('h1n').textContent=k1?k1.name:'-';$('h2n').textContent=k2?k2.name:'-';
+    for(const [id,n,lock,cost] of [['h1',1,!k1||!rk(k1.id),ECOST.K1],['h2',2,!k2||!rk(k2.id),ECOST.K2],['h3',3,false,HOT.grenade.cost],['h5',5,pl.cd.lvl<HOT.over.req,HOT.over.cost]]){cd(id,pl.cds[n]||0,pl.mxs[n]||1,lock);$(id).classList.toggle('lock',lock);$(id).classList.toggle('noen',!lock&&pl.en<cost);}
     $('s1').classList.toggle('noen',pl.en<ECOST.R);$('s2').classList.toggle('noen',pl.en<ECOST.Q);$('s4').classList.toggle('noen',pl.sta<DASH_STA);
     $('s3n').textContent=`Stim ×${pl.stims}`;$('s3').style.setProperty('--cd',pl.stims>0?'0%':'100%');
     if(bossRef&&!bossRef.dead&&run.bossSeen)$('bossf').style.width=`${100*Math.max(0,bossRef.hp)/bossRef.max}%`;
@@ -2053,14 +2294,17 @@ function bindDet(p){
   p.querySelectorAll('#mm-det [data-uq]').forEach(b=>b.onclick=()=>{unequip(b.dataset.uq);mmSel=null;openMenu();});
 }
 function skillsTab(){
-  const c=pl.cd;
-  const rows=SKILLS[pl.cls].map(s=>{const r=c.ranks[s.id]||0,gb=gearRk(s.id),eff=r+gb,next=Math.min(s.max,r+1);
-    return `<div class="skill"><div class="sk-h"><span class="slotk">${s.slot==='RMB'?'RMB · '+ECOST.R+' EN':s.slot==='Q'?'Q · '+ECOST.Q+' EN':s.slot}</span><b>${s.name}</b>${gb?`<span class="gb">+${gb} GEAR</span>`:''}<span class="pips">${Array.from({length:s.max},(_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</span></div>
-    <p>${eff?s.d(eff):'<span class="dim">Locked.</span> '+s.d(1)}</p>${r<s.max?`<p class="dim nx">Next rank: ${s.d(next+gb)}</p>`:''}
-    <button data-up="${s.id}" ${c.sp<1||r>=s.max?'disabled':''}>${r?'Rank up':'Unlock'} <span class="cr">1 pt</span></button></div>`;}).join('');
-  return `<h4>SKILLS · <span style="color:var(--yellow)">${c.sp} POINT${c.sp===1?'':'S'} TO SPEND</span> · you get one every level</h4><div class="skg">${rows}</div>`;
+  const c=pl.cd,col=CLASSES[pl.cls].col;
+  const lbl=s=>s.slot==='RMB'?`RMB · ${ECOST.R} EN`:s.slot==='Q'?`Q · ${ECOST.Q} EN`:s.slot==='1'?`KEY 1 · ${ECOST.K1} EN`:s.slot==='2'?`KEY 2 · ${ECOST.K2} EN`:s.slot;
+  const node=s=>{const r=c.ranks[s.id]||0,gb=gearRk(s.id),eff=r+gb,next=Math.min(s.max,r+1),locked=c.lvl<s.req;
+    return `<div class="skill" style="${locked?'opacity:.45':''}${r?`;border-color:${col}`:''}"><div class="sk-h"><span class="slotk">${lbl(s)}</span><b>${s.name}</b>${gb?`<span class="gb">+${gb} GEAR</span>`:''}<span class="pips">${Array.from({length:s.max},(_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</span></div>
+    <p>${eff?s.d(eff):'<span class="dim">Locked.</span> '+s.d(1)}</p>${r<s.max&&r?`<p class="dim nx">Next rank: ${s.d(next+gb)}</p>`:''}
+    ${locked?`<button disabled>Unlocks at level ${s.req}</button>`:`<button data-up="${s.id}" ${c.sp<1||r>=s.max?'disabled':''}>${r?'Rank up':'Unlock'} <span class="cr">1 pt</span></button>`}</div>`;};
+  const tiers=[[1,3,'TIER I'],[4,7,'TIER II'],[8,99,'TIER III']].map(([lo,hi,n])=>{const ns=SKILLS[pl.cls].filter(s=>s.req>=lo&&s.req<=hi);return `<div class="tier"><div class="tierh" style="color:${col}">${n} <span class="dim">· level ${lo}${hi<99?'–'+hi:'+'}</span></div><div class="skg">${ns.map(node).join('')}</div></div>`;}).join('<div class="tierl" style="background:'+col+'"></div>');
+  return `<h4>${CLASSES[pl.cls].name.toUpperCase()} SKILL TREE · <span style="color:var(--yellow)">${c.sp} POINT${c.sp===1?'':'S'} TO SPEND</span> · one point every level</h4>${tiers}
+  <p class="dim" style="font-size:16px;margin-top:10px">Everyone also has <b>3</b> Frag Grenade, <b>4</b>/<b>F</b> Stim and <b>5</b> Overdrive (level ${HOT.over.req}+).</p>`;
 }
-function bindSkills(p){p.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{const c=pl.cd,s=SKILLS[pl.cls].find(x=>x.id===b.dataset.up);if(c.sp<1||c.ranks[s.id]>=s.max)return;c.sp--;c.ranks[s.id]++;refreshStats();save();sfx('lvl');openMenu();});}
+function bindSkills(p){p.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{const c=pl.cd,s=SKILLS[pl.cls].find(x=>x.id===b.dataset.up);if(c.sp<1||c.ranks[s.id]>=s.max||c.lvl<s.req)return;c.sp--;c.ranks[s.id]++;refreshStats();save();sfx('lvl');openMenu();});}
 function jobsTab(){
   qState();const rn=renown();
   const cols=Object.keys(QNPC).map(npc=>{const chain=QUESTS.filter(q=>q.npc===npc),act=qActive(npc);
@@ -2346,7 +2590,7 @@ function showMultiplayer(){
 }
 
 // ============ scenes, loop, input, boot ============
-function resetWorld(){en=[];props=[];pickups=[];pproj=[];eproj=[];lobs=[];pools=[];marks=[];fx=[];parts=[];texts=[];bossRef=null;flow=null;$('boss').hidden=true;}
+function resetWorld(){allies=[];en=[];props=[];pickups=[];pproj=[];eproj=[];lobs=[];pools=[];marks=[];fx=[];parts=[];texts=[];bossRef=null;flow=null;$('boss').hidden=true;}
 function placePlayer(){pl.x=M.startPos.x;pl.y=M.startPos.y;cam.x=pl.x;cam.y=pl.y-8;pl.dash=null;pl.vx=pl.vy=0;revealT=0;}
 function goTown(fromRun){
   scene='town';resetWorld();genTown();run=null;
