@@ -1077,7 +1077,7 @@ function spawnEnemy(type,x,y,opts){
     state:'idle',atkCd:R(.3,1),shotT:R(.8,2),spT:R(1,3),vx:0,vy:0,hitT:0,dot:null,face:1,wob:R(0,6),home:{x,y},elite:false,key:false,stun:0,dashT:0,tele:0};
   if(opts&&opts.elite){e.elite=true;e.hp*=3;e.max*=3;e.dmg=Math.round(e.dmg*1.4);e.xp*=4;e.r+=1;}
   if(opts&&opts.key)e.key=true;
-  if(type==='warden')Object.assign(e,{phase:1,pat:0,patT:2.5,cast:0,gat:0,gatA:0,ringN:0,ringT:0});
+  if(d.boss)Object.assign(e,{phase:1,pat:0,patT:2,cast:0,gat:0,gatA:0,ringN:0,ringT:0,spitN:0,spitT:0,sgN:0,sgT:0,tele:0,dashT:0});
   en.push(e);return e;
 }
 function threatLvl(){const ls=[pl?pl.cd.lvl:1];for(const p of partyHere())ls.push(clamp(num(p.lvl)||1,1,99));return Math.round((Math.max(...ls)+ls.reduce((a,b)=>a+b,0)/ls.length)/2);}
