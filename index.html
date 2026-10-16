@@ -2340,7 +2340,7 @@ function drawMinimap(c,s){
 function openMap(){modal='map';curOpts=null;showPanel(`<h3>${themeOf(run.floor).name}</h3><canvas id="bigmap" class="bigmap"></canvas><p class="dim">White: you · Cyan: lift · Yellow: crates and chests · Red: vault and keycard · Purple: glitch terminal · Pink: shrine · Green: chem vat</p><div class="row"><button class="primary" data-x="1"><kbd>M</kbd>Close</button></div>`,'wide');drawMinimap($('bigmap'),4);$('panel').querySelector('[data-x]').onclick=closePanel;}
 
 // ============ unified runner menu: gear · skills · jobs · run ============
-let mmTab='gear',mmSel=null,mmConfirm=false;
+let mmTab='gear',mmSel=null,mmConfirm=false,mmLast={k:null,t:0};
 const MM_TABS=[['gear','GEAR','I'],['skills','SKILLS','C'],['jobs','JOBS','J'],['feats','FEATS',''],['chrome','UPGRADES','U'],['run','RUN','']];
 function tryAutoEquip(i){
   if(!CFG.autoEq)return false;const it=pl.cd.bag[i];if(!it||!canWear(it))return false;
@@ -2379,7 +2379,7 @@ function gearTab(){
   const bagCells=Array.from({length:12},(_,i)=>{const it=c.bag[i];return it?cellHtml(it,SLOTN[it.slot].toUpperCase(),'b'+i,S2('b'+i)):`<div class="cell empty"><span class="sl">&nbsp;</span><span class="nm"></span></div>`;}).join('');
   return `<div class="gear"><div>${doll}${stats}</div>
   <div><h4>BAG ${c.bag.length}/12 <button class="mini-btn" data-best="1">EQUIP BEST</button><button class="mini-btn" data-mass="1">SALVAGE JUNK</button><button class="mini-btn" data-mass="2">${mmConfirm?'CONFIRM? CLICK AGAIN':'SALVAGE ALL'}</button><label class="tgl"><input type="checkbox" id="mm-ae" ${CFG.autoEq?'checked':''}>AUTO-EQUIP UPGRADES</label></h4><div class="bag2">${bagCells}</div>
-  <p class="dim" style="font-size:16px;margin-top:8px">Click an item to inspect it. ▲ means it beats what you are wearing. <b>Salvage junk</b> breaks down Junk and Tuned items. <b>Salvage all</b> breaks down everything except Legendaries. The best upgrade (▲) for each slot is always kept.</p></div>
+  <p class="dim" style="font-size:16px;margin-top:8px">Click an item to inspect it, <b>double-click to equip</b> (or unequip). ▲ means it beats what you are wearing. <b>Salvage junk</b> breaks down Junk and Tuned items. <b>Salvage all</b> breaks down everything except Legendaries. The best upgrade (▲) for each slot is always kept.</p></div>
   <div class="detail" id="mm-det">${detailHtml(mmSel)}</div></div>`;
 }
 function selItem(k){if(!k)return null;return k[0]==='g'?pl.cd.gear[k.slice(1)]:pl.cd.bag[+k.slice(1)];}
@@ -2392,7 +2392,9 @@ function detailHtml(k){
 }
 function bindGear(p){
   p.querySelectorAll('.cell[data-k]').forEach(b=>{
-    b.onclick=()=>{mmSel=b.dataset.k;openMenu();};
+    b.onclick=()=>{const k=b.dataset.k,now=performance.now();
+      if(mmLast.k===k&&now-mmLast.t<400){mmLast={k:null,t:0};if(k[0]==='b'){const it=pl.cd.bag[+k.slice(1)];if(it&&canWear(it)){equip(+k.slice(1));toast(`Equipped <span style="color:${RCOL[it.r]}">${esc(it.name)}</span>`,RCOL[it.r]);}else if(it)toast(`Only a ${CLASSES[it.cls].name} can use that.`,'#ff3a4a');}else unequip(k.slice(1));mmSel=null;openMenu();return;}
+      mmLast={k,t:now};mmSel=k;openMenu();};
     b.onmouseenter=()=>{const d=$('mm-det');if(d){d.innerHTML=detailHtml(b.dataset.k);bindDet(p);}};
     b.onmouseleave=()=>{const d=$('mm-det');if(d){d.innerHTML=detailHtml(mmSel);bindDet(p);}};
   });
