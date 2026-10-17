@@ -451,8 +451,8 @@ const SKILLS={
     {id:'ovc',slot:'2',name:'Overcharge',start:0,max:5,d:r=>`For ${4+.5*r}s your machines fire twice as fast and you get +30% attack speed. 14s cooldown.`}
   ],
   hexrunner:[
-    {id:'spike',slot:'LMB',name:'Data Spike',start:1,max:5,d:r=>`Fire hostile code for ${6+3*r}. Hit enemies are hacked: they take 10% more damage for 3s.`},
-    {id:'short',slot:'RMB',name:'Short Circuit',start:1,max:5,d:r=>`Lightning jumps between ${4+r} enemies near the cursor for ${12+5*r} each. 4s cooldown.`},
+    {id:'spike',slot:'LMB',name:'Data Spike',start:1,max:5,d:r=>`Fire hostile code for ${(9+4.5*r).toFixed(1)} that pierces one enemy. Hit enemies are hacked: they take 10% more damage for 3s.`},
+    {id:'short',slot:'RMB',name:'Short Circuit',start:1,max:5,d:r=>`Lightning jumps between ${4+r} enemies near the cursor for ${12+5*r} each. 1.8s cooldown.`},
     {id:'crash',slot:'Q',name:'System Crash',start:0,max:5,d:r=>`Crash everything near the cursor: ${15+6*r} damage and a ${(1.5+.2*r).toFixed(1)}s stun. Machines take double. 10s cooldown.`},
     {id:'malware',slot:'PASSIVE',name:'Malware',start:0,max:3,d:r=>`Hacked enemies take an extra ${5*r}% damage.`},
     {id:'feedback',slot:'PASSIVE',name:'Feedback Loop',start:0,max:3,d:r=>`Short Circuit jumps ${r} more time${r>1?'s':''}.`},
@@ -461,7 +461,7 @@ const SKILLS={
     {id:'firewall',slot:'2',name:'Firewall',start:0,max:5,d:r=>`Raise a wall of crackling current at the cursor for 4s: ${14+6*r} damage per second to anything inside. 12s cooldown.`}
   ],
   flarecaster:[
-    {id:'blades',slot:'LMB',name:'Solar Blades',start:1,max:5,d:r=>`Fast twin slashes for ${(8+3.5*r).toFixed(1)}. Each hit stores Flare (up to 10).`},
+    {id:'blades',slot:'LMB',name:'Solar Blades',start:1,max:5,d:r=>`Fast twin slashes for ${16+7*r}. Each hit stores Flare (up to 10).`},
     {id:'grav',slot:'RMB',name:'Gravity Well',start:1,max:5,d:r=>`Rip enemies toward the cursor for 1.5s and crush them for ${10+4*r}. 6s cooldown.`},
     {id:'corona',slot:'Q',name:'Corona Burst',start:0,max:5,d:r=>`Release all stored Flare: ${20+8*r} damage around you, +15% per Flare. 7s cooldown.`},
     {id:'radiance',slot:'PASSIVE',name:'Radiance',start:0,max:3,d:r=>`Blades deal ${10*r}% more damage.`},
@@ -1761,11 +1761,11 @@ const KIT={
     K2(a){pl.ovcT=4+.5*rk('ovc');burst(pl.x,pl.y-6,20,['#ffb02e','#40e0ff'],80);for(const o of allies)if(o.k==='turret')o.life=Math.max(o.life,o.t+4);sfx('lvl');return 14;}
   },
   hexrunner:{
-    P(a){shoot(pl.x+Math.cos(a)*6,pl.y-8+Math.sin(a)*6,a,{spd:250,kind:'spike',dmg:6+3*rk('spike'),life:.85,r:3,hack:3});sfx('zap');pl.mxP=pl.cdP=.34/atkSpeed();netAtk('bolt',a);},
+    P(a){shoot(pl.x+Math.cos(a)*6,pl.y-8+Math.sin(a)*6,a,{spd:250,kind:'spike',dmg:9+4.5*rk('spike'),life:.85,r:3,hack:3,pierce:1});sfx('zap');pl.mxP=pl.cdP=.34/atkSpeed();netAtk('bolt',a);},
     R(a){const c=pl.aimPt;let cur=null,bd=90;for(const e of en){if(e.dead)continue;const d=Math.hypot(e.x-c.x,e.y-c.y);if(d<bd&&Math.hypot(e.x-pl.x,e.y-pl.y)<220&&los(pl.x,pl.y,e.x,e.y)){bd=d;cur=e;}}
       if(!cur){toastOnce('No target near the cursor.');return false;}const hit=new Set([cur]);let from={x:pl.x,y:pl.y};const n=4+rk('short')+rk('feedback'),dmg=12+5*rk('short');
       for(let i=0;i<n&&cur;i++){fx.push({k:'zap',a:{x:from.x,y:from.y},b:{x:cur.x,y:cur.y},t:0,life:.18,col:'#40a0ff'});hurt(cur,dmg,{noProc:true});cur.hackT=time+3;from=cur;let nb=null,nd=75;for(const o of en){if(o.dead||hit.has(o))continue;const d=Math.hypot(o.x-from.x,o.y-from.y);if(d<nd){nd=d;nb=o;}}if(nb)hit.add(nb);cur=nb;}
-      sfx('laser');pl.mxR=pl.cdR=4*cdMult();netAtk('ring',a,from.x,from.y);},
+      sfx('laser');pl.mxR=pl.cdR=1.8*cdMult();netAtk('ring',a,from.x,from.y);},
     Q(a){const t=aimClamp(170),dmg=15+6*rk('crash'),stun=1.5+.2*rk('crash');fx.push({k:'ring',x:t.x,y:t.y,r:52,t:0,life:.35,col:'#40a0ff'});burst(t.x,t.y,26,['#40a0ff','#ffffff','#0a1a2a'],110);
       inRad(t.x,t.y,52,e=>hurt(e,dmg*(['drone','trooper','warden'].includes(e.type)?2:1),{stun}));for(const p of props)if(!p.dead&&p.type==='turret'&&Math.hypot(p.x-t.x,p.y-t.y)<56)hurtProp(p,dmg*2);
       addShake(3);sfx('zap');pl.mxQ=pl.cdQ=10*cdMult();netAtk('ring',a,t.x,t.y);},
@@ -1773,7 +1773,7 @@ const KIT={
     K2(a){const t=aimClamp(150),nx=-Math.sin(a),ny=Math.cos(a);for(let i=-2;i<=2;i++){const x=t.x+nx*i*13,y=t.y+ny*i*13;if(solidAt(x,y))continue;pools.push({x,y,r:11,t:0,life:4,dps:14+6*rk('firewall'),tick:0,kind:'zap',mine:true,col:'#40a0ff',cols:['#40a0ff','#ffffff','#a0e4ff']});}sfx('laser');netAtk('pool',a,t.x,t.y);return 12;}
   },
   flarecaster:{
-    P(a){pl.combo=pl.comboT>0?(pl.combo+1)%2:0;pl.comboT=.5;const ecl=pl.eclT>0?1.5:1,rng=26*ecl,dmg=(8+3.5*rk('blades'))*(1+.1*rk('radiance'));
+    P(a){pl.combo=pl.comboT>0?(pl.combo+1)%2:0;pl.comboT=.5;const ecl=pl.eclT>0?1.5:1,rng=26*ecl,dmg=(16+7*rk('blades'))*(1+.1*rk('radiance'));
       fx.push({k:'slash',follow:true,a,w:2,r:rng,t:0,life:.12,col:'#ffd23a',flip:pl.combo===1});const n=slashAt(pl.x,pl.y-4,a,2,rng,dmg,50);
       if(n)pl.flare=Math.min(10,(pl.flare||0)+Math.min(2,n)*(1+.3*rk('photon')));sfx('slash');pl.mxP=pl.cdP=.24/atkSpeed();pl.vx=(pl.vx||0)+pl.aim.x*30;pl.vy=(pl.vy||0)+pl.aim.y*30;netAtk('slash',a);},
     R(a){const t=aimClamp(140);pools.push({x:t.x,y:t.y,r:42,t:0,life:1.5,dps:0,tick:0,kind:'grav',mine:true,col:'#ffd23a',cols:['#ffd23a','#fff6c0'],pull:1});inRad(t.x,t.y,60,e=>{hurt(e,10+4*rk('grav'),{noProc:true});e.pull={x:t.x,y:t.y,t:1.5};});
