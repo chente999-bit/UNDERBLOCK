@@ -180,6 +180,9 @@ button kbd{font-family:var(--display);font-size:10px;color:var(--yellow);margin-
 #veil.net{background:rgba(2,2,6,.55)}
 #veil.net #netbg{display:block}
 #veil{isolation:isolate}
+body.pad #panel :focus{outline:3px solid var(--cyan);outline-offset:2px;box-shadow:0 0 14px rgba(64,224,255,.6)}
+body.pad #panel .cell:focus{outline-color:#ffd23a}
+body.pad{cursor:none}
 #veil.art::before{content:'';position:fixed;inset:-24px;z-index:-2;background:url(art/title.webp) center 60%/cover no-repeat;filter:blur(7px) brightness(.38) saturate(1.15)}
 #veil.art{background:rgba(4,3,8,.35)}
 #veil.art.net{background:rgba(2,2,6,.3)}
@@ -291,7 +294,7 @@ button kbd{font-family:var(--display);font-size:10px;color:var(--yellow);margin-
 const SDEF={"samurai":[["......hh........",".....hhh........","....hhhhh.......","....hhhhhh......","...mmmmmmm......","...mvvvvvm......","...mmmssmm......","....mssmm.......","..AAaccccccc....",".AAaaCccccCc....",".AaaaCcbbcCcs...",".aaa.CccccCcsw..",".aa..CccccCc.w..",".aa..CcbbbCc..w.",".rr..CccccCc..w.",".rr.cCccccCcc..W","...cCcppppcCc...","..cCc.pp.pp.Cc..","..cc..pp.pp..c..","......pp.pp.....","......kk.kk.....",".....kkk.kkk...."],{"h":"#141018","s":"#9c7458","m":"#3a3a44","v":"#ff2a6a","c":"#8a1830","C":"#460a18","a":"#5c6270","A":"#9aa2ae","b":"#40e0ff","p":"#221e2a","k":"#0e0b12","w":"#cfe8ff","W":"#ffffff","r":"#b8a47a"}],"chemdog":[["......e..e......","......ee.ee.....",".tt...fffff.....","tTt..ffgGfff....","tTt..fffffmmm...","tTt...ffffmMmm..","tTt....fmmmn....","tTtvvvvvvvn.....",".tvvVvvyvVvv....","..vvVvyvyVvvf...",".fvvVyvvvyVvvfb.",".fvvvvvvvvvv.bBb",".f.vvVvvvVvv..b.","...vvvvvvvv.....","....llllll......","...ll....ll.....","...ll.....ll....","....ll....ll....",".....ll..ll.....","....kkk..kkk...."],{"e":"#4a3a2c","f":"#6a5440","g":"#7aff5a","G":"#e8ffb0","t":"#ffcc20","T":"#7a5a10","m":"#4a4e52","M":"#2a2e32","n":"#7aff5a","v":"#3a4432","V":"#55663f","y":"#b8f040","l":"#2e2a26","k":"#0e0b12","b":"#2a4a20","B":"#9cff5a"}],"rat":[[".......rr..","..rrrrrrrre","trrrrrrrrrn","t.rRRRRrr..","..k.k.k.k.."],{"r":"#5a4a44","R":"#3a2e2a","e":"#ff3a3a","n":"#ff8aa0","t":"#8a6a6a","k":"#2a2020"}],"junkie":[["....hhhh....","...hhhhhh...","...hSsSeh...","...hsssh....","..jjjjjjj...",".jJjjjjjJj..",".jJjjjjjJjp.","s.jjjjjjj.sp","..jjJjjjj..p","..PPPPPPP...","..PP...PP...","..PP...PP...",".kkk...kkk.."],{"h":"#3a3a30","S":"#6a5a4a","s":"#8a7060","e":"#7aff5a","j":"#4a5040","J":"#2e3228","p":"#8a8a90","P":"#2a2630","k":"#121014"}],"crawler":[["....gggg......","..ggGGGGgg....",".gGGyyyyGGg...","gGGyYYYYyGGge.","gGGGyyyyGGGgem",".gGGGGGGGGgg..","..l.l..l..l...",".l..l..l...l.."],{"g":"#3a5a40","G":"#2a4030","y":"#9aff3a","Y":"#eaffa0","e":"#ffea3a","m":"#ff5a5a","l":"#2a3a2a"}],"ganger":[[".....nn.....","....nnn.....","...sssss....","...seses....","....sss.....","..LLLLLLL...",".LlLLLLLlL..",".LlLttLLlLw.","s.LLLLLLL.sw","..LLLLLLL...","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"n":"#ff2a9a","s":"#b07a5a","e":"#1a0a10","L":"#2a2228","l":"#4a3e46","t":"#ff2a9a","w":"#e0e8f0","p":"#3a3060","k":"#100c12"}],"gunner":[["....bbbb....","...bbbbbb...","...sssss....","...mmmmm....","....sss.....","..VVVVVVV...",".VvVVVVVvV..",".VvVVVVVvVgg","s.VVVVVVV.s.","..VVVVVVV...","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"b":"#2a2a30","s":"#8a5a40","m":"#c02a2a","V":"#3a4a2a","v":"#5a6a40","g":"#8a90a0","p":"#2a2430","k":"#100c12"}],"bruiser":[[".....mmmmmm.....","....mmmmmmmm....","....mRmmmmRm....","....mmmFFmmm....","..AAbbbbbbbbAA..",".AAAbbbbbbbbAAA.","AAAAbbBBBBbbAAAA","AaaAbbbbbbbbAaaA","AaaAbbbbbbbbAaaA",".AA.bbbbbbbb.AA.",".hh..bbbbbb..hh.","......pppp......",".....pp..pp.....",".....pp..pp.....","....kkk..kkk...."],{"m":"#3a3e44","R":"#ff3a2a","F":"#1a1a1e","A":"#6a6e78","a":"#9aa0aa","b":"#4a2a2a","B":"#ff9a2a","h":"#c8c8d0","p":"#22202a","k":"#0e0c10"}],"drone":[["rr........rr",".r..mmmm..r.","..rmMMMMmr..","..mMeEEeMm..","..mMMMMMMm..","...mmmmmm...","....g..g...."],{"r":"#8a90a0","m":"#c8ccd4","M":"#8a90a0","e":"#ff2a4a","E":"#ffd0d8","g":"#40e0ff"}],"trooper":[["...aaaaa....","..aAAAAAa...","..avvvvva...","..aAAAAAa...","..wwwwwww...",".wWwwwwwWw..",".wWwccwwWwgg",".wWwwwwwWgg.","..wwwwwww...","..pppppp....","..pp..pp....","..pp..pp....",".kkk..kkk..."],{"a":"#d8dce4","A":"#9aa0ac","v":"#40e0ff","w":"#c8ccd4","W":"#8a909c","c":"#40e0ff","g":"#3a3e48","p":"#4a4e5a","k":"#1a1c22"}],"warden":[["........mmmmmmmm........",".......mMMMMMMMMm.......",".......mMrrrrrrMm.......",".......mMMMMMMMMm.......","..cc...mmmmmmmmmm...cc..",".cCCc.aaaaaaaaaaaa.cCCc.",".cCCcaAAAAAAAAAAAAacCCc.",".cCCcaAAyyAAAAyyAAacCCc.","..cc.aAAAAAAAAAAAAa.cc..","..a..aAAAAoooAAAAAa..a..",".aa..aAAAAoOoAAAAAa..aa.",".aa..aAAAAoooAAAAAa..aa.",".aa..aaaaaaaaaaaaaa..aa.",".gg...aAAAAAAAAAAa...gg.","......aaaaaaaaaaaa......","......ll........ll......",".....lLl........lLl.....",".....lLl........lLl.....",".....lLl........lLl.....","....kkkkk......kkkkk...."],{"m":"#4a4e58","M":"#2a2e36","r":"#ff2a3a","c":"#3a3e48","C":"#ff6a2a","a":"#5a5e6a","A":"#8a909c","y":"#ffcc20","o":"#40e0ff","O":"#ffffff","g":"#ff2a3a","l":"#3a3e48","L":"#6a707c","k":"#1a1c22"}],"vix":[[".....pp.........","....pPPp........","...ppPPpp.......","...hssssh.......","...sesrrs.......","...sssssss......","....smms........","..cccccccc......",".cCcwwwwcCc.....",".cCcwwwwcCc.....","scCcwwwwcCcs....","..cCaaaacC......","..cCaaaacC......","...aaaaaa.......","...aa..aa.......","...kk..kk......."],{"p":"#ff2a9a","P":"#ff8ad0","h":"#3a2028","s":"#c8a088","e":"#1a1010","r":"#ff2a3a","m":"#8a3040","c":"#2a2a38","C":"#161620","w":"#d8d0c0","a":"#3a3040","k":"#0e0b12"}],"crank":[["....MMMMMM....","...MmmmmmmM...","...MvvvvvvM...","...MMMMMMMM...","..ooiiiiiioo..","oojjjjjjjjjjoo","oOjJjjccjjJjOo","oOjJjccccjJjOo","oo.jjjccjjj.oo","OO.jjbbbbjj.OO","oo.jjjjjjjj.oo","...pppppppp...","...ppp..ppp...","...ppp..ppp...","..kkkk..kkkk..","..kkkk..kkkk.."],{"M":"#5a5e68","m":"#3a3e48","v":"#ffb02e","o":"#7a6a5a","O":"#9a8a70","i":"#1a1a20","j":"#2e2a26","J":"#1e1a18","c":"#ff6a1a","b":"#ffcc20","p":"#24201e","k":"#0e0b12"}],"doc":[["....hhhh....","...hhhhhh...","...hGsGsh...","...hmmmmh...","....ssss....","..wwwwwwwA..",".wWwwrwwwAA.",".wWwwwwrwwAa","s.wwrwwwww.a","..wwwwwwww..","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"h":"#c8c8c0","G":"#40e0ff","s":"#a07a5e","m":"#8ad0c0","w":"#d8dcd0","W":"#9aa090","r":"#8a1a1a","A":"#8a909c","a":"#c8ccd4","p":"#2a2a30","k":"#0e0b12"}],"mags":[["...rrrrr....","..rgGgGgr...","...sssss....","...seses....","....sss.....","..sTTTTTs...",".ssTTTTTss..",".s.TTTTT.sW.","s..TTTTT..sW","...bbbbb....","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"r":"#ff6a1a","g":"#2a2a30","G":"#ffcc20","s":"#8a5a3a","e":"#1a0a00","T":"#3a3a40","W":"#9aa0aa","b":"#5a3a20","p":"#2a2830","k":"#0e0b12"}],"local":[["....hhhh....","...hhhhhh...","...hssssh...","...hseseh...","..cccccccc..",".cCccccccCc.",".cCccccccCc.","..cccccccc..","..cc....cc..",".kkk....kkk."],{"h":"#3a3036","s":"#8a6a5a","e":"#1a1010","c":"#4a3a4a","C":"#2a2030","k":"#100c12"}],"gunslinger":[["................",".....tttttt.....",".....tTTTTt.....","..tttttttttttt..",".....soossos....",".....mmmmmm.....","......mFFm......","....dddddddd....","...dDdxddxdDd...","...dDddxxddDd...","..dDdddxxdddDd..","..dDddxddxddDd..",".sdDddbbbbddDds.",".gdDddddddddDdg.",".g.dDddddddDd.g.","...dDdd..ddDd...","..dDdd.pp.ddDd..","..dDd..pp..dDd..","..dd...pp...dd..","......pp.pp.....","......kk.kk.....",".....kkr.kkr...."],{"t":"#2a1e18","T":"#4a3424","s":"#8a6a52","o":"#ffb02e","m":"#3c3e42","F":"#ff2a9a","d":"#3a2c2a","D":"#20161a","x":"#ffd23a","b":"#6a4a2a","g":"#c8d0dc","p":"#1e1a22","k":"#0e0b12","r":"#ffd23a"}],"adept":[[".......o........","......oOo.......",".....oOOOo......","....oOOOOOo.....","....oOeOeOo..f..","....oOOOOOo.fFf.","..i..oOOOo...f..",".iIi.rrrrr......","..i.rRrnrRr.....","...rRrrnrrRr....","..rRrrnnnrrRr...","..rRrrrnrrrRr.q.",".hrRrrrnrrrRrhqQ",".h.rRrrnrrRr..q.","...rRrrnrrRr....","...rRrrnrrRr....","..rRrrrnrrrRr...","..rRrrrrrrrRr...",".rRrrrrrrrrrRr..",".rRRrRRrRRrRRr..",".R.R.R.R.R.R.R.."],{"o":"#2c3040","O":"#14161e","e":"#40e0ff","r":"#2a2e4a","R":"#161828","n":"#c05aff","h":"#7a8aa0","f":"#ff6a1a","F":"#ffe08a","i":"#7ab8ff","I":"#e0f4ff","q":"#40e0ff","Q":"#ffffff"}],"spectre":[["......hhhh......",".....hHHHHh.....",".....hvvvvh.....",".....hvrvvh.....",".....hHHHHh.....","......hhhh......","....ssbbbbss....","...sSbBbbBbSs...","...sSbbbbbbSs..w","...sSbbxxbbSsww.","...sSbbbbbbSw...","....SbbbbbbSW...","....bblllllbb...","....bbbbbbbbb...","....bbb..bbbb...","....bbb...bbb...","....bbb...bbb...","....bbx...xbb...","....bbb...bbb...","....kkk...kkk...","...kkkk...kkkk.."],{"h":"#1a1a24","H":"#2a2a38","v":"#0a0a12","r":"#ff2a3a","s":"#2a2a38","S":"#14141c","b":"#1e1e2a","B":"#3a3a4c","x":"#40e0ff","l":"#4a8cff","w":"#a0e4ff","W":"#4a8cff","k":"#0c0b10"}],"bulwark":[["......rrrr......",".....rRRRRr.....",".....RvvvvR.....",".....RvVVvR.....",".....rRRRRr.....","..ttttrrrrtttt..",".tTTTtrrrrtTTTt.","SSSSSrrDDrrrrt..","SsssSrYrrYrrrrs.","SsxsSrrYYrrrrrs.","SsssSrrDDrrrrrs.","SsssSrrrrrrrrr..","SsssSlllllllll..","SSSSSrrrrrrrrr..","....ppp...ppp...","....pRp...pRp...","....ppp...ppp...","....ppp...ppp...","....ttt...ttt...","...kkkk...kkkk..","...kkkk...kkkk.."],{"r":"#2a2a32","R":"#40404a","v":"#5a0a12","V":"#ff2a3a","t":"#b01a2a","T":"#d83a48","D":"#b01a2a","S":"#5a5e6a","s":"#3a3e48","x":"#ffd23a","l":"#4a4a54","p":"#24242c","k":"#0e0b12","Y":"#ff8a1a"}],"rigger":[["..dd....hhhh....",".dDDd..hHHHHh...","..dd..hHssssH...","..||..hseseshh..","......hsssssh...",".......sssss....","...EE.vvvvvv....","..EeEEvvvvvvv...","..EeEvvVVVVvvs..","..EEEvvvvvvvvs..","..EeE.vvvvvv.s..","..EEE.vvvvvv.s..","...EE.lllllll...","......ccccccc...","......cCccCcc...","......ccc.ccc...","......ccc.ccc...","......cCc.cCc...","......ccc.ccc...","......kkk.kkk...",".....kkkk.kkkk.."],{"d":"#4a4e58","D":"#40e0ff","|":"#ffb02e","h":"#2a2a30","H":"#40404a","s":"#c89070","e":"#2a1a10","E":"#8a909c","e2":"#000","v":"#3a3028","V":"#ffb02e","l":"#6a4a2a","c":"#2e2a26","C":"#4a4238","k":"#0e0b12"}],"hexrunner":[[".....hhhhhh.....","....hhhhhhhh....","...whhvvvvhhw...","...whvVVVVvhw...","..w.hhssssh.w...","..w..hssssh..w..","....ccccccccc...","...cCcbccbcCc...","...cCccbbcccCc..","..BcCcccccccCcB.","..BcCcbccbccCcB.","...cCcccccccCc..","...cCcllllllCc..","...cCccbbcccCc..","...cCcpp.ppcCc..","...cCcpp.ppcCc..","...cC.pp.pp.Cc..","...c..pp.pp..c..","......pp.pp.....","......kk.kk.....",".....kkk.kkk...."],{"h":"#1e2030","w":"#4a8cff","v":"#0a1a2a","V":"#40e0ff","s":"#c0a090","c":"#1e2030","C":"#10121c","b":"#40a0ff","B":"#a0e4ff","l":"#2a3a5a","p":"#1a1a24","k":"#0c0b10"}],"flarecaster":[[".....oooooo.....","....o......o....",".....wwwwww.....","....wwssssww....","....wsesessw....","....wsssssswg...","...ww.ssss.ww...","Y..wGGGGGGGGw..Y","Y..GgGGggGGgG..Y","Ys.GGgGGGGgGG.sY","YS.GGGGggGGGG.SY","Y...GwwwwwwG...Y","Y...wwwwwwww...Y","y...wwwwwwwww..y","....wwGw.wGww...","....wwg..gww....","....wGg..gGw....",".....Gg..gG.....",".....Gg..gG.....","....GGg..gGG....","....GGG..GGG...."],{"o":"#ffd23a","w":"#f0ece4","s":"#8a5a40","e":"#ffd23a","g":"#a07a2a","G":"#d8b048","Y":"#ffe680","y":"#fff6c0","S":"#ffd23a"}],"riftwitch":[["..q...hhhh....q.",".....hhhhhh.....","....hhsssshh..Q.","....hseseshh....","....hhssssshh...","...hhh.ss.hhh...","..Qhhvvvvvvhh...","...hhvVvvVvhh.q.","...hhvvvvvvhh...","..s.hvvVVvvh.s..","..s..vvvvvv..s..","..q..vlllllv..Q.","....vvvVvvvvv...","...vvVvvvvVvvv..","..vvvvvVvvvvvvv.","..v.vvvvvvvvv.v.",".....vv.v.vv....","......s...s.....","......s...s.....",".....kk...kk....","................"],{"h":"#0e0a14","s":"#c8b8c8","e":"#c05aff","v":"#2a1636","V":"#4a2a5a","l":"#c05aff","q":"#c05aff","Q":"#6a3a8a","k":"#0c0b10"}],"xling":[["...k......k...","....k....k....","..kkCCCCCCkk..",".kChhcccccCCk.","kChcccccccccCk","kCcGcccccGccCk",".kCcccmmcccCk.","..kCcwwwwcCk..",".k.kCCCCCCk.k.","k..k.k..k.k..k","..k..k..k..k.."],{"k":"#07060a","C":"#262236","c":"#3c3652","h":"#625c80","g":"#7aff5a","G":"#c8ff8a","t":"#14121c","m":"#5a1a2a","w":"#e8e0f0","p":"#9a3aff"}],"xspit":[[".....kkkk.....","...kkhhhhkk...","..kChhhhhhCk..","..kCgGGGGgCk..","..kCgGggGgCk..","...kCgggggk...","..kkCCCCCCkk..",".kChcccccchCk.","kChccGcccGcchk","kCccccmmcccCk.",".kCcccwwccCk..","..kCCccccCCk..","..k.kC..Ck.k..",".k..k....k..k."],{"k":"#07060a","C":"#262236","c":"#3c3652","h":"#625c80","g":"#7aff5a","G":"#c8ff8a","t":"#14121c","m":"#5a1a2a","w":"#e8e0f0","p":"#9a3aff"}],"xstalker":[["..kkkkkk......",".kChhhhCkk....","kChhhhhhhCkk..",".kkCcccchhhCk.","...kCGcccccCk.","...kCcmwwwwk..","....kCCCCk....","...kCcccccCk..","..kChcCCcchCk.",".kCk.cccc.kCk.","kCk..cccc..kCk","k...kCccCk...k","...kCk..kCk...","..kCk....kCk..","..kk......kk..",".kk........kk."],{"k":"#07060a","C":"#262236","c":"#3c3652","h":"#625c80","g":"#7aff5a","G":"#c8ff8a","t":"#14121c","m":"#5a1a2a","w":"#e8e0f0","p":"#9a3aff"}],"xbrute":[["....kkkkkkkk....","..kkhhhhhhhhkk..",".kChhhhhhhhhhCk.","kChhcccccccchhCk","kChcGccccccGchCk","kCcccccmmcccccck",".kCcccwwwwwwccCk","kkCCcccccccccCkk","kChCCcccccccCChk","kChhCcchhhccChhk",".kCC.cccccc.CCk.","..k..cCccCc..k..","....kCc..cCk....","...kCc....cCk...","..kkk......kkk.."],{"k":"#07060a","C":"#262236","c":"#3c3652","h":"#625c80","g":"#7aff5a","G":"#c8ff8a","t":"#14121c","m":"#5a1a2a","w":"#e8e0f0","p":"#9a3aff"}]};
 
 'use strict';
-const BUILD='2026.10.22-1207';
+const BUILD='2026.10.22-1214';
 const ERRLOG=[];addEventListener('error',e=>{ERRLOG.push(`${(e.message||'error')} @${(e.filename||'').split('/').pop()}:${e.lineno||0}`);if(ERRLOG.length>12)ERRLOG.shift();});
 // ============ core: canvas, utils, save, audio, input, sprites, pixel font ============
 const $=id=>document.getElementById(id);
@@ -1349,7 +1352,7 @@ function boom(x,y,r,dmg,opts){
 function hitPlayer(d,src){
   if(pl.ifr>0||pl.dead)return;
   if(hasMod('ghost')&&Math.random()<.15){txt(pl.x,pl.y,'MISS','#b0b8ff',false,true);pl.ifr=.2;return;}
-  d=Math.max(1,Math.round(d*(1-st.arm/100)*(pl.fortT>0?.5:1)));
+  d=Math.max(1,Math.round(d*(1-st.arm/100)*(pl.fortT>0?.5:1)));padRumble(.15+d/pl.maxHp*2,.3+d/pl.maxHp*2,90+d*3);
   if(pl.fortT>0){const r=nearestEnemy(pl.x,pl.y,60);if(r)hurt(r,d*2,{noProc:true});}
   pl.hp-=d;pl.ifr=.35;addShake(4);hurtFlash=.35;sfx('hurt');txt(pl.x,pl.y-8,d,'#ff3a4a',false,true);
   burst(pl.x,pl.y,6,['#ff2a3a','#5a0a12'],60);
@@ -1659,11 +1662,13 @@ function propUpdate(p,dt){
 function update(dt,inputOn){
   refreshStats();
   const ok=!pl.dead&&inputOn!==false;
-  const kx=ok?(key.KeyD||key.ArrowRight?1:0)-(key.KeyA||key.ArrowLeft?1:0):0,ky=ok?(key.KeyS||key.ArrowDown?1:0)-(key.KeyW||key.ArrowUp?1:0):0;
+  let kx=ok?(key.KeyD||key.ArrowRight?1:0)-(key.KeyA||key.ArrowLeft?1:0):0,ky=ok?(key.KeyS||key.ArrowDown?1:0)-(key.KeyW||key.ArrowUp?1:0):0;
+  if(ok&&!kx&&!ky){const pm=padMove();if(pm){kx=pm.x;ky=pm.y;}}
   let mvx=0,mvy=0;if(kx||ky){const l=Math.hypot(kx,ky);mvx=kx/l;mvy=ky/l;}
   pl.mvx=mvx;pl.mvy=mvy;pl.moving=!!(mvx||mvy);
   if(ok){
     let m={x:mouse.x+cam.x-W/2,y:mouse.y+cam.y-H/2};
+    const pa=padAimPt();if(pa){m=pa;mouse.x=m.x-cam.x+W/2;mouse.y=m.y-cam.y+H/2;}
     if(CFG.autoAim&&scene==='dungeon'){const t=autoTarget(pl.x,pl.y,180);if(t)m={x:t.x,y:t.y-6};}
     pl.aimPt=m;const ax=m.x-pl.x,ay=m.y-(pl.y-6),al=Math.hypot(ax,ay)||1;pl.aim={x:ax/al,y:ay/al};if(Math.abs(ax)>2)pl.face=ax>=0?1:-1;
   }
@@ -2335,7 +2340,7 @@ function showSummary(s){
   <div class="row"><button class="primary" data-i="0"><kbd>1</kbd>Back to the Block</button></div>`);
   bindOpts();
 }
-const CONTROLS=`<div class="ctrl"><kbd>WASD</kbd><span>Move</span><kbd>MOUSE</kbd><span>Aim. Hold left button to attack</span><kbd>T</kbd><span>Toggle autofire</span><kbd>Y</kbd><span>Toggle auto-cast: skills fire by themselves (Death Must Die style)</span><kbd>RIGHT CLICK</kbd><span>Skill 2 (uses energy)</span><kbd>Q</kbd><span>Skill 3 (uses energy)</span><kbd>SHIFT</kbd><span>Hold to sprint (uses stamina)</span><kbd>SPACE</kbd><span>Dash, you can't be hit mid-dash (uses stamina)</span><kbd>1 · 2</kbd><span>Class hotbar skills (unlock at levels 5 and 8)</span><kbd>3</kbd><span>Frag grenade</span><kbd>4 · F</kbd><span>Stim, heals 40%</span><kbd>5</kbd><span>Overdrive (level 6+)</span><kbd>E</kbd><span>Talk, open, use</span><kbd>I · C · J · U</kbd><span>Runner menu: gear · skills · jobs · upgrades (Tab toggles it)</span><kbd>M</kbd><span>Map</span><kbd>ESC</kbd><span>Options</span></div>`;
+const CONTROLS=`<div class="ctrl"><kbd>WASD</kbd><span>Move</span><kbd>MOUSE</kbd><span>Aim. Hold left button to attack</span><kbd>T</kbd><span>Toggle autofire</span><kbd>Y</kbd><span>Toggle auto-cast: skills fire by themselves (Death Must Die style)</span><kbd>RIGHT CLICK</kbd><span>Skill 2 (uses energy)</span><kbd>Q</kbd><span>Skill 3 (uses energy)</span><kbd>SHIFT</kbd><span>Hold to sprint (uses stamina)</span><kbd>SPACE</kbd><span>Dash, you can't be hit mid-dash (uses stamina)</span><kbd>1 · 2</kbd><span>Class hotbar skills (unlock at levels 5 and 8)</span><kbd>3</kbd><span>Frag grenade</span><kbd>4 · F</kbd><span>Stim, heals 40%</span><kbd>5</kbd><span>Overdrive (level 6+)</span><kbd>E</kbd><span>Talk, open, use</span><kbd>I · C · J · U</kbd><span>Runner menu: gear · skills · jobs · upgrades (Tab toggles it)</span><kbd>M</kbd><span>Map</span><kbd>ESC</kbd><span>Options</span></div><h3 style="margin-top:18px">Controller (Xbox · PlayStation)</h3><div class="ctrl"><kbd>L-STICK</kbd><span>Move. Click L3 to sprint</span><kbd>R-STICK</kbd><span>Aim. Let go and it locks onto the nearest enemy</span><kbd>RT · R2</kbd><span>Attack</span><kbd>LT · L2</kbd><span>Skill 2</span><kbd>RB · R1</kbd><span>Skill 3</span><kbd>A · ✕</kbd><span>Dash / movement skill. Talk, open, use when something is in reach</span><kbd>X · □</kbd><span>Hotbar 1</span><kbd>Y · △</kbd><span>Hotbar 2</span><kbd>B · ○</kbd><span>Frag grenade</span><kbd>LB · L1</kbd><span>Overdrive</span><kbd>D-PAD ▼</kbd><span>Stim</span><kbd>D-PAD ▲</kbd><span>Map</span><kbd>D-PAD ◀ ▶</kbd><span>Auto-cast · autofire</span><kbd>VIEW · SHARE</kbd><span>Runner menu (LB/RB switch tabs, X equips)</span><kbd>MENU · OPTIONS</kbd><span>Options</span></div>`;
 function showTitle(){modal='title';$('veil').hidden=true;$('title').hidden=false;$('hud').hidden=true;setHint('');}
 function showMenu(){
   modal='menu';$('title').hidden=true;
@@ -2361,6 +2366,7 @@ function showOptions(fromMenu){
     <label><span>AUTOFIRE (T)</span><input type="checkbox" id="o-auto" ${CFG.auto?'checked':''}></label>
     <label><span>DIFFICULTY${NET.guest?' (HOST SETS IT)':''}</span><select id="o-df" ${NET.guest?'disabled':''}>${DIFFS.map((d,i)=>`<option value="${i}" ${CFG.diff===i?'selected':''}>${d.n}</option>`).join('')}</select></label>
     <label><span>AUTO-CAST SKILLS (Y)</span><input type="checkbox" id="o-ac" ${CFG.autoCast?'checked':''}></label>
+    <label><span>CONTROLLER RUMBLE</span><input type="checkbox" id="o-rb" ${CFG.rumble===false?'':'checked'}></label>
     <label><span>AUTO-AIM NEAREST</span><input type="checkbox" id="o-aim" ${CFG.autoAim?'checked':''}></label>
     <label><span>DASH GOES</span><select id="o-dash"><option value="move" ${CFG.dash==='move'?'selected':''}>Where I'm moving</option><option value="cursor" ${CFG.dash==='cursor'?'selected':''}>Toward cursor</option></select></label>
     <label><span>DAMAGE NUMBERS</span><input type="checkbox" id="o-num" ${CFG.nums?'checked':''}></label>
@@ -2380,6 +2386,7 @@ function showOptions(fromMenu){
   on('#o-df','onchange',e=>{CFG.diff=clamp(+e.target.value,0,3);saveCfg();toast(`Difficulty: ${DIFFS[CFG.diff].n}. Starts with your next floor.`,'#ff3a4a');});
   on('#o-ac','onchange',e=>{CFG.autoCast=e.target.checked;saveCfg();});
   on('#o-aim','onchange',e=>{CFG.autoAim=e.target.checked;saveCfg();});
+  on('#o-rb','onchange',e=>{CFG.rumble=e.target.checked;saveCfg();if(CFG.rumble)padRumble(.6,.6,200);});
   on('#o-dash','onchange',e=>{CFG.dash=e.target.value==='cursor'?'cursor':'move';saveCfg();});
   on('#o-num','onchange',e=>{CFG.nums=e.target.checked;saveCfg();});
   on('#o-shk','onchange',e=>{CFG.shake=e.target.checked;saveCfg();});
@@ -2441,7 +2448,7 @@ function hud(dt){
   mapT-=dt;if(mapT<=0&&!town){mapT=.25;drawMinimap($('minimap'),2);}
   partyT-=dt;if(partyT<=0){partyT=.25;const ps=NET.on?[...NET.players.values()]:[];
     $('party').innerHTML=ps.slice(0,4).map(p=>{const here=partyHere().includes(p);return `<div class="pm" style="color:${CLASSES[p.cls].col}">${esc(p.name)} · LV${p.lvl}${p.dead?' · DOWN':''}${here?'':p.sc==='d'?' · IN RUN':p.sc==='t'?' · IN TOWN':''}<span class="mini"><i style="width:${p.dead?0:Math.round(100*p.hp/p.max)}%"></i></span></div>`;}).join('')+(NET.on?`<div class="pm dim">ROOM ${NET.code}</div>`:'');}
-  const pr=$('prompt');if(near&&!modal){pr.hidden=false;pr.innerHTML=`<kbd>[E]</kbd> ${near.label}`;}else pr.hidden=true;
+  const pr=$('prompt');if(near&&!modal){pr.hidden=false;pr.innerHTML=`<kbd>[${PAD.act?padG(0):'E'}]</kbd> ${near.label}`;}else pr.hidden=true;
 }
 function drawMinimap(c,s){
   if(!M)return;const g=c.getContext('2d');c.width=M.w*s;c.height=M.h*s;g.fillStyle='rgba(4,4,10,.85)';g.fillRect(0,0,c.width,c.height);
@@ -2824,6 +2831,149 @@ function showMultiplayer(){
   const ci=p.querySelector('#mp-code');if(ci)ci.addEventListener('keydown',e=>{if(e.key==='Enter')p.querySelector('[data-a="join"]').click();});
 }
 
+// ---- gamepad: Xbox / PS4 / PS5 / generic (browser "standard" mapping) ----
+// Buttons: 0 A/✕ 1 B/○ 2 X/□ 3 Y/△ 4 LB/L1 5 RB/R1 6 LT/L2 7 RT/R2 8 View/Share 9 Menu/Options 10 L3 11 R3 12-15 dpad 16 home 17 touchpad
+const PAD={act:false,idx:-1,ps:false,lx:0,ly:0,rx:0,ry:0,prev:[],adir:null,sprint:false,navT:0,navDir:'',gp:null,name:''};
+const PADG={xbox:['A','B','X','Y','LB','RB','LT','RT','VIEW','MENU','L3','R3','▲','▼','◀','▶'],ps:['✕','○','□','△','L1','R1','L2','R2','SHARE','OPTIONS','L3','R3','▲','▼','◀','▶']};
+const padG=i=>(PAD.ps?PADG.ps:PADG.xbox)[i];
+// in-game layout: button -> keyboard code (synthetic key events reuse every existing keyboard path)
+const PAD_PLAY={2:'Digit1',3:'Digit2',1:'Digit3',4:'Digit5',5:'KeyQ',13:'KeyF',12:'KeyM',14:'KeyY',15:'KeyT',11:'KeyT',8:'Tab',17:'Tab',9:'Escape'};
+function vkey(code,down){dispatchEvent(new KeyboardEvent(down?'keydown':'keyup',{code,key:code,bubbles:true}));}
+function padRumble(strong,weak,ms){
+  if(!PAD.act||CFG.rumble===false)return;const g=PAD.gp;const v=g&&g.vibrationActuator;
+  try{if(v&&v.playEffect)v.playEffect('dual-rumble',{duration:ms,strongMagnitude:Math.min(1,strong),weakMagnitude:Math.min(1,weak)});}catch(e){}
+}
+function padActivate(){
+  if(PAD.act)return;PAD.act=true;document.body.classList.add('pad');padLabels();
+}
+function padDeactivate(){
+  if(!PAD.act)return;PAD.act=false;document.body.classList.remove('pad');padLabels();
+  if(PAD.sprint){PAD.sprint=false;key.ShiftLeft=false;}
+}
+// swap HUD key labels between keyboard and controller glyphs
+const PAD_HUD={s0:7,s1:6,s2:5,h1:2,h2:3,h3:1,s3:13,h5:4,s4:0};
+function padLabels(){
+  for(const id in PAD_HUD){const el=$(id);if(!el)continue;const b=el.querySelector('b');if(!b)continue;
+    if(b.dataset.kb==null)b.dataset.kb=b.textContent;b.textContent=PAD.act?padG(PAD_HUD[id]):b.dataset.kb;}
+}
+// ---- menu navigation: spatial focus between visible buttons/inputs ----
+function padFocusables(){
+  return [...$('panel').querySelectorAll('button:not([disabled]),input:not([disabled]),select:not([disabled]),[data-k]')].filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&el.offsetParent!==null;});
+}
+function padFocus(el){
+  if(!el)return;el.focus({preventScroll:true});el.scrollIntoView({block:'nearest',inline:'nearest'});
+  if(el.dataset&&el.dataset.k&&el.onmouseenter)el.onmouseenter();sfx('step');
+}
+function padNav(dir){
+  const list=padFocusables();if(!list.length)return;
+  const cur=document.activeElement;
+  if(!cur||!list.includes(cur)){padFocus(list[0]);return;}
+  const el=cur;
+  // sliders and dropdowns take left/right as value changes
+  if((dir==='l'||dir==='r')&&el.tagName==='INPUT'&&el.type==='range'){el.value=+el.value+(dir==='r'?5:-5);el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));return;}
+  if((dir==='l'||dir==='r')&&el.tagName==='SELECT'){const n=el.options.length;el.selectedIndex=(el.selectedIndex+(dir==='r'?1:-1)+n)%n;el.dispatchEvent(new Event('change',{bubbles:true}));sfx('step');return;}
+  const a=el.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;
+  const V={u:[0,-1],d:[0,1],l:[-1,0],r:[1,0]}[dir];let best=null,bs=1e9;
+  for(const o of list){if(o===el)continue;const b=o.getBoundingClientRect(),bx=b.left+b.width/2,by=b.top+b.height/2;
+    const dx=bx-ax,dy=by-ay,along=dx*V[0]+dy*V[1];if(along<=4)continue;
+    const across=Math.abs(dx*V[1]-dy*V[0]);const s=along+across*2.2;if(s<bs){bs=s;best=o;}}
+  if(best)padFocus(best);
+}
+function padActivateFocused(){
+  const el=document.activeElement;if(!el||!$('panel').contains(el)){const l=padFocusables();if(l[0])padFocus(l[0]);return;}
+  if(el.tagName==='SELECT'){padNav('r');return;}
+  el.click();
+}
+function padBack(){
+  const p=$('panel');
+  if(modal==='menu'&&scene==='title')return; // main menu: nothing to back out of
+  const x=p.querySelector('[data-x]');if(x&&!(modal==='menu'&&p.querySelector('.mm'))){x.click();return;}
+  if(scene==='title'&&modal!=='menu'){showMenu();return;}
+  vkey('Escape',true);vkey('Escape',false);
+}
+function padTab(step){
+  if(!$('panel').querySelector('.mm'))return;
+  const i=MM_TABS.findIndex(t=>t[0]===mmTab);const n=MM_TABS[(i+step+MM_TABS.length)%MM_TABS.length][0];
+  mmSel=null;mmConfirm=false;openMenu(n);sfx('step');
+}
+function padMenuButton(i){
+  if(i===0)padActivateFocused();
+  else if(i===1)padBack();
+  else if(i===4)padTab(-1);
+  else if(i===5)padTab(1);
+  else if(i===2){const el=document.activeElement;if(el&&el.dataset&&el.dataset.k&&el.onclick){el.onclick();const again=[...$('panel').querySelectorAll('[data-k]')].find(b=>b.dataset.k===el.dataset.k);if(again&&again.onclick)again.onclick();}}
+  else if(i===9){if(scene==='title'&&modal==='menu')padActivateFocused();else{vkey('Escape',true);vkey('Escape',false);}}
+  else if(i===8||i===17){if(scene==='town'||scene==='dungeon'){vkey('Tab',true);vkey('Tab',false);}}
+  else if(i===12)padNav('u');else if(i===13)padNav('d');else if(i===14)padNav('l');else if(i===15)padNav('r');
+}
+// ---- aim: right stick, otherwise soft-lock the nearest enemy, otherwise last direction ----
+function padAimPt(){
+  if(!PAD.act)return null;
+  const m=Math.hypot(PAD.rx,PAD.ry);
+  if(m>.3){PAD.adir={x:PAD.rx/m,y:PAD.ry/m};return {x:pl.x+PAD.adir.x*90,y:pl.y-6+PAD.adir.y*90};}
+  if(scene==='dungeon'){const t=autoTarget(pl.x,pl.y,170);if(t)return {x:t.x,y:t.y-6};}
+  if(pl.moving)PAD.adir={x:pl.mvx,y:pl.mvy};
+  if(PAD.adir)return {x:pl.x+PAD.adir.x*90,y:pl.y-6+PAD.adir.y*90};
+  return null;
+}
+function padMove(){const m=Math.hypot(PAD.lx,PAD.ly);return PAD.act&&m>.28?{x:PAD.lx,y:PAD.ly}:null;}
+// ---- poll once per frame ----
+const dz=v=>Math.abs(v)<.18?0:v;
+function padPoll(dt){
+  const pads=navigator.getGamepads?navigator.getGamepads():[];let g=null;
+  if(PAD.idx>=0&&pads[PAD.idx]&&pads[PAD.idx].connected)g=pads[PAD.idx];
+  else for(const p of pads)if(p&&p.connected&&p.buttons.length>=12){g=p;PAD.idx=p.index;break;}
+  PAD.gp=g;if(!g){if(PAD.act)padDeactivate();return;}
+  if(g.id!==PAD.name){PAD.name=g.id;PAD.ps=/054c|playstation|dualsense|dualshock/i.test(g.id);if(PAD.act)padLabels();}
+  const ax=g.axes;PAD.lx=dz(ax[0]||0);PAD.ly=dz(ax[1]||0);PAD.rx=dz(ax[2]||0);PAD.ry=dz(ax[3]||0);
+  const btn=g.buttons.map((b,i)=>i===6||i===7?b.value>.35:b.pressed);
+  const any=btn.some(Boolean)||Math.hypot(PAD.lx,PAD.ly)>.5||Math.hypot(PAD.rx,PAD.ry)>.5;
+  if(any&&!PAD.act)padActivate();
+  if(!PAD.act){PAD.prev=btn;return;}
+  const down=i=>btn[i]&&!PAD.prev[i],up=i=>!btn[i]&&PAD.prev[i];
+  if(btn.some((b,i)=>down(i)))initAudio();
+  // title screen: anything starts
+  if(modal==='title'){if(btn.some((b,i)=>down(i)))leaveTitle();PAD.prev=btn;return;}
+  const inMenu=!!modal&&modal!=='fade'&&modal!=='dying'&&!$('veil').hidden;
+  if(inMenu){
+    // release anything held from gameplay
+    if(mouse.l||mouse.r){mouse.l=mouse.r=false;}
+    for(let i=0;i<btn.length;i++)if(down(i))padMenuButton(i);
+    // left stick navigates with key-repeat
+    let dir='';if(PAD.ly<-.55)dir='u';else if(PAD.ly>.55)dir='d';else if(PAD.lx<-.55)dir='l';else if(PAD.lx>.55)dir='r';
+    if(dir){if(dir!==PAD.navDir){PAD.navDir=dir;PAD.navT=.38;padNav(dir);}else{PAD.navT-=dt;if(PAD.navT<=0){PAD.navT=.11;padNav(dir);}}}else PAD.navDir='';
+    // right stick scrolls long panels
+    if(PAD.ry){const s=$('panel').querySelector('.mm-body')||$('panel');s.scrollTop+=PAD.ry*14;}
+    // map screen: B / ▲ close it
+    PAD.prev=btn;return;
+  }
+  PAD.navDir='';
+  const playing=scene==='town'||scene==='dungeon';
+  if(playing&&!modal){
+    // triggers = mouse buttons
+    if(down(7))mouse.l=true;if(up(7))mouse.l=false;
+    if(down(6))mouse.r=true;if(up(6))mouse.r=false;
+    // A: talk/use when something is in reach, otherwise dash / movement skill
+    if(down(0)){PAD.aUse=!!near;vkey(near?'KeyE':'Space',true);}
+    if(up(0)){vkey(PAD.aUse?'KeyE':'Space',false);}
+    for(const i in PAD_PLAY){if(down(+i))vkey(PAD_PLAY[i],true);if(up(+i))vkey(PAD_PLAY[i],false);}
+    // L3 latches sprint until the stick is let go
+    if(down(10))PAD.sprint=!PAD.sprint;
+    if(PAD.sprint&&Math.hypot(PAD.lx,PAD.ly)<.2)PAD.sprint=false;
+    key.ShiftLeft=PAD.sprint||undefined;
+  }else{
+    // dying screen / fades: Start or A still pushes through any visible button
+    if(modal==='dying'||$('veil').hidden===false)for(let i=0;i<btn.length;i++)if(down(i)&&(i===0||i===9))padActivateFocused();
+    if(mouse.l||mouse.r)mouse.l=mouse.r=false;
+  }
+  PAD.prev=btn;
+}
+addEventListener('gamepadconnected',e=>{PAD.idx=e.gamepad.index;PAD.name='';toast(`Controller connected${/054c|playstation|dualsense|dualshock/i.test(e.gamepad.id)?' (PlayStation)':''}. Press any button.`,'#40e0ff');});
+addEventListener('gamepaddisconnected',e=>{if(e.gamepad.index===PAD.idx){PAD.idx=-1;padDeactivate();toast('Controller disconnected','#ff3a4a');}});
+// real mouse / keyboard input hands control back
+addEventListener('mousemove',e=>{if(PAD.act&&(Math.abs(e.movementX)+Math.abs(e.movementY))>6)padDeactivate();});
+addEventListener('keydown',e=>{if(e.isTrusted&&PAD.act)padDeactivate();},true);
+
 // ============ scenes, loop, input, boot ============
 const loseFrac=()=>[.5,.4,.33,.25][clamp(meta.bld.gate,0,3)];
 function resetWorld(){allies=[];en=[];props=[];pickups=[];pproj=[];eproj=[];lobs=[];pools=[];marks=[];fx=[];parts=[];texts=[];bossRef=null;flow=null;$('boss').hidden=true;}
@@ -2833,7 +2983,7 @@ function goTown(fromRun){
   pl=newPlayer(meta.cls);refreshStats();pl.hp=pl.maxHp;
   placePlayer();if(fromRun){pl.y=19*T;}
   M.seen.fill(1);
-  $('hud').hidden=false;setHint('WASD move · SHIFT sprint · E talk · I gear · C skills · J jobs · ESC options. The shaft in the middle goes down.');
+  $('hud').hidden=false;setHint(PAD.act?`L-STICK move · L3 sprint · ${padG(0)} talk · ${padG(8)} runner menu · ${padG(9)} options. The shaft in the middle goes down.`:'WASD move · SHIFT sprint · E talk · I gear · C skills · J jobs · ESC options. The shaft in the middle goes down.');
   if(NET.pending&&NET.guest){const r=NET.pending;NET.pending=null;setTimeout(()=>startRun(num(r.start),{seed:num(r.seed),rid:r.rid,fi:num(r.fi),ps:r.ps,df:r.df}),500);}
   if(!meta.stashSeen){meta.stashSeen=true;save();setTimeout(()=>toast('Welcome to the Block. Talk to Vix, Doc, Mags and Crank. The shaft in the plaza leads into the Undercity.','#40e0ff'),600);}
 }
@@ -2880,6 +3030,7 @@ function endRun(how){
 let last=performance.now(),acc=0;
 function step(t){
   const dt=Math.min(document.hidden?.08:.033,(t-last)/1000);last=t;time+=dt;acc+=dt;
+  try{padPoll(dt);}catch(e){console.warn(e);}
   if(scene==='title'&&pl){cam.x=23*T+Math.sin(time*.15)*60;cam.y=17*T+Math.cos(time*.11)*30;}
   const live=scene==='town'||scene==='dungeon';
   if(live&&!modal)update(dt,true);
