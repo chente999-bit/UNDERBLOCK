@@ -180,6 +180,18 @@ button kbd{font-family:var(--display);font-size:10px;color:var(--yellow);margin-
 #veil.net{background:rgba(2,2,6,.55)}
 #veil.net #netbg{display:block}
 #veil{isolation:isolate}
+#tip{position:fixed;z-index:40;max-width:340px;pointer-events:none;background:rgba(10,8,16,.97);border:1px solid var(--cyan);box-shadow:0 0 0 1px #000,0 0 22px rgba(64,224,255,.25),6px 6px 0 #000;padding:10px 12px;font-family:var(--read);font-size:15px;line-height:1.35;color:#e8e4f0}
+#tip .th{font-family:var(--display);font-size:18px;letter-spacing:.06em;color:#fff}
+#tip .ts{font-size:12px;color:#a8a0b8;margin:2px 0 6px;letter-spacing:.04em}
+#tip .tlab{font-family:var(--display);font-size:10px;letter-spacing:.25em;color:var(--cyan);margin-top:6px}
+#tip p{margin:2px 0 4px}
+#tip .tn{color:#ffd23a;font-weight:700}#tip .tc{color:#7ae0ff;font-weight:700}
+#tip .tb{color:#6a6478;font-size:12px;margin-left:3px}
+#tip .tg{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:8px;padding-top:6px;border-top:1px solid #2a2836;font-size:12px;color:#a8a0b8}
+#tip .tg b{color:#fff}#tip .tf{font-size:12px;color:#8a8498;margin-top:4px}
+body.alt #dock .slot{pointer-events:auto;cursor:help}
+body.alt #dock .slot b{color:var(--yellow)}
+.skill{cursor:help}
 .killer{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0 12px;padding:10px 14px;border:1px solid #ff2a3a;background:linear-gradient(180deg,rgba(255,42,58,.14),rgba(255,42,58,.03));box-shadow:0 0 18px rgba(255,42,58,.25)}
 .killer b{font-family:var(--display);font-size:12px;letter-spacing:.3em;color:#ff6a7a}
 .killer span{font-family:var(--display);font-size:24px;color:#fff;text-shadow:0 0 10px #ff2a3a;text-align:center}
@@ -288,7 +300,7 @@ body.pad{cursor:none}
     <div class="slot hk" id="h1"><b>1</b><em id="h1n"></em></div>
     <div class="slot hk" id="h2"><b>2</b><em id="h2n"></em></div>
     <div class="slot hk" id="h3"><b>3</b><em>Grenade</em></div>
-    <div class="slot hk" id="s3"><b>4 · F</b><em id="s3n">Stim</em></div>
+    <div class="slot hk" id="s3"><b>F</b><em id="s3n">Stim</em></div>
     <div class="slot hk" id="h5"><b>5</b><em>Overdrive</em></div>
     <div class="slot" id="s4"><b>SPACE</b><em>Dash</em></div>
   </div><div class="bar" id="xpbar"><i id="xpf"></i><span id="xpt"></span></div></div>
@@ -298,13 +310,13 @@ body.pad{cursor:none}
 <div id="banner" class="ui"><h2 id="bh"></h2><p id="bp"></p></div>
 <div id="toasts" class="ui"></div>
 <div id="title"><div><h1>UNDERBLOCK</h1><div class="tsub">THE DESCENT BEGINS AT THE BLOCK</div></div><p>PRESS ANY KEY</p></div>
-<div id="veil" hidden><canvas id="netbg"></canvas><div id="panel"></div></div>
+<div id="tip" hidden></div><div id="veil" hidden><canvas id="netbg"></canvas><div id="panel"></div></div>
 <div id="fade"></div>
 <script>
 const SDEF={"samurai":[["......hh........",".....hhh........","....hhhhh.......","....hhhhhh......","...mmmmmmm......","...mvvvvvm......","...mmmssmm......","....mssmm.......","..AAaccccccc....",".AAaaCccccCc....",".AaaaCcbbcCcs...",".aaa.CccccCcsw..",".aa..CccccCc.w..",".aa..CcbbbCc..w.",".rr..CccccCc..w.",".rr.cCccccCcc..W","...cCcppppcCc...","..cCc.pp.pp.Cc..","..cc..pp.pp..c..","......pp.pp.....","......kk.kk.....",".....kkk.kkk...."],{"h":"#141018","s":"#9c7458","m":"#3a3a44","v":"#ff2a6a","c":"#8a1830","C":"#460a18","a":"#5c6270","A":"#9aa2ae","b":"#40e0ff","p":"#221e2a","k":"#0e0b12","w":"#cfe8ff","W":"#ffffff","r":"#b8a47a"}],"chemdog":[["......e..e......","......ee.ee.....",".tt...fffff.....","tTt..ffgGfff....","tTt..fffffmmm...","tTt...ffffmMmm..","tTt....fmmmn....","tTtvvvvvvvn.....",".tvvVvvyvVvv....","..vvVvyvyVvvf...",".fvvVyvvvyVvvfb.",".fvvvvvvvvvv.bBb",".f.vvVvvvVvv..b.","...vvvvvvvv.....","....llllll......","...ll....ll.....","...ll.....ll....","....ll....ll....",".....ll..ll.....","....kkk..kkk...."],{"e":"#4a3a2c","f":"#6a5440","g":"#7aff5a","G":"#e8ffb0","t":"#ffcc20","T":"#7a5a10","m":"#4a4e52","M":"#2a2e32","n":"#7aff5a","v":"#3a4432","V":"#55663f","y":"#b8f040","l":"#2e2a26","k":"#0e0b12","b":"#2a4a20","B":"#9cff5a"}],"rat":[[".......rr..","..rrrrrrrre","trrrrrrrrrn","t.rRRRRrr..","..k.k.k.k.."],{"r":"#5a4a44","R":"#3a2e2a","e":"#ff3a3a","n":"#ff8aa0","t":"#8a6a6a","k":"#2a2020"}],"junkie":[["....hhhh....","...hhhhhh...","...hSsSeh...","...hsssh....","..jjjjjjj...",".jJjjjjjJj..",".jJjjjjjJjp.","s.jjjjjjj.sp","..jjJjjjj..p","..PPPPPPP...","..PP...PP...","..PP...PP...",".kkk...kkk.."],{"h":"#3a3a30","S":"#6a5a4a","s":"#8a7060","e":"#7aff5a","j":"#4a5040","J":"#2e3228","p":"#8a8a90","P":"#2a2630","k":"#121014"}],"crawler":[["....gggg......","..ggGGGGgg....",".gGGyyyyGGg...","gGGyYYYYyGGge.","gGGGyyyyGGGgem",".gGGGGGGGGgg..","..l.l..l..l...",".l..l..l...l.."],{"g":"#3a5a40","G":"#2a4030","y":"#9aff3a","Y":"#eaffa0","e":"#ffea3a","m":"#ff5a5a","l":"#2a3a2a"}],"ganger":[[".....nn.....","....nnn.....","...sssss....","...seses....","....sss.....","..LLLLLLL...",".LlLLLLLlL..",".LlLttLLlLw.","s.LLLLLLL.sw","..LLLLLLL...","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"n":"#ff2a9a","s":"#b07a5a","e":"#1a0a10","L":"#2a2228","l":"#4a3e46","t":"#ff2a9a","w":"#e0e8f0","p":"#3a3060","k":"#100c12"}],"gunner":[["....bbbb....","...bbbbbb...","...sssss....","...mmmmm....","....sss.....","..VVVVVVV...",".VvVVVVVvV..",".VvVVVVVvVgg","s.VVVVVVV.s.","..VVVVVVV...","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"b":"#2a2a30","s":"#8a5a40","m":"#c02a2a","V":"#3a4a2a","v":"#5a6a40","g":"#8a90a0","p":"#2a2430","k":"#100c12"}],"bruiser":[[".....mmmmmm.....","....mmmmmmmm....","....mRmmmmRm....","....mmmFFmmm....","..AAbbbbbbbbAA..",".AAAbbbbbbbbAAA.","AAAAbbBBBBbbAAAA","AaaAbbbbbbbbAaaA","AaaAbbbbbbbbAaaA",".AA.bbbbbbbb.AA.",".hh..bbbbbb..hh.","......pppp......",".....pp..pp.....",".....pp..pp.....","....kkk..kkk...."],{"m":"#3a3e44","R":"#ff3a2a","F":"#1a1a1e","A":"#6a6e78","a":"#9aa0aa","b":"#4a2a2a","B":"#ff9a2a","h":"#c8c8d0","p":"#22202a","k":"#0e0c10"}],"drone":[["rr........rr",".r..mmmm..r.","..rmMMMMmr..","..mMeEEeMm..","..mMMMMMMm..","...mmmmmm...","....g..g...."],{"r":"#8a90a0","m":"#c8ccd4","M":"#8a90a0","e":"#ff2a4a","E":"#ffd0d8","g":"#40e0ff"}],"trooper":[["...aaaaa....","..aAAAAAa...","..avvvvva...","..aAAAAAa...","..wwwwwww...",".wWwwwwwWw..",".wWwccwwWwgg",".wWwwwwwWgg.","..wwwwwww...","..pppppp....","..pp..pp....","..pp..pp....",".kkk..kkk..."],{"a":"#d8dce4","A":"#9aa0ac","v":"#40e0ff","w":"#c8ccd4","W":"#8a909c","c":"#40e0ff","g":"#3a3e48","p":"#4a4e5a","k":"#1a1c22"}],"warden":[["........mmmmmmmm........",".......mMMMMMMMMm.......",".......mMrrrrrrMm.......",".......mMMMMMMMMm.......","..cc...mmmmmmmmmm...cc..",".cCCc.aaaaaaaaaaaa.cCCc.",".cCCcaAAAAAAAAAAAAacCCc.",".cCCcaAAyyAAAAyyAAacCCc.","..cc.aAAAAAAAAAAAAa.cc..","..a..aAAAAoooAAAAAa..a..",".aa..aAAAAoOoAAAAAa..aa.",".aa..aAAAAoooAAAAAa..aa.",".aa..aaaaaaaaaaaaaa..aa.",".gg...aAAAAAAAAAAa...gg.","......aaaaaaaaaaaa......","......ll........ll......",".....lLl........lLl.....",".....lLl........lLl.....",".....lLl........lLl.....","....kkkkk......kkkkk...."],{"m":"#4a4e58","M":"#2a2e36","r":"#ff2a3a","c":"#3a3e48","C":"#ff6a2a","a":"#5a5e6a","A":"#8a909c","y":"#ffcc20","o":"#40e0ff","O":"#ffffff","g":"#ff2a3a","l":"#3a3e48","L":"#6a707c","k":"#1a1c22"}],"vix":[[".....pp.........","....pPPp........","...ppPPpp.......","...hssssh.......","...sesrrs.......","...sssssss......","....smms........","..cccccccc......",".cCcwwwwcCc.....",".cCcwwwwcCc.....","scCcwwwwcCcs....","..cCaaaacC......","..cCaaaacC......","...aaaaaa.......","...aa..aa.......","...kk..kk......."],{"p":"#ff2a9a","P":"#ff8ad0","h":"#3a2028","s":"#c8a088","e":"#1a1010","r":"#ff2a3a","m":"#8a3040","c":"#2a2a38","C":"#161620","w":"#d8d0c0","a":"#3a3040","k":"#0e0b12"}],"crank":[["....MMMMMM....","...MmmmmmmM...","...MvvvvvvM...","...MMMMMMMM...","..ooiiiiiioo..","oojjjjjjjjjjoo","oOjJjjccjjJjOo","oOjJjccccjJjOo","oo.jjjccjjj.oo","OO.jjbbbbjj.OO","oo.jjjjjjjj.oo","...pppppppp...","...ppp..ppp...","...ppp..ppp...","..kkkk..kkkk..","..kkkk..kkkk.."],{"M":"#5a5e68","m":"#3a3e48","v":"#ffb02e","o":"#7a6a5a","O":"#9a8a70","i":"#1a1a20","j":"#2e2a26","J":"#1e1a18","c":"#ff6a1a","b":"#ffcc20","p":"#24201e","k":"#0e0b12"}],"doc":[["....hhhh....","...hhhhhh...","...hGsGsh...","...hmmmmh...","....ssss....","..wwwwwwwA..",".wWwwrwwwAA.",".wWwwwwrwwAa","s.wwrwwwww.a","..wwwwwwww..","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"h":"#c8c8c0","G":"#40e0ff","s":"#a07a5e","m":"#8ad0c0","w":"#d8dcd0","W":"#9aa090","r":"#8a1a1a","A":"#8a909c","a":"#c8ccd4","p":"#2a2a30","k":"#0e0b12"}],"mags":[["...rrrrr....","..rgGgGgr...","...sssss....","...seses....","....sss.....","..sTTTTTs...",".ssTTTTTss..",".s.TTTTT.sW.","s..TTTTT..sW","...bbbbb....","..pp...pp...","..pp...pp...",".kkk...kkk.."],{"r":"#ff6a1a","g":"#2a2a30","G":"#ffcc20","s":"#8a5a3a","e":"#1a0a00","T":"#3a3a40","W":"#9aa0aa","b":"#5a3a20","p":"#2a2830","k":"#0e0b12"}],"local":[["....hhhh....","...hhhhhh...","...hssssh...","...hseseh...","..cccccccc..",".cCccccccCc.",".cCccccccCc.","..cccccccc..","..cc....cc..",".kkk....kkk."],{"h":"#3a3036","s":"#8a6a5a","e":"#1a1010","c":"#4a3a4a","C":"#2a2030","k":"#100c12"}],"gunslinger":[["................",".....tttttt.....",".....tTTTTt.....","..tttttttttttt..",".....soossos....",".....mmmmmm.....","......mFFm......","....dddddddd....","...dDdxddxdDd...","...dDddxxddDd...","..dDdddxxdddDd..","..dDddxddxddDd..",".sdDddbbbbddDds.",".gdDddddddddDdg.",".g.dDddddddDd.g.","...dDdd..ddDd...","..dDdd.pp.ddDd..","..dDd..pp..dDd..","..dd...pp...dd..","......pp.pp.....","......kk.kk.....",".....kkr.kkr...."],{"t":"#2a1e18","T":"#4a3424","s":"#8a6a52","o":"#ffb02e","m":"#3c3e42","F":"#ff2a9a","d":"#3a2c2a","D":"#20161a","x":"#ffd23a","b":"#6a4a2a","g":"#c8d0dc","p":"#1e1a22","k":"#0e0b12","r":"#ffd23a"}],"adept":[[".......o........","......oOo.......",".....oOOOo......","....oOOOOOo.....","....oOeOeOo..f..","....oOOOOOo.fFf.","..i..oOOOo...f..",".iIi.rrrrr......","..i.rRrnrRr.....","...rRrrnrrRr....","..rRrrnnnrrRr...","..rRrrrnrrrRr.q.",".hrRrrrnrrrRrhqQ",".h.rRrrnrrRr..q.","...rRrrnrrRr....","...rRrrnrrRr....","..rRrrrnrrrRr...","..rRrrrrrrrRr...",".rRrrrrrrrrrRr..",".rRRrRRrRRrRRr..",".R.R.R.R.R.R.R.."],{"o":"#2c3040","O":"#14161e","e":"#40e0ff","r":"#2a2e4a","R":"#161828","n":"#c05aff","h":"#7a8aa0","f":"#ff6a1a","F":"#ffe08a","i":"#7ab8ff","I":"#e0f4ff","q":"#40e0ff","Q":"#ffffff"}],"spectre":[["......hhhh......",".....hHHHHh.....",".....hvvvvh.....",".....hvrvvh.....",".....hHHHHh.....","......hhhh......","....ssbbbbss....","...sSbBbbBbSs...","...sSbbbbbbSs..w","...sSbbxxbbSsww.","...sSbbbbbbSw...","....SbbbbbbSW...","....bblllllbb...","....bbbbbbbbb...","....bbb..bbbb...","....bbb...bbb...","....bbb...bbb...","....bbx...xbb...","....bbb...bbb...","....kkk...kkk...","...kkkk...kkkk.."],{"h":"#1a1a24","H":"#2a2a38","v":"#0a0a12","r":"#ff2a3a","s":"#2a2a38","S":"#14141c","b":"#1e1e2a","B":"#3a3a4c","x":"#40e0ff","l":"#4a8cff","w":"#a0e4ff","W":"#4a8cff","k":"#0c0b10"}],"bulwark":[["......rrrr......",".....rRRRRr.....",".....RvvvvR.....",".....RvVVvR.....",".....rRRRRr.....","..ttttrrrrtttt..",".tTTTtrrrrtTTTt.","SSSSSrrDDrrrrt..","SsssSrYrrYrrrrs.","SsxsSrrYYrrrrrs.","SsssSrrDDrrrrrs.","SsssSrrrrrrrrr..","SsssSlllllllll..","SSSSSrrrrrrrrr..","....ppp...ppp...","....pRp...pRp...","....ppp...ppp...","....ppp...ppp...","....ttt...ttt...","...kkkk...kkkk..","...kkkk...kkkk.."],{"r":"#2a2a32","R":"#40404a","v":"#5a0a12","V":"#ff2a3a","t":"#b01a2a","T":"#d83a48","D":"#b01a2a","S":"#5a5e6a","s":"#3a3e48","x":"#ffd23a","l":"#4a4a54","p":"#24242c","k":"#0e0b12","Y":"#ff8a1a"}],"rigger":[["..dd....hhhh....",".dDDd..hHHHHh...","..dd..hHssssH...","..||..hseseshh..","......hsssssh...",".......sssss....","...EE.vvvvvv....","..EeEEvvvvvvv...","..EeEvvVVVVvvs..","..EEEvvvvvvvvs..","..EeE.vvvvvv.s..","..EEE.vvvvvv.s..","...EE.lllllll...","......ccccccc...","......cCccCcc...","......ccc.ccc...","......ccc.ccc...","......cCc.cCc...","......ccc.ccc...","......kkk.kkk...",".....kkkk.kkkk.."],{"d":"#4a4e58","D":"#40e0ff","|":"#ffb02e","h":"#2a2a30","H":"#40404a","s":"#c89070","e":"#2a1a10","E":"#8a909c","e2":"#000","v":"#3a3028","V":"#ffb02e","l":"#6a4a2a","c":"#2e2a26","C":"#4a4238","k":"#0e0b12"}],"hexrunner":[[".....hhhhhh.....","....hhhhhhhh....","...whhvvvvhhw...","...whvVVVVvhw...","..w.hhssssh.w...","..w..hssssh..w..","....ccccccccc...","...cCcbccbcCc...","...cCccbbcccCc..","..BcCcccccccCcB.","..BcCcbccbccCcB.","...cCcccccccCc..","...cCcllllllCc..","...cCccbbcccCc..","...cCcpp.ppcCc..","...cCcpp.ppcCc..","...cC.pp.pp.Cc..","...c..pp.pp..c..","......pp.pp.....","......kk.kk.....",".....kkk.kkk...."],{"h":"#1e2030","w":"#4a8cff","v":"#0a1a2a","V":"#40e0ff","s":"#c0a090","c":"#1e2030","C":"#10121c","b":"#40a0ff","B":"#a0e4ff","l":"#2a3a5a","p":"#1a1a24","k":"#0c0b10"}],"flarecaster":[[".....oooooo.....","....o......o....",".....wwwwww.....","....wwssssww....","....wsesessw....","....wsssssswg...","...ww.ssss.ww...","Y..wGGGGGGGGw..Y","Y..GgGGggGGgG..Y","Ys.GGgGGGGgGG.sY","YS.GGGGggGGGG.SY","Y...GwwwwwwG...Y","Y...wwwwwwww...Y","y...wwwwwwwww..y","....wwGw.wGww...","....wwg..gww....","....wGg..gGw....",".....Gg..gG.....",".....Gg..gG.....","....GGg..gGG....","....GGG..GGG...."],{"o":"#ffd23a","w":"#f0ece4","s":"#8a5a40","e":"#ffd23a","g":"#a07a2a","G":"#d8b048","Y":"#ffe680","y":"#fff6c0","S":"#ffd23a"}],"riftwitch":[["..q...hhhh....q.",".....hhhhhh.....","....hhsssshh..Q.","....hseseshh....","....hhssssshh...","...hhh.ss.hhh...","..Qhhvvvvvvhh...","...hhvVvvVvhh.q.","...hhvvvvvvhh...","..s.hvvVVvvh.s..","..s..vvvvvv..s..","..q..vlllllv..Q.","....vvvVvvvvv...","...vvVvvvvVvvv..","..vvvvvVvvvvvvv.","..v.vvvvvvvvv.v.",".....vv.v.vv....","......s...s.....","......s...s.....",".....kk...kk....","................"],{"h":"#0e0a14","s":"#c8b8c8","e":"#c05aff","v":"#2a1636","V":"#4a2a5a","l":"#c05aff","q":"#c05aff","Q":"#6a3a8a","k":"#0c0b10"}],"xling":[["...k......k...","....k....k....","..kkCCCCCCkk..",".kChhcccccCCk.","kChcccccccccCk","kCcGcccccGccCk",".kCcccmmcccCk.","..kCcwwwwcCk..",".k.kCCCCCCk.k.","k..k.k..k.k..k","..k..k..k..k.."],{"k":"#07060a","C":"#262236","c":"#3c3652","h":"#625c80","g":"#7aff5a","G":"#c8ff8a","t":"#14121c","m":"#5a1a2a","w":"#e8e0f0","p":"#9a3aff"}],"xspit":[[".....kkkk.....","...kkhhhhkk...","..kChhhhhhCk..","..kCgGGGGgCk..","..kCgGggGgCk..","...kCgggggk...","..kkCCCCCCkk..",".kChcccccchCk.","kChccGcccGcchk","kCccccmmcccCk.",".kCcccwwccCk..","..kCCccccCCk..","..k.kC..Ck.k..",".k..k....k..k."],{"k":"#07060a","C":"#262236","c":"#3c3652","h":"#625c80","g":"#7aff5a","G":"#c8ff8a","t":"#14121c","m":"#5a1a2a","w":"#e8e0f0","p":"#9a3aff"}],"xstalker":[["..kkkkkk......",".kChhhhCkk....","kChhhhhhhCkk..",".kkCcccchhhCk.","...kCGcccccCk.","...kCcmwwwwk..","....kCCCCk....","...kCcccccCk..","..kChcCCcchCk.",".kCk.cccc.kCk.","kCk..cccc..kCk","k...kCccCk...k","...kCk..kCk...","..kCk....kCk..","..kk......kk..",".kk........kk."],{"k":"#07060a","C":"#262236","c":"#3c3652","h":"#625c80","g":"#7aff5a","G":"#c8ff8a","t":"#14121c","m":"#5a1a2a","w":"#e8e0f0","p":"#9a3aff"}],"xbrute":[["....kkkkkkkk....","..kkhhhhhhhhkk..",".kChhhhhhhhhhCk.","kChhcccccccchhCk","kChcGccccccGchCk","kCcccccmmcccccck",".kCcccwwwwwwccCk","kkCCcccccccccCkk","kChCCcccccccCChk","kChhCcchhhccChhk",".kCC.cccccc.CCk.","..k..cCccCc..k..","....kCc..cCk....","...kCc....cCk...","..kkk......kkk.."],{"k":"#07060a","C":"#262236","c":"#3c3652","h":"#625c80","g":"#7aff5a","G":"#c8ff8a","t":"#14121c","m":"#5a1a2a","w":"#e8e0f0","p":"#9a3aff"}]};
 
 'use strict';
-const BUILD='2026.10.22-1332';
+const BUILD='2026.10.22-1522';
 const ERRLOG=[];addEventListener('error',e=>{ERRLOG.push(`${(e.message||'error')} @${(e.filename||'').split('/').pop()}:${e.lineno||0}`);if(ERRLOG.length>12)ERRLOG.shift();});
 // ============ core: canvas, utils, save, audio, input, sprites, pixel font ============
 const $=id=>document.getElementById(id);
@@ -337,7 +349,7 @@ function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 const SAVE_KEY='underblock.v1',CFG_KEY='underblock.cfg';
 let meta=Object.assign({creds:60,scrap:0,bld:{doc:0,mags:0,bar:0,gate:0},deepest:1,runs:0,deaths:0,wins:0,cls:'samurai',chars:{},stashSeen:false},load(SAVE_KEY));
 for(const k of ['doc','mags','bar','gate'])meta.bld[k]=num(meta.bld[k]);
-const CFG=Object.assign({vol:.6,muted:false,dash:'move',nums:true,shake:true,scan:true,auto:false,autoAim:false,rain:true,autoEq:true,music:.5,autoCast:false,diff:1},load(CFG_KEY));
+const CFG=Object.assign({vol:.6,muted:false,dash:'move',nums:true,shake:true,scan:true,auto:false,autoAim:false,rain:true,autoEq:true,music:.5,autoCast:false,diff:1,autoSkill:true,autoSalv:-1},load(CFG_KEY));
 function save(){store(SAVE_KEY,meta);}
 function saveCfg(){store(CFG_KEY,CFG);if(master)master.gain.value=CFG.muted?0:CFG.vol;if(typeof musVol==='function'&&AC)musVol();}
 
@@ -1376,7 +1388,7 @@ function hitPlayer(d,src){
     if(partyHere().length){pl.down=true;banner('DOWN','A teammate can stand over you to pull you up',2600);}
     else{modal='dying';setTimeout(showDead,900);}}
 }
-function gainXp(v){const c=pl.cd;c.xp+=v;while(c.xp>=xpNext(c.lvl)){c.xp-=xpNext(c.lvl);c.lvl++;c.sp++;refreshStats();heal(pl.maxHp*.3);txt(pl.x,pl.y-16,'LEVEL UP','#c05aff',true,true);sfx('lvl');toast(`Level ${c.lvl}! You have a skill point. Press C.`,'#c05aff');}}
+function gainXp(v){const c=pl.cd;c.xp+=v;while(c.xp>=xpNext(c.lvl)){c.xp-=xpNext(c.lvl);c.lvl++;c.sp++;refreshStats();heal(pl.maxHp*.3);txt(pl.x,pl.y-16,'LEVEL UP','#c05aff',true,true);sfx('lvl');if(!CFG.autoSkill)toast(`Level ${c.lvl}! You have a skill point. Press C.`,'#c05aff');}if(CFG.autoSkill&&c.sp>0)autoSpend();}
 function dropLoot(x,y,o){
   const mult=1+st.find/100,fi=run?run.floor:0;
   const n=(a)=>{for(let i=0;i<a;i++)pickups.push({kind:'cred',x,y,z:4,vx:R(-50,50),vy:R(-50,50),vz:R(40,90),t:0,val:Math.max(1,Math.round(R(1,3)*(1+fi*.6)*mult))});};
@@ -1813,7 +1825,7 @@ function collect(c){
   else if(c.kind==='stim'){if(pl.stims<pl.stimMax+2){pl.stims++;toast('Picked up a stim','#7aff5a');sfx('pick');c.got=true;}}
   else if(c.kind==='key'){run.keys++;toast('Red keycard. Opens the vault door on this floor.','#ff3a4a');sfx('chest');c.got=true;}
   else if(c.kind==='mod'){c.got=true;addMod(c.mod);}
-  else if(c.kind==='item'){if(pl.cd.bag.length>=12){toastOnce('Bag full. Sell or salvage gear (I).');return;}pl.cd.bag.push(c.item);c.got=true;run.loot=(run.loot||0)+1;if(c.item.r>=3)run.legs=(run.legs||0)+1;sfx('pick');if(tryAutoEquip(pl.cd.bag.length-1))toast(`Auto-equipped <span style="color:${RCOL[c.item.r]}">${esc(c.item.name)}</span>`,RCOL[c.item.r]);else toast(`<span style="color:${RCOL[c.item.r]}">${esc(c.item.name)}</span> · press I`,RCOL[c.item.r]);}
+  else if(c.kind==='item'){if(autoSalvOk(c.item)&&!(CFG.autoEq&&canWear(c.item)&&itemScore(c.item)>itemScore(pl.cd.gear[c.item.slot]))){const v=salvageVal(c.item);if(run&&scene==='dungeon')run.scrap+=v;else meta.scrap+=v;txt(pl.x,pl.y-14,`+${v}⚙`,'#bfb8c8',false,true);sfx('scrap');c.got=true;return;}if(pl.cd.bag.length>=12){toastOnce('Bag full. Sell or salvage gear (I).');return;}pl.cd.bag.push(c.item);c.got=true;run.loot=(run.loot||0)+1;if(c.item.r>=3)run.legs=(run.legs||0)+1;sfx('pick');if(tryAutoEquip(pl.cd.bag.length-1))toast(`Auto-equipped <span style="color:${RCOL[c.item.r]}">${esc(c.item.name)}</span>`,RCOL[c.item.r]);else toast(`<span style="color:${RCOL[c.item.r]}">${esc(c.item.name)}</span> · press I`,RCOL[c.item.r]);}
 }
 function addMod(id){if(!MOD[id]||run.mods.includes(id))return;run.mods.push(id);if(id==='recycler'){pl.stimMax++;pl.stims++;}refreshStats();if(id==='heart')heal(30);toast(`Mod installed: <b style="color:${MOD[id].col}">${MOD[id].name}</b>. ${MOD[id].d}`,MOD[id].col);sfx('lvl');}
 function ambient(dt){
@@ -2013,6 +2025,8 @@ function drawProp(p){
     case 'wreck':{shadow(x,y+4,16);rect(x-16,y-10,32,13,p.c);rect(x-11,y-15,20,6,shade(p.c,.7));ctx.fillStyle='#0a0a0e';ctx.fillRect(sx-10,sy-14,8,4);ctx.fillRect(sx,sy-14,8,4);ctx.fillStyle='#111';ctx.fillRect(sx-14,sy+1,6,3);ctx.fillRect(sx+8,sy+1,6,3);ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(sx-16,sy-10,32,1);break;}
   }
 }
+function menuRing(x,y,name){const sx=SX(x),sy=SY(y+1),k=.55+.45*Math.sin(time*6);ctx.strokeStyle='#ffffff';ctx.globalAlpha=k;ctx.lineWidth=2;ctx.setLineDash([3,2]);ctx.beginPath();ctx.ellipse(sx,sy,11,4.4,0,0,7);ctx.stroke();ctx.setLineDash([]);ctx.lineWidth=1;ctx.globalAlpha=1;L(sx,sy-6,36,'#ffffff',.45*k);
+  ctx.font='8px Silkscreen, monospace';ctx.textAlign='center';ctx.fillStyle='#000';ctx.fillText('IN MENU',sx+1,sy+11);ctx.fillStyle='#ffffff';ctx.fillText('IN MENU',sx,sy+10);ctx.textAlign='left';}
 function drawChar(spr,x,y,flip,col,opts){
   opts=opts||{};shadow(x,y+1,opts.sc?6*opts.sc:6);
   if(col){ctx.strokeStyle=col;ctx.globalAlpha=.45;ctx.beginPath();ctx.ellipse(SX(x),SY(y+1),8,3.2,0,0,7);ctx.stroke();ctx.globalAlpha=1;}
@@ -2063,7 +2077,7 @@ function render(){
     const z=p.mv&&!p.dead?Math.round(Math.abs(Math.sin(time*14+p.x))):0;
     if(p.dead){shadow(p.x,p.y+1,6);ctx.save();ctx.translate(SX(p.x),SY(p.y)-3);ctx.rotate(-Math.PI/2);ctx.globalAlpha=.75;ctx.drawImage(SPR[p.cls].n,-SPR[p.cls].h+4,-(SPR[p.cls].w>>1));ctx.restore();ctx.globalAlpha=1;
       if(p.revT>0){ctx.strokeStyle='#7aff5a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(SX(p.x),SY(p.y)-12,9,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.min(1,p.revT/2));ctx.stroke();ctx.lineWidth=1;}}
-    else drawChar(p.cls,p.x,p.y,p.face<0,CLASSES[p.cls].col,{z});
+    else{drawChar(p.cls,p.x,p.y,p.face<0,p.mn?null:CLASSES[p.cls].col,{z});if(p.mn)menuRing(p.x,p.y);}
     const sx=SX(p.x),sy=SY(p.y);L(sx,sy-10,80,'#ffe8d8',.9);L(sx,sy,30,CLASSES[p.cls].col,.5);if(p.fz)L(sx,sy-8,40,'#7aff5a',.8);
     ctx.font='8px Silkscreen, monospace';ctx.textAlign='center';const tag=p.dead?`${p.name} · DOWN`:p.name;ctx.fillStyle='#000';ctx.fillText(tag,sx+1,sy-SPR[p.cls].h-2);ctx.fillStyle=p.dead?'#ff5a7a':CLASSES[p.cls].col;ctx.fillText(tag,sx,sy-SPR[p.cls].h-3);ctx.textAlign='left';
     if(!p.dead&&p.hp<p.max){ctx.fillStyle='#000';ctx.fillRect(sx-8,sy-SPR[p.cls].h-1,16,2);ctx.fillStyle='#ff2a9a';ctx.fillRect(sx-8,sy-SPR[p.cls].h-1,16*p.hp/p.max,2);}
@@ -2073,7 +2087,7 @@ function render(){
     if(pl.dead)return;
     if(pl.ifr>0&&!pl.dash&&Math.floor(time*20)%2)return;
     const z=pl.moving?Math.round(Math.abs(Math.sin(pl.walkT*14))):0;
-    drawChar(pl.cls,pl.x,pl.y,pl.face<0,CLASSES[pl.cls].col,{z,alpha:pl.cloak>0?.3:0});
+    const myMenu=NET.on&&modal&&modal!=='fade'&&modal!=='dying';drawChar(pl.cls,pl.x,pl.y,pl.face<0,myMenu?null:CLASSES[pl.cls].col,{z,alpha:pl.cloak>0?.3:0});if(myMenu)menuRing(pl.x,pl.y);
     if(pl.fortT>0){ctx.strokeStyle='#ff8a1a';ctx.globalAlpha=.5+.3*Math.sin(time*12);ctx.beginPath();ctx.ellipse(SX(pl.x),SY(pl.y)-8,12,14,0,0,7);ctx.stroke();ctx.globalAlpha=1;}
     if((pl.flare||0)>=1){const f=pl.flare;L(SX(pl.x),SY(pl.y)-20,16+f*3,'#ffd23a',.3+f*.05);for(let i=0;i<Math.floor(f);i++){const aa=time*3+i*.628;ctx.fillStyle='#ffd23a';ctx.fillRect(SX(pl.x)+Math.round(Math.cos(aa)*10),SY(pl.y)-22+Math.round(Math.sin(aa)*3),1,1);}}
     if(pl.odT>0||pl.ovwT>0)L(SX(pl.x),SY(pl.y)-8,40,CLASSES[pl.cls].col,.6);
@@ -2367,7 +2381,7 @@ function showSummary(s){
   <div class="row"><button class="primary" data-i="0"><kbd>1</kbd>Back to the Block</button></div>`);
   bindOpts();
 }
-const CONTROLS=`<div class="ctrl"><kbd>WASD</kbd><span>Move</span><kbd>MOUSE</kbd><span>Aim. Hold left button to attack</span><kbd>T</kbd><span>Toggle autofire</span><kbd>Y</kbd><span>Toggle auto-cast: skills fire by themselves (Death Must Die style)</span><kbd>RIGHT CLICK</kbd><span>Skill 2 (uses energy)</span><kbd>Q</kbd><span>Skill 3 (uses energy)</span><kbd>SHIFT</kbd><span>Hold to sprint (uses stamina)</span><kbd>SPACE</kbd><span>Dash, you can't be hit mid-dash (uses stamina)</span><kbd>1 · 2</kbd><span>Class hotbar skills (unlock at levels 5 and 8)</span><kbd>3</kbd><span>Frag grenade</span><kbd>4 · F</kbd><span>Stim, heals 40%</span><kbd>5</kbd><span>Overdrive (level 6+)</span><kbd>E</kbd><span>Talk, open, use</span><kbd>I · C · J · U</kbd><span>Runner menu: gear · skills · jobs · upgrades (Tab toggles it)</span><kbd>M</kbd><span>Map</span><kbd>ESC</kbd><span>Options</span></div><h3 style="margin-top:18px">Controller (Xbox · PlayStation)</h3><div class="ctrl"><kbd>L-STICK</kbd><span>Move. Click L3 to sprint</span><kbd>R-STICK</kbd><span>Aim. Let go and it locks onto the nearest enemy</span><kbd>RT · R2</kbd><span>Attack</span><kbd>LT · L2</kbd><span>Skill 2</span><kbd>RB · R1</kbd><span>Skill 3</span><kbd>A · ✕</kbd><span>Dash / movement skill. Talk, open, use when something is in reach</span><kbd>X · □</kbd><span>Hotbar 1</span><kbd>Y · △</kbd><span>Hotbar 2</span><kbd>B · ○</kbd><span>Frag grenade</span><kbd>LB · L1</kbd><span>Overdrive</span><kbd>D-PAD ▼</kbd><span>Stim</span><kbd>D-PAD ▲</kbd><span>Map</span><kbd>D-PAD ◀ ▶</kbd><span>Auto-cast · autofire</span><kbd>VIEW · SHARE</kbd><span>Runner menu (LB/RB switch tabs, X equips)</span><kbd>MENU · OPTIONS</kbd><span>Options</span></div>`;
+const CONTROLS=`<div class="ctrl"><kbd>WASD</kbd><span>Move</span><kbd>MOUSE</kbd><span>Aim. Hold left button to attack</span><kbd>T</kbd><span>Toggle autofire</span><kbd>Y</kbd><span>Toggle auto-cast: skills fire by themselves (Death Must Die style)</span><kbd>RIGHT CLICK</kbd><span>Skill 2 (uses energy)</span><kbd>Q</kbd><span>Skill 3 (uses energy)</span><kbd>SHIFT</kbd><span>Hold to sprint (uses stamina)</span><kbd>SPACE</kbd><span>Dash, you can't be hit mid-dash (uses stamina)</span><kbd>1 · 2</kbd><span>Class hotbar skills (unlock at levels 5 and 8)</span><kbd>3</kbd><span>Frag grenade</span><kbd>F</kbd><span>Stim, heals 35% (more with Doc's upgrades)</span><kbd>HOLD ALT</kbd><span>Hover your hotbar to see what each skill really does with your gear</span><kbd>5</kbd><span>Overdrive (level 6+)</span><kbd>E</kbd><span>Talk, open, use</span><kbd>I · C · J · U</kbd><span>Runner menu: gear · skills · jobs · upgrades (Tab toggles it)</span><kbd>M</kbd><span>Map</span><kbd>ESC</kbd><span>Options</span></div><h3 style="margin-top:18px">Controller (Xbox · PlayStation)</h3><div class="ctrl"><kbd>L-STICK</kbd><span>Move. Click L3 to sprint</span><kbd>R-STICK</kbd><span>Aim. Let go and it locks onto the nearest enemy</span><kbd>RT · R2</kbd><span>Attack</span><kbd>LT · L2</kbd><span>Skill 2</span><kbd>RB · R1</kbd><span>Skill 3</span><kbd>A · ✕</kbd><span>Dash / movement skill. Talk, open, use when something is in reach</span><kbd>X · □</kbd><span>Hotbar 1</span><kbd>Y · △</kbd><span>Hotbar 2</span><kbd>B · ○</kbd><span>Frag grenade</span><kbd>LB · L1</kbd><span>Overdrive</span><kbd>D-PAD ▼</kbd><span>Stim</span><kbd>D-PAD ▲</kbd><span>Map</span><kbd>D-PAD ◀ ▶</kbd><span>Auto-cast · autofire</span><kbd>VIEW · SHARE</kbd><span>Runner menu (LB/RB switch tabs, X equips)</span><kbd>MENU · OPTIONS</kbd><span>Options</span></div>`;
 function showTitle(){modal='title';$('veil').hidden=true;$('title').hidden=false;$('hud').hidden=true;setHint('');}
 function showMenu(){
   modal='menu';$('title').hidden=true;
@@ -2393,6 +2407,8 @@ function showOptions(fromMenu){
     <label><span>AUTOFIRE (T)</span><input type="checkbox" id="o-auto" ${CFG.auto?'checked':''}></label>
     <label><span>DIFFICULTY${NET.guest?' (HOST SETS IT)':''}</span><select id="o-df" ${NET.guest?'disabled':''}>${DIFFS.map((d,i)=>`<option value="${i}" ${CFG.diff===i?'selected':''}>${d.n}</option>`).join('')}</select></label>
     <label><span>AUTO-CAST SKILLS (Y)</span><input type="checkbox" id="o-ac" ${CFG.autoCast?'checked':''}></label>
+    <label><span>AUTO-SPEND SKILL POINTS</span><input type="checkbox" id="o-as" ${CFG.autoSkill?'checked':''}></label>
+    <label><span>AUTO-SALVAGE</span><select id="o-sv">${ASV.map((n,i)=>`<option value="${i-1}" ${CFG.autoSalv===i-1?'selected':''}>${n}</option>`).join('')}</select></label>
     <label><span>CONTROLLER RUMBLE</span><input type="checkbox" id="o-rb" ${CFG.rumble===false?'':'checked'}></label>
     <label><span>AUTO-AIM NEAREST</span><input type="checkbox" id="o-aim" ${CFG.autoAim?'checked':''}></label>
     <label><span>DASH GOES</span><select id="o-dash"><option value="move" ${CFG.dash==='move'?'selected':''}>Where I'm moving</option><option value="cursor" ${CFG.dash==='cursor'?'selected':''}>Toward cursor</option></select></label>
@@ -2413,6 +2429,8 @@ function showOptions(fromMenu){
   on('#o-df','onchange',e=>{CFG.diff=clamp(+e.target.value,0,3);saveCfg();toast(`Difficulty: ${DIFFS[CFG.diff].n}. Starts with your next floor.`,'#ff3a4a');});
   on('#o-ac','onchange',e=>{CFG.autoCast=e.target.checked;saveCfg();});
   on('#o-aim','onchange',e=>{CFG.autoAim=e.target.checked;saveCfg();});
+  on('#o-as','onchange',e=>{CFG.autoSkill=e.target.checked;saveCfg();if(CFG.autoSkill)autoSpend();});
+  on('#o-sv','onchange',e=>{CFG.autoSalv=+e.target.value;saveCfg();autoSalvBag();});
   on('#o-rb','onchange',e=>{CFG.rumble=e.target.checked;saveCfg();if(CFG.rumble)padRumble(.6,.6,200);});
   on('#o-dash','onchange',e=>{CFG.dash=e.target.value==='cursor'?'cursor':'move';saveCfg();});
   on('#o-num','onchange',e=>{CFG.nums=e.target.checked;saveCfg();});
@@ -2500,6 +2518,18 @@ function equipBest(){
   let n=0;for(const sl of SLOTS){let bi=-1,bs=itemScore(pl.cd.gear[sl]);pl.cd.bag.forEach((it,i)=>{if(it.slot===sl&&canWear(it)&&itemScore(it)>bs){bs=itemScore(it);bi=i;}});if(bi>=0){equip(bi);n++;}}
   return n;
 }
+const ASV=['Off','Junk','Junk + Tuned','Up to Black-Market'];
+// auto-salvage: rarity at or below CFG.autoSalv gets scrapped, unless it beats what you wear. Legendaries and sets are never touched.
+function autoSalvOk(it){if(CFG.autoSalv==null||CFG.autoSalv<0||!it||it.r>=3||it.r>CFG.autoSalv)return false;if(canWear(it)&&itemScore(it)>itemScore(pl.cd.gear[it.slot]))return false;return true;}
+function autoSalvBag(){let n=0,sc=0;for(let i=pl.cd.bag.length-1;i>=0;i--){const it=pl.cd.bag[i];if(autoSalvOk(it)){sc+=salvageVal(it);salvage(i);n++;}}return n;}
+// auto-spend: unlock actives first, then keep ranks even, favoring the main attacks
+function autoSpend(){
+  const c=pl.cd,pri={LMB:0,RMB:1,'1':2,Q:3,'2':4,PASSIVE:5};let spent=[];
+  while(c.sp>0){const opts=SKILLS[pl.cls].filter(s=>c.lvl>=(s.req||1)&&(c.ranks[s.id]||0)<s.max);if(!opts.length)break;
+    opts.sort((a,b)=>{const ra=c.ranks[a.id]||0,rb=c.ranks[b.id]||0;const la=a.slot!=='PASSIVE'&&!ra?-1:ra/a.max,lb=b.slot!=='PASSIVE'&&!rb?-1:rb/b.max;return la-lb||pri[a.slot]-pri[b.slot];});
+    const s=opts[0];c.sp--;c.ranks[s.id]=(c.ranks[s.id]||0)+1;spent.push(`${s.name} ${c.ranks[s.id]}`);}
+  if(spent.length){refreshStats();save();toast(`Auto-spent: ${spent.join(', ')}`,'#c05aff');}
+}
 function salvage(i){const it=pl.cd.bag[i];if(!it)return;pl.cd.bag.splice(i,1);if(run&&scene==='dungeon')run.scrap+=salvageVal(it);else meta.scrap+=salvageVal(it);save();sfx('scrap');}
 function unequip(sl){const it=pl.cd.gear[sl];if(!it)return;if(pl.cd.bag.length>=12){toast('Bag full.','#ff3a4a');return;}delete pl.cd.gear[sl];pl.cd.bag.push(it);refreshStats();save();sfx('pick');}
 function jobsReady(){return Object.keys(QNPC).some(n=>qReady(qActive(n)));}
@@ -2527,7 +2557,7 @@ function gearTab(){
   const stats=`<div class="stat2"><div><b>HEALTH</b>${pl.maxHp}</div><div><b>ENERGY</b>${pl.maxEn}</div><div><b>DAMAGE</b>+${st.dmg}%</div><div><b>ATK SPEED</b>+${st.as}%</div><div><b>CRIT</b>${st.crit}% · x${(1.8+st.critD/100).toFixed(1)}</div><div><b>ARMOR</b>${st.arm}%</div><div><b>MOVE</b>+${st.ms}%</div><div><b>LEECH</b>${st.ls}%</div><div><b>COOLDOWN</b>-${st.cdr}%</div></div>`;
   const bagCells=Array.from({length:12},(_,i)=>{const it=c.bag[i];return it?cellHtml(it,SLOTN[it.slot].toUpperCase(),'b'+i,S2('b'+i)):`<div class="cell empty"><span class="sl">&nbsp;</span><span class="nm"></span></div>`;}).join('');
   return `<div class="gear"><div>${doll}${stats}</div>
-  <div><h4>BAG ${c.bag.length}/12 <button class="mini-btn" data-best="1">EQUIP BEST</button><button class="mini-btn" data-mass="1">SALVAGE JUNK</button><button class="mini-btn" data-mass="2">${mmConfirm?'CONFIRM? CLICK AGAIN':'SALVAGE ALL'}</button><label class="tgl"><input type="checkbox" id="mm-ae" ${CFG.autoEq?'checked':''}>AUTO-EQUIP UPGRADES</label></h4><div class="bag2">${bagCells}</div>
+  <div><h4>BAG ${c.bag.length}/12 <button class="mini-btn" data-best="1">EQUIP BEST</button><button class="mini-btn" data-mass="1">SALVAGE JUNK</button><button class="mini-btn" data-mass="2">${mmConfirm?'CONFIRM? CLICK AGAIN':'SALVAGE ALL'}</button><label class="tgl"><input type="checkbox" id="mm-ae" ${CFG.autoEq?'checked':''}>AUTO-EQUIP UPGRADES</label><label class="tgl">AUTO-SALVAGE <select id="mm-sv">${ASV.map((n,i)=>`<option value="${i-1}" ${CFG.autoSalv===i-1?'selected':''}>${n}</option>`).join('')}</select></label></h4><div class="bag2">${bagCells}</div>
   <p class="dim" style="font-size:16px;margin-top:8px">Click an item to inspect it, <b>double-click to equip</b> (or unequip). ▲ means it beats what you are wearing. <b>Salvage junk</b> breaks down Junk and Tuned items. <b>Salvage all</b> breaks down everything except Legendaries. The best upgrade (▲) for each slot is always kept.</p></div>
   <div class="detail" id="mm-det">${detailHtml(mmSel)}</div></div>`;
 }
@@ -2547,6 +2577,7 @@ function bindGear(p){
     b.onmouseenter=()=>{const d=$('mm-det');if(d){d.innerHTML=detailHtml(b.dataset.k);bindDet(p);}};
     b.onmouseleave=()=>{const d=$('mm-det');if(d){d.innerHTML=detailHtml(mmSel);bindDet(p);}};
   });
+  const sv=p.querySelector('#mm-sv');if(sv)sv.onchange=e=>{CFG.autoSalv=+e.target.value;saveCfg();const n=autoSalvBag();toast(CFG.autoSalv<0?'Auto-salvage off.':`Auto-salvaging ${ASV[CFG.autoSalv+1]}${n?`. Broke down ${n} item${n>1?'s':''} in your bag.`:'.'}`,'#ffd23a');openMenu();};
   const ae=p.querySelector('#mm-ae');if(ae)ae.onchange=e=>{CFG.autoEq=e.target.checked;saveCfg();if(CFG.autoEq&&equipBest())toast('Equipped your best gear.','#7aff5a');openMenu();};
   p.querySelectorAll('[data-mass]').forEach(b=>b.onclick=()=>{const all=b.dataset.mass==='2';if(all&&!mmConfirm){mmConfirm=true;openMenu();return;}mmConfirm=false;
     const best={};pl.cd.bag.forEach(it=>{if(canWear(it)&&itemScore(it)>itemScore(pl.cd.gear[it.slot])&&(!best[it.slot]||itemScore(it)>itemScore(best[it.slot])))best[it.slot]=it;});
@@ -2565,14 +2596,14 @@ function skillsTab(){
   const c=pl.cd,col=CLASSES[pl.cls].col;
   const lbl=s=>s.slot==='RMB'?`RMB · ${ECOST.R} EN`:s.slot==='Q'?`Q · ${ECOST.Q} EN`:s.slot==='1'?`KEY 1 · ${ECOST.K1} EN`:s.slot==='2'?`KEY 2 · ${ECOST.K2} EN`:s.slot;
   const node=s=>{const r=c.ranks[s.id]||0,gb=gearRk(s.id),eff=r+gb,next=Math.min(s.max,r+1),locked=c.lvl<s.req;
-    return `<div class="skill" style="${locked?'opacity:.45':''}${r?`;border-color:${col}`:''}"><div class="sk-h"><span class="slotk">${lbl(s)}</span><b>${s.name}</b>${gb?`<span class="gb">+${gb} GEAR</span>`:''}<span class="pips">${Array.from({length:s.max},(_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</span></div>
+    return `<div class="skill" data-sk="${s.id}" style="${locked?'opacity:.45':''}${r?`;border-color:${col}`:''}"><div class="sk-h"><span class="slotk">${lbl(s)}</span><b>${s.name}</b>${gb?`<span class="gb">+${gb} GEAR</span>`:''}<span class="pips">${Array.from({length:s.max},(_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</span></div>
     <p>${eff?s.d(eff):'<span class="dim">Locked.</span> '+s.d(1)}</p>${r<s.max&&r?`<p class="dim nx">Next rank: ${s.d(next+gb)}</p>`:''}
     ${locked?`<button disabled>Unlocks at level ${s.req}</button>`:`<button data-up="${s.id}" ${c.sp<1||r>=s.max?'disabled':''}>${r?'Rank up':'Unlock'} <span class="cr">1 pt</span></button>`}</div>`;};
   const tiers=[[1,3,'TIER I'],[4,7,'TIER II'],[8,99,'TIER III']].map(([lo,hi,n])=>{const ns=SKILLS[pl.cls].filter(s=>s.req>=lo&&s.req<=hi);return `<div class="tier"><div class="tierh" style="color:${col}">${n} <span class="dim">· level ${lo}${hi<99?'–'+hi:'+'}</span></div><div class="skg">${ns.map(node).join('')}</div></div>`;}).join('<div class="tierl" style="background:'+col+'"></div>');
-  return `<h4>${CLASSES[pl.cls].name.toUpperCase()} SKILL TREE · <span style="color:var(--yellow)">${c.sp} POINT${c.sp===1?'':'S'} TO SPEND</span> · one point every level</h4>${tiers}
-  <p class="dim" style="font-size:16px;margin-top:10px">Everyone also has <b>3</b> Frag Grenade, <b>4</b>/<b>F</b> Stim and <b>5</b> Overdrive (level ${HOT.over.req}+).</p>`;
+  return `<h4>${CLASSES[pl.cls].name.toUpperCase()} SKILL TREE · <span style="color:var(--yellow)">${c.sp} POINT${c.sp===1?'':'S'} TO SPEND</span> · one point every level <label class="tgl"><input type="checkbox" id="mm-as" ${CFG.autoSkill?'checked':''}>AUTO-SPEND POINTS</label></h4>${tiers}
+  <p class="dim" style="font-size:16px;margin-top:10px">Everyone also has <b>3</b> Frag Grenade, <b>F</b> Stim and <b>5</b> Overdrive (level ${HOT.over.req}+). <b>Hover any skill</b> for its real numbers with your gear. In a run, <b>hold ALT</b> and hover your hotbar.</p>`;
 }
-function bindSkills(p){p.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{const c=pl.cd,s=SKILLS[pl.cls].find(x=>x.id===b.dataset.up);if(c.sp<1||c.ranks[s.id]>=s.max||c.lvl<s.req)return;c.sp--;c.ranks[s.id]++;refreshStats();save();sfx('lvl');openMenu();});}
+function bindSkills(p){bindSkillTips(p);const as=p.querySelector('#mm-as');if(as)as.onchange=e=>{CFG.autoSkill=e.target.checked;saveCfg();if(CFG.autoSkill)autoSpend();openMenu();};p.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{const c=pl.cd,s=SKILLS[pl.cls].find(x=>x.id===b.dataset.up);if(c.sp<1||c.ranks[s.id]>=s.max||c.lvl<s.req)return;c.sp--;c.ranks[s.id]++;refreshStats();save();sfx('lvl');openMenu();});}
 function jobsTab(){
   qState();const rn=renown();
   const cols=Object.keys(QNPC).map(npc=>{const chain=QUESTS.filter(q=>q.npc===npc),act=qActive(npc);
@@ -2621,6 +2652,60 @@ function netBgFrame(t){
   for(let k=-12;k<=12;k++){g.beginPath();g.moveTo(w/2+k*6,hz);g.lineTo(w/2+k*w/8,h);g.stroke();}
   requestAnimationFrame(netBgFrame);
 }
+
+// ---- detailed skill tooltips: hover in the Skills tab, or hold ALT and hover the hotbar ----
+const DMG_RX=/(\d+(?:\.\d+)?)(?=(?: splash| bonus| fire| lightning| poison| burn| extra)? damage|\/s\b| per second| per tick| per bullet| a second| each\b)|(?<=\b(?:for|of|deals?|dealing|hitting|hits) )(\d+(?:\.\d+)?)(?![\d.]*(?:s\b|%|x\b| seconds?| hits?| enemies| targets| times| bombs| bomblets| pellets| shots| blades| bolts))/g;
+const gearMult=()=>1+st.dmg/100;
+const critAvg=()=>1+Math.min(100,st.crit)/100*(.8+st.critD/100);
+const fmtD=v=>v>=10?Math.round(v):Math.round(v*10)/10;
+// rewrite a skill description with your real numbers: damage scaled by gear, cooldowns by cooldown reduction
+function liveDesc(txt){
+  const g=gearMult(),c=cdMult();
+  return esc(txt).replace(DMG_RX,m=>{const v=parseFloat(m),r=fmtD(v*g);return r===v?`<b class="tn">${m}</b>`:`<b class="tn">${r}</b><s class="tb">${m}</s>`;})
+    .replace(/(\d+(?:\.\d+)?)s cooldown/g,(m,n)=>{const v=parseFloat(n),r=Math.round(v*c*10)/10;return r===v?`<b class="tc">${n}s</b> cooldown`:`<b class="tc">${r}s</b><s class="tb">${n}s</s> cooldown`;});
+}
+const SLOTCOST=s=>s.slot==='RMB'?ECOST.R:s.slot==='Q'?ECOST.Q:s.slot==='1'?ECOST.K1:s.slot==='2'?ECOST.K2:0;
+const SLOTKEY={LMB:'Left click',RMB:'Right click',Q:'Q',1:'Key 1',2:'Key 2',PASSIVE:'Passive'};
+function gearLine(){
+  return `<div class="tg"><span>DMG <b>+${st.dmg}%</b></span><span>CRIT <b>${st.crit}%</b> ×${(1.8+st.critD/100).toFixed(1)}</span><span>ATK SPD <b>+${st.as}%</b></span><span>CDR <b>${st.cdr}%</b></span></div><div class="tf">Gold numbers already include your gear (struck-through = base). With crits, an average hit lands about <b>×${(gearMult()*critAvg()).toFixed(2)}</b> of base.</div>`;
+}
+function skillTip(id){
+  const s=SKILLS[pl.cls].find(x=>x.id===id);if(!s)return '';
+  const c=pl.cd,r=c.ranks[s.id]||0,gb=gearRk(s.id),eff=r+gb,cost=SLOTCOST(s),col=CLASSES[pl.cls].col;
+  const head=`<div class="th" style="color:${col}">${esc(s.name)}</div><div class="ts">${SLOTKEY[s.slot]||s.slot}${cost?` · <span style="color:var(--cyan)">${cost} energy</span>`:s.slot==='LMB'?' · free':''} · rank ${r}/${s.max}${gb?` <span style="color:var(--yellow)">+${gb} gear</span>`:''}${c.lvl<s.req?` · <span style="color:#ff5a7a">unlocks at level ${s.req}</span>`:''}</div>`;
+  const now=eff?`<div class="tlab">NOW</div><p>${liveDesc(s.d(eff))}</p>`:`<div class="tlab">AT RANK 1</div><p>${liveDesc(s.d(1+gb))}</p>`;
+  const nx=r&&r<s.max?`<div class="tlab">NEXT RANK</div><p>${liveDesc(s.d(eff+1))}</p>`:r>=s.max?`<div class="tlab" style="color:var(--yellow)">MAXED</div>`:'';
+  return head+now+nx+(s.slot==='PASSIVE'?'':gearLine());
+}
+function hotTip(id){
+  const lv=pl.cd.lvl;
+  if(id==='h3')return `<div class="th">Frag Grenade</div><div class="ts">Key 3 · <span style="color:var(--cyan)">${HOT.grenade.cost} energy</span> · everyone has it</div><p>Lob a grenade at the cursor: ${liveDesc(`${20+4*lv} damage in a blast. ${HOT.grenade.cd}s cooldown.`)}</p><p class="dim">Damage grows with your level.</p>${gearLine()}`;
+  if(id==='s3')return `<div class="th" style="color:#7aff5a">Stim</div><div class="ts">F · ${pl.stims} left</div><p>Heals <b class="tn">${Math.round(pl.maxHp*((meta.bld.doc>=3?.5:.35)+perk('stimH')/100))}</b> HP instantly (${Math.round(((meta.bld.doc>=3?.5:.35)+perk('stimH')/100)*100)}% of max). Pick more up in the dungeon, or buy Field Kits from Doc.</p>`;
+  if(id==='h5')return `<div class="th">Overdrive</div><div class="ts">Key 5 · <span style="color:var(--cyan)">${HOT.over.cost} energy</span>${lv<HOT.over.req?` · <span style="color:#ff5a7a">unlocks at level ${HOT.over.req}</span>`:''}</div><p>Redline everything for 6s: <b class="tn">+30%</b> damage and <b class="tn">+30%</b> attack speed. ${HOT.over.cd}s cooldown.</p>`;
+  if(id==='s4'){const ms=DASHSK[pl.cls];if(ms&&rk(ms[1]))return skillTip(ms[1]);return `<div class="th">Dash</div><div class="ts">Space · uses stamina</div><p>Burst a short distance. You can't be hit mid-dash. Unlock your class's movement skill to turn this into something nastier.</p>`;}
+  const slot={s0:'LMB',s1:'RMB',s2:'Q',h1:'1',h2:'2'}[id];const s=slot&&SKILLS[pl.cls].find(x=>x.slot===slot);return s?skillTip(s.id):'';
+}
+// floating tooltip element
+function tipShow(html,ev){
+  const t=$('tip');if(!html){t.hidden=true;return;}t.innerHTML=html;t.hidden=false;tipMove(ev);
+}
+function tipMove(ev){
+  const t=$('tip');if(t.hidden||!ev)return;const pad=14,w=t.offsetWidth,h=t.offsetHeight;
+  let x=ev.clientX+pad,y=ev.clientY+pad;if(x+w>innerWidth-8)x=ev.clientX-w-pad;if(y+h>innerHeight-8)y=Math.max(8,ev.clientY-h-pad);
+  t.style.left=Math.max(8,x)+'px';t.style.top=y+'px';
+}
+function tipHide(){const t=$('tip');if(t)t.hidden=true;}
+// skills tab: every node gets a hover card
+function bindSkillTips(p){p.querySelectorAll('[data-sk]').forEach(n=>{n.onmouseenter=e=>tipShow(skillTip(n.dataset.sk),e);n.onmousemove=tipMove;n.onmouseleave=tipHide;});}
+// hotbar: hold ALT to make it hoverable
+function altOn(v){document.body.classList.toggle('alt',v);if(!v)tipHide();}
+(function(){
+  const ids=['s0','s1','s2','h1','h2','h3','s3','h5','s4'];
+  for(const id of ids){const el=$(id);if(!el)continue;el.addEventListener('mouseenter',e=>{if(document.body.classList.contains('alt'))tipShow(hotTip(id),e);});el.addEventListener('mousemove',tipMove);el.addEventListener('mouseleave',tipHide);}
+  addEventListener('keydown',e=>{if(e.key==='Alt'){e.preventDefault();if(!modal&&(scene==='town'||scene==='dungeon'))altOn(true);}});
+  addEventListener('keyup',e=>{if(e.key==='Alt'){e.preventDefault();altOn(false);}});
+  addEventListener('blur',()=>altOn(false));
+})();
 
 // ============ multiplayer: peer-to-peer rooms via PeerJS (host-authoritative) ============
 // Two channels per guest: "main" (reliable, ordered) for anything that must arrive,
@@ -2712,11 +2797,11 @@ function netEv(v){if(NET.host&&NET.guests.size&&scene==='dungeon')NET.ev.push(v)
 function netAtk(k,a,tx,ty){if(!NET.on)return;netSend({t:'atk',k,a:+a.toFixed(2),tx:tx==null?0:Math.round(tx),ty:ty==null?0:Math.round(ty)});}
 function netHit(e,d,kb,stun){const h=NET.hits.get(e.id)||[0,0,0,0];h[0]+=d;if(kb){h[1]=Math.round(kb.x);h[2]=Math.round(kb.y);}if(stun)h[3]=Math.max(h[3],+stun.toFixed(2));NET.hits.set(e.id,h);}
 function netKill(e){if(!NET.host||!NET.guests.size)return;broadcast({t:'kill',rid:NET.rid,id:e.id,type:e.type,x:Math.round(e.x),y:Math.round(e.y),elite:e.elite?1:0,key:e.key?1:0});}
-function myState(){return {t:'st',name:netName(),cls:pl.cls,x:Math.round(pl.x),y:Math.round(pl.y),f:pl.face,hp:Math.round(pl.hp),max:pl.maxHp,dead:pl.dead?1:0,sc:scene==='dungeon'?'d':scene==='town'?'t':'m',rid:scene==='dungeon'&&run?NET.rid:null,fl:run?run.floor:-1,lvl:pl.cd.lvl,mv:pl.moving?1:0,fz:pl.frenzy>0?1:0};}
+function myState(){return {t:'st',name:netName(),cls:pl.cls,x:Math.round(pl.x),y:Math.round(pl.y),f:pl.face,hp:Math.round(pl.hp),max:pl.maxHp,dead:pl.dead?1:0,sc:scene==='dungeon'?'d':scene==='town'?'t':'m',rid:scene==='dungeon'&&run?NET.rid:null,fl:run?run.floor:-1,lvl:pl.cd.lvl,mv:pl.moving?1:0,fz:pl.frenzy>0?1:0,mn:modal&&modal!=='fade'&&modal!=='dying'?1:0};}
 // ---- party bookkeeping ----
 function upsertPlayer(id,m){
   let p=NET.players.get(id);if(!p){p={id,x:num(m.x),y:num(m.y),revT:0};NET.players.set(id,p);toast(`${esc(String(m.name||'Someone').slice(0,16))} is here.`,'#40e0ff');}
-  p.name=String(m.name||'Runner').slice(0,16);p.cls=CLASSES[m.cls]?m.cls:'samurai';p.tx=num(m.x);p.ty=num(m.y);p.face=m.f===-1?-1:1;p.hp=num(m.hp);p.max=Math.max(1,num(m.max));p.dead=!!m.dead;p.sc=m.sc;p.rid=m.rid;p.fl=num(m.fl);p.lvl=num(m.lvl)|0;p.mv=!!m.mv;p.fz=!!m.fz;p.seen=now();
+  p.name=String(m.name||'Runner').slice(0,16);p.cls=CLASSES[m.cls]?m.cls:'samurai';p.tx=num(m.x);p.ty=num(m.y);p.face=m.f===-1?-1:1;p.hp=num(m.hp);p.max=Math.max(1,num(m.max));p.dead=!!m.dead;p.sc=m.sc;p.rid=m.rid;p.fl=num(m.fl);p.lvl=num(m.lvl)|0;p.mv=!!m.mv;p.fz=!!m.fz;p.mn=!!m.mn;p.seen=now();
   return p;
 }
 function partyHere(){const a=[],t=now();for(const p of NET.players.values()){if(t-(p.seen||0)>HB_TIMEOUT)continue;if(scene==='dungeon'?(p.sc==='d'&&p.rid===NET.rid&&run&&p.fl===run.floor):(scene==='town'&&p.sc==='t'))a.push(p);}return a;}
@@ -2760,7 +2845,7 @@ function onHostData(id,m){
   if(m.t==='sync'){if(scene==='dungeon'&&run)sendTo(id,{t:'start',fi:run.floor,seed:M.seed,rid:NET.rid,start:run.startFloor,ps:run.ps||1,df:run.df});return;}
   if(m.t==='bye'){dropGuest(id);}
 }
-function stateOf(p){return {t:'st',name:p.name,cls:p.cls,x:Math.round(p.tx),y:Math.round(p.ty),f:p.face,hp:p.hp,max:p.max,dead:p.dead?1:0,sc:p.sc,rid:p.rid,fl:p.fl,lvl:p.lvl,mv:p.mv?1:0};}
+function stateOf(p){return {t:'st',name:p.name,cls:p.cls,x:Math.round(p.tx),y:Math.round(p.ty),f:p.face,hp:p.hp,max:p.max,dead:p.dead?1:0,sc:p.sc,rid:p.rid,fl:p.fl,lvl:p.lvl,mv:p.mv?1:0,mn:p.mn?1:0};}
 // ---- guest receives ----
 function onGuestData(m){
   if(!m||typeof m!=='object')return;
